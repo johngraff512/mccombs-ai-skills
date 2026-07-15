@@ -97,8 +97,10 @@ def card(r):
     if cls == "claude-code-only":
         claude = ("<div class='install'><b>Claude (works where its software is available)</b> This skill runs extra software "
                   "(see notes) that isn't preinstalled on hosted platforms. Recommended: <b>Claude Code</b> on a computer with that "
-                  f"software installed — <code>/plugin marketplace add {REPO_SLUG}</code>. It may also work in <b>Claude Cowork</b> "
-                  "if the software can be installed in its environment.</div>")
+                  f"software installed — <code>/plugin marketplace add {REPO_SLUG}</code>, or <a href='{zip_link}'>download "
+                  f"{r['skill']}.zip</a> and unzip into <code>~/.claude/skills/</code>. It may also work in <b>Claude Cowork</b> "
+                  "if the software can be installed in its environment. Uploading the zip to claude.ai's hosted Skills won't work — "
+                  "the required software isn't available there.</div>")
         chatgpt = "<div class='install'><b>ChatGPT</b> Not available — ChatGPT can't install the required software.</div>"
     elif cls == "claude-only":
         claude = (f"<div class='install'><b>Claude (UT Claude EDU)</b> <a href='{zip_link}'>Download {r['skill']}.zip</a> "
@@ -150,7 +152,9 @@ def detail_page(r, badge_label, badge_color):
     if r["classification"] == "claude-code-only":
         install = ("<div class='install'><b>Install</b> This skill runs extra software (see notes) that hosted platforms don't "
                    "preinstall. Recommended: <b>Claude Code</b> on a computer with that software — "
-                   f"<code>/plugin marketplace add {REPO_SLUG}</code>. May also work in Claude Cowork. Not available in ChatGPT.</div>")
+                   f"<code>/plugin marketplace add {REPO_SLUG}</code>, or <a href='{zip_link}'>download {r['skill']}.zip</a> "
+                   "and unzip into <code>~/.claude/skills/</code>. May also work in Claude Cowork. Uploading the zip to claude.ai's "
+                   "hosted Skills won't work — the required software isn't available there. Not available in ChatGPT.</div>")
     elif r["classification"] == "claude-only":
         install = (f"<div class='install'><b>Install (Claude only)</b> <a href='{zip_link}'>Download {r['skill']}.zip</a> "
                    "&mdash; upload in Claude: Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill. Not available for ChatGPT.</div>")

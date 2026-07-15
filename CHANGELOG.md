@@ -20,3 +20,7 @@ Initial scaffold.
 - Integration edits to the toolkit (John notified): build.py frontmatter whitelist relaxed to allow spec-standard optional fields; `metadata.category`/`metadata.version` added to the 7 source SKILL.mds so catalog filtering and version display keep working.
 - `mccombs-slides` moved to `community-skills` (it is not part of the case toolkit).
 - Releases now include platform-specific toolkit bundles (Claude plugin zip + ChatGPT distribution bundle) built from source in CI.
+
+## v0.2.1 — 2026-07-15
+
+- Catalog: "Needs local software" skills (currently just `beamer`) now show a download link for their zip alongside the plugin-marketplace instructions, with guidance to unzip into `~/.claude/skills/` for Claude Code and a warning that uploading to claude.ai's hosted Skills won't work (required software isn't preinstalled there). Previously these skills had no download link even though the zip ships in every release.
