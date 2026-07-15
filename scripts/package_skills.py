@@ -47,6 +47,17 @@ def package(skill_dir: Path) -> Path:
     return out
 
 
+def package_plugin(plugin_dir: Path) -> Path:
+    """Zip a whole plugin (all its skills + metadata) as <plugin>-plugin.zip."""
+    DIST.mkdir(exist_ok=True)
+    out = DIST / f"{plugin_dir.name}-plugin.zip"
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zf:
+        for f in sorted(plugin_dir.rglob("*")):
+            if f.is_file():
+                zf.write(f, f.relative_to(plugin_dir.parent))
+    return out
+
+
 def main():
     count = 0
     for skill_md in sorted(ROOT.glob("plugins/*/skills/*/SKILL.md")):
@@ -56,6 +67,10 @@ def main():
     print(f"\nPackaged {count} skills into {DIST.relative_to(ROOT)}/")
     if not count:
         sys.exit("No skills found under plugins/*/skills/")
+    for plugin_dir in sorted(ROOT.glob("plugins/*")):
+        if any(plugin_dir.glob("skills/*/SKILL.md")):
+            out = package_plugin(plugin_dir)
+            print(f"  built {out.relative_to(ROOT)} (full plugin)")
 
 
 if __name__ == "__main__":

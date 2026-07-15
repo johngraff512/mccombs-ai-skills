@@ -41,6 +41,7 @@ details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font
 .install b{display:block;margin-bottom:2px}
 footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
 code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
+h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
 """
 
 JS = """
@@ -65,16 +66,44 @@ def card(r):
   <h2>{html.escape(r['skill'])}<span class="badge" style="background:{label and color}">{label}</span></h2>
   <p class="desc">{html.escape(r['description'])}</p>
   <div class="install"><b>Claude (UT Claude EDU)</b>
-    In Claude: Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill, using the same
-    <a href="{zip_link}">{r['skill']}.zip</a>. Claude Code users: <code>/plugin marketplace add {REPO_SLUG}</code>.</div>
+    <a href="{zip_link}">Download {r['skill']}.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
   {chatgpt}
   {notes_html}
 </div>"""
 
 
+def plugin_cards(report):
+    """One card per plugin: whole-toolkit zip + marketplace command."""
+    manifest = json.loads((ROOT / ".claude-plugin" / "marketplace.json").read_text())
+    by_plugin = {}
+    for r in report:
+        by_plugin.setdefault(r["plugin"], []).append(r["skill"])
+    out = []
+    for p in manifest["plugins"]:
+        skills = by_plugin.get(p["name"])
+        if not skills:
+            continue
+        zip_link = ZIP_URL.format(skill=f"{p['name']}-plugin")
+        out.append(f"""
+<div class="card">
+  <span class="plugin">Toolkit &middot; {len(skills)} skills</span>
+  <h2>{html.escape(p['name'])}</h2>
+  <p class="desc">{html.escape(p['description'])}<br><small>Includes: {html.escape(', '.join(sorted(skills)))}</small></p>
+  <div class="install"><b>Claude Code / Cowork (installs and auto-updates — no download needed)</b>
+    Type: <code>/plugin marketplace add {REPO_SLUG}</code> then <code>/plugin install {html.escape(p['name'])}</code>.
+    This pulls straight from GitHub and picks up future updates automatically.</div>
+  <div class="install"><b>Everything as one download</b>
+    <a href="{zip_link}">Download {p['name']}-plugin.zip</a> — contains all {len(skills)} skill folders.
+    Note: Claude and ChatGPT skill upload work one skill at a time, so unzip it and upload the
+    skills you want individually (or use the per-skill downloads below).</div>
+</div>""")
+    return "\n".join(out)
+
+
 def main():
     report = json.loads((ROOT / "docs" / "compat-report.json").read_text())
     cards = "\n".join(card(r) for r in report)
+    toolkits = plugin_cards(report)
     n = len(report)
     both = sum(1 for r in report if r["classification"] != "claude-only")
     page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
@@ -83,6 +112,9 @@ def main():
 <header><h1>McCombs AI Skills Catalog</h1>
 <p>{n} skills for teaching and learning &middot; {both} work in both Claude EDU and ChatGPT &middot; updated {date.today().isoformat()}</p></header>
 <main><input id="q" placeholder="Search skills (e.g. case, slides, teaching note)&hellip;">
+<h2 class="section">Toolkits — install a whole set at once</h2>
+{toolkits}
+<h2 class="section">Individual skills</h2>
 {cards}</main>
 <footer>Maintained by the McCombs AI Faculty Working Group &middot; <a href="{REPO_URL}">Contribute a skill on GitHub</a>
 &middot; Skills follow the <a href="https://agentskills.io/specification">Agent Skills open standard</a>.</footer>
