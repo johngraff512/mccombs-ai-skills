@@ -162,8 +162,33 @@ a.back{{color:#BF5700;font-weight:600;text-decoration:none}}</style></head><body
     out.write_text(page)
 
 
+def toolkit_detail_page(name, pj, skills):
+    """Write docs/toolkits/<name>.html rendering the toolkit's README."""
+    readme = ROOT / "toolkits" / name / "README.md"
+    src = readme.read_text(encoding="utf-8", errors="replace") if readme.exists() else pj.get("description", "")
+    ver = pj.get("version", "?")
+    page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{html.escape(name)} — McCombs AI Skills</title><style>{CSS}
+.doc{{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}}
+.doc pre{{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}}
+.doc table{{border-collapse:collapse}} .doc td,.doc th{{border:1px solid #e3e0db;padding:4px 10px;font-size:13px}}
+a.back{{color:#BF5700;font-weight:600;text-decoration:none}}</style></head><body>
+<header><h1>{html.escape(name)}</h1><p>Toolkit &middot; v{html.escape(ver)} &middot; {len(skills)} skills</p></header>
+<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
+<div class="doc">{render_md(src)}</div>
+<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
+<footer>McCombs AI Skills &middot; <a href="{REPO_URL}">GitHub repository</a></footer>
+</body></html>"""
+    out = ROOT / "docs" / "toolkits" / f"{name}.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(page)
+
+
 def plugin_cards(report):
-    """One card per plugin: whole-toolkit zip + marketplace command."""
+    """One card per curated toolkit. A plugin qualifies only if it has a source tree
+    under toolkits/<name>/ — plain groupings (community-skills, business-ai-tools)
+    appear as individual skills only, to avoid presenting them as products."""
     manifest = json.loads((ROOT / ".claude-plugin" / "marketplace.json").read_text())
     by_plugin = {}
     for r in report:
@@ -171,23 +196,29 @@ def plugin_cards(report):
     out = []
     for p in manifest["plugins"]:
         skills = by_plugin.get(p["name"])
-        if not skills:
+        if not skills or not (ROOT / "toolkits" / p["name"]).is_dir():
             continue
-        zip_link = ZIP_URL.format(skill=f"{p['name']}-plugin")
         pj = json.loads((ROOT / "plugins" / p["name"] / ".claude-plugin" / "plugin.json").read_text())
+        ver = pj.get("version", "?")
         updated = last_updated(ROOT / "plugins" / p["name"])
+        claude_zip = ZIP_URL.format(skill=f"{p['name']}-v{ver}")
+        chatgpt_zip = ZIP_URL.format(skill=f"{p['name']}-chatgpt-v{ver}")
+        toolkit_detail_page(p["name"], pj, skills)
         out.append(f"""
 <div class="card">
-  <span class="plugin">Toolkit &middot; {len(skills)} skills &middot; v{html.escape(pj.get('version', '?'))} &middot; updated {updated}</span>
+  <span class="plugin">Toolkit &middot; {len(skills)} skills &middot; v{html.escape(ver)} &middot; updated {updated}</span>
   <h2>{html.escape(p['name'])}</h2>
-  <p class="desc">{html.escape(p['description'])}<br><small>Includes: {html.escape(', '.join(sorted(skills)))}</small></p>
+  <p class="desc">{html.escape(p['description'])}<br><small>Includes: {html.escape(', '.join(sorted(skills)))}</small>
+  <a class="more" href="toolkits/{p['name']}.html">Learn more &rarr;</a></p>
   <div class="install"><b>Claude Code / Cowork (installs and auto-updates — no download needed)</b>
     Type: <code>/plugin marketplace add {REPO_SLUG}</code> then <code>/plugin install {html.escape(p['name'])}</code>.
     This pulls straight from GitHub and picks up future updates automatically.</div>
-  <div class="install"><b>Everything as one download</b>
-    <a href="{zip_link}">Download {p['name']}-plugin.zip</a> — contains all {len(skills)} skill folders.
-    Note: Claude and ChatGPT skill upload work one skill at a time, so unzip it and upload the
-    skills you want individually (or use the per-skill downloads below).</div>
+  <div class="install"><b>Claude (upload once)</b>
+    <a href="{claude_zip}">Download {p['name']}-v{ver}.zip</a> — the full plugin; unzip and upload the
+    skills you want in Claude: Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class="install"><b>ChatGPT (upload once)</b>
+    <a href="{chatgpt_zip}">Download {p['name']}-chatgpt-v{ver}.zip</a> — unzip it, then upload each enclosed
+    skill.zip in ChatGPT: Skills &rarr; Create &rarr; Upload from your computer.</div>
 </div>""")
     return "\n".join(out)
 
@@ -196,6 +227,7 @@ def main():
     report = json.loads((ROOT / "docs" / "compat-report.json").read_text())
     cards = "\n".join(card(r) for r in report)
     toolkits = plugin_cards(report)
+    toolkit_section = f'<h2 class="section">Toolkits — install a whole set at once</h2>\n{toolkits}' if toolkits else ""
     cats = sorted({r.get("category", "General") for r in report})
     chips = "".join(f'<button class="chip" data-cat="{html.escape(c)}">{html.escape(c)}</button>' for c in cats)
     n = len(report)
@@ -208,8 +240,7 @@ def main():
 <p>{n} skills for teaching and learning &middot; {both} work in both Claude EDU and ChatGPT &middot; updated {date.today().isoformat()}</p></header>
 <main><input id="q" placeholder="Search skills (e.g. case, slides, teaching note)&hellip;">
 <div class="chips">{chips}</div>
-<h2 class="section">Toolkits — install a whole set at once</h2>
-{toolkits}
+{toolkit_section}
 <h2 class="section">Individual skills</h2>
 {cards}</main>
 <footer>Maintained by the McCombs AI Faculty Working Group &middot; <a href="{REPO_URL}">Contribute a skill on GitHub</a>
