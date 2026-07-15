@@ -10,8 +10,12 @@ Classification:
   both-with-caveats - works on both, but has Claude-specific frontmatter
                       (ignored elsewhere) and/or bundled scripts that need
                       code execution enabled on the platform
+  claude-code-only  - written for Claude Code's local environment: pre-approves
+                      shell/command-line tools (allowed-tools with Bash), often
+                      requiring local software (e.g. LaTeX) that hosted
+                      platforms don't provide
   claude-only       - hard dependency on Claude-side features (MCP tools,
-                      ~/.claude paths, session transcripts, subagents)
+                      ~/.claude paths, session transcripts)
 
 Usage:
   python3 scripts/check_skills.py [--strict] [--json PATH]
@@ -38,16 +42,16 @@ SPEC_FIELDS = {"name", "description", "license", "compatibility", "metadata", "a
 CLAUDE_FIELDS = {"triggers", "model", "effort", "argument-hint", "context", "hooks", "disable-model-invocation"}
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
-# Hard Claude-only dependency signals (body text)
+# Hard Claude-only dependency signals (body text) — plain-language notes for the catalog
 CLAUDE_ONLY_PATTERNS = [
-    (re.compile(r"\bmcp__\w+"), "references MCP connector tools"),
-    (re.compile(r"~/\.claude\b|\.claude/skills"), "depends on local Claude environment paths"),
-    (re.compile(r"\bsession transcripts?\b", re.I), "depends on Claude session transcripts"),
+    (re.compile(r"\bmcp__\w+"), "uses Claude connectors (MCP tools) that other platforms don't have"),
+    (re.compile(r"~/\.claude\b|\.claude/skills"), "reads files from a local Claude installation — won't work on hosted platforms"),
+    (re.compile(r"\bsession transcripts?\b", re.I), "reads Claude session history, which only exists in Claude"),
 ]
 # Soft Claude-leaning signals (work elsewhere, degraded or ignored)
 CLAUDE_SOFT_PATTERNS = [
-    (re.compile(r"\bClaude Code\b"), "written with Claude Code in mind"),
-    (re.compile(r"\bsub-?agents?\b", re.I), "uses subagents (Claude feature)"),
+    (re.compile(r"\bClaude Code\b"), "instructions reference Claude Code specifically — behavior on other platforms may differ"),
+    (re.compile(r"\bsub-?agents?\b", re.I), "designed to delegate work to Claude subagents — on ChatGPT it runs in a simpler single-assistant mode"),
 ]
 SCRIPT_EXTS = {".py", ".sh", ".js", ".ts", ".rb"}
 MD_REF_RE = re.compile(r"\]\(([^)#][^)]*)\)|(?:^|[\s`(])((?:scripts/|references/|assets/)[\w\-./]+)", re.M)
@@ -125,18 +129,18 @@ def check_skill(skill_dir: Path):
     unknown = set(fm) - SPEC_FIELDS
     claude_fields = unknown & CLAUDE_FIELDS
     truly_unknown = unknown - CLAUDE_FIELDS
-    if claude_fields:
-        r["signals"].append(f"Claude-specific frontmatter (ignored on other platforms): {', '.join(sorted(claude_fields))}")
     if truly_unknown:
         r["warnings"].append(f"unknown frontmatter fields: {', '.join(sorted(truly_unknown))}")
 
     # --- file references ---
+    ext_note = ("needs companion files that aren't included in its download — installed on its own, "
+                "some features may be missing (the repo bundles these files into the zip as a workaround)")
     for ref in sorted(set(EXT_REF_RE.findall(text))):
         r["warnings"].append(
             f"external reference '{ref}' escapes the skill folder — breaks when the skill "
             "is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead")
-        if "has external file references" not in r["signals"]:
-            r["signals"].append("has external file references")
+        if ext_note not in r["signals"]:
+            r["signals"].append(ext_note)
     for m in MD_REF_RE.finditer(text):
         ref = (m.group(1) or m.group(2) or "").strip()
         if not ref or ref.startswith(("http://", "https://", "mailto:", "../")):
@@ -155,15 +159,28 @@ def check_skill(skill_dir: Path):
 
     scripts = [p for p in skill_dir.rglob("*") if p.suffix in SCRIPT_EXTS]
     if scripts:
-        soft.append(f"bundles {len(scripts)} script(s) — requires code execution enabled on the platform")
+        soft.append("includes helper code that runs when you use the skill — your workspace must have "
+                    "code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)")
+    if claude_fields:
+        soft.append("includes Claude-specific settings ("
+                    + ", ".join(sorted(claude_fields))
+                    + ") — ChatGPT ignores these; the skill still works but may activate less reliably there")
+
+    claude_code = False
     at = str(fm.get("allowed-tools", ""))
-    if "Bash(" in at or re.search(r"\b(Agent|Task|Skill)\b", at):
-        soft.append("allowed-tools pre-approves shell/agent tools (Claude Code oriented)")
+    if "Bash(" in at:
+        claude_code = True
+        binaries = sorted(set(re.findall(r"Bash\((\w+)", at)) - {"cd", "ls", "cp", "mv", "rm", "cat", "grep", "head", "tail", "wc", "find", "which", "type", "mkdir", "export", "eval"})
+        soft.append("built for Claude Code: it runs command-line software on your computer"
+                    + (f" (e.g. {', '.join(binaries[:4])})" if binaries else "")
+                    + " — hosted platforms like claude.ai and ChatGPT don't provide these programs")
 
     r["signals"].extend(hard + soft)
     if hard:
         r["classification"] = "claude-only"
-    elif soft or claude_fields:
+    elif claude_code:
+        r["classification"] = "claude-code-only"
+    elif soft:
         r["classification"] = "both-with-caveats"
     return r
 
@@ -188,7 +205,8 @@ def main():
             results.append(check_skill(skill_dir))
 
     n_err = sum(len(r["errors"]) for r in results)
-    badge = {"both": "BOTH PLATFORMS", "both-with-caveats": "BOTH (caveats)", "claude-only": "CLAUDE ONLY"}
+    badge = {"both": "BOTH PLATFORMS", "both-with-caveats": "BOTH (caveats)",
+             "claude-code-only": "CLAUDE CODE ONLY", "claude-only": "CLAUDE ONLY"}
     print(f"\nChecked {len(results)} skills — {n_err} error(s)\n" + "=" * 72)
     for r in results:
         print(f"\n{r['plugin']}/{r['skill']}  [{badge[r['classification']]}]")

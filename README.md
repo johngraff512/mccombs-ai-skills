@@ -34,7 +34,7 @@ Every submission, either way, gets the same treatment:
 
 1. CI automatically validates the pull request:
    - **Spec compliance** — frontmatter fields, naming rules, description limits, oversized SKILL.md
-   - **Cross-platform classification** — each skill is tagged `Both platforms`, `Both (see notes)`, or `Claude only`, based on Claude-specific frontmatter, bundled scripts, MCP dependencies, and external file references
+   - **Cross-platform classification** — each skill is tagged `Both platforms`, `Both (see notes)`, `Claude Code only` (needs command-line software on the user's computer), or `Claude only` (depends on Claude-side features like MCP connectors), based on frontmatter, bundled scripts, allowed-tools, and file references
 2. A working-group maintainer reviews and merges. On merge, the catalog regenerates; on a version tag (`git tag v0.2.0 && git push --tags`), zips are published to a GitHub Release that the catalog links to.
 
 ## Repo layout

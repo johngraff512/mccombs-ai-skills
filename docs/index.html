@@ -28,18 +28,18 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
 <p>12 skills for teaching and learning &middot; 12 work in both Claude EDU and ChatGPT &middot; updated 2026-07-15</p></header>
 <main><input id="q" placeholder="Search skills (e.g. case, slides, teaching note)&hellip;">
 <div class="chips"><button class="chip" data-cat="Case Writing">Case Writing</button><button class="chip" data-cat="Class Preparation">Class Preparation</button><button class="chip" data-cat="Decision Support">Decision Support</button><button class="chip" data-cat="Research &amp; Summaries">Research &amp; Summaries</button><button class="chip" data-cat="Slides &amp; Presentations">Slides &amp; Presentations</button></div>
-<h2 class="section">Toolkits — install a whole set at once</h2>
+<h2 class="section">Plug-ins — install a whole skill set at once</h2>
 
 <div class="card">
-  <span class="plugin">Toolkit &middot; 7 skills &middot; v1.3.0 &middot; updated 2026-07-15</span>
+  <span class="plugin">Plug-in (for Claude only) &middot; 7 skills &middot; v1.3.0 &middot; updated 2026-07-15</span>
   <h2>mccombs-case-toolkit</h2>
   <p class="desc">Case-based teaching lifecycle: ideation, case writing, fact-checking, teaching notes, exercises, slides, and refreshes — all McCombs-branded.<br><small>Includes: case-factcheck, case-generator, case-idea-generator, case-refresher, class-exercise-generator, slide-generator, teaching-note-generator</small>
   <a class="more" href="toolkits/mccombs-case-toolkit.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude Code / Cowork (installs and auto-updates — no download needed)</b>
+  <div class="install"><b>Claude plug-in (Claude Code / Cowork only — installs and auto-updates, no download)</b>
     Type: <code>/plugin marketplace add johngraff512/mccombs-ai-skills</code> then <code>/plugin install mccombs-case-toolkit</code>.
-    This pulls straight from GitHub and picks up future updates automatically.</div>
-  <div class="install"><b>Claude (upload once)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-case-toolkit-v1.3.0.zip">Download mccombs-case-toolkit-v1.3.0.zip</a> — the full plugin; unzip and upload the
+    ChatGPT and the Claude website don't support plug-ins — use the downloads below instead.</div>
+  <div class="install"><b>Claude website / desktop app (upload once)</b>
+    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-case-toolkit-v1.3.0.zip">Download mccombs-case-toolkit-v1.3.0.zip</a> — unzip and upload the
     skills you want in Claude: Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
   <div class="install"><b>ChatGPT (upload once)</b>
     <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-case-toolkit-chatgpt-v1.3.0.zip">Download mccombs-case-toolkit-chatgpt-v1.3.0.zip</a> — unzip it, then upload each enclosed
@@ -52,21 +52,19 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   <h2>ai-council<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Decision Support</span></h2>
   <p class="desc">Run any question, idea, or decision through a council of 5 AI advisors who independently analyze it, peer-review each other anonymously, and synthesize a final verdict. Adapted from Andrej Karpathy&#x27;s LLM Council methodology.
   <a class="more" href="skills/ai-council.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/ai-council.zip">Download ai-council.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/ai-council.zip'>Download ai-council.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>Claude-specific frontmatter (ignored on other platforms): triggers</li><li>has external file references</li><li>uses subagents (Claude feature)</li></ul></details>
+  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/ai-council.zip'>Download ai-council.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/ai-council.zip'>Download ai-council.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>needs companion files that aren&#x27;t included in its download — installed on its own, some features may be missing (the repo bundles these files into the zip as a workaround)</li><li>designed to delegate work to Claude subagents — on ChatGPT it runs in a simpler single-assistant mode</li><li>includes Claude-specific settings (triggers) — ChatGPT ignores these; the skill still works but may activate less reliably there</li></ul></details>
 </div>
 
 <div class="card" data-category="Slides &amp; Presentations">
   <span class="plugin">business-ai-tools &middot; v1.0 &middot; updated 2026-07-15</span>
-  <h2>beamer<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Slides &amp; Presentations</span></h2>
+  <h2>beamer<span class="badge" style="background:#8b1a1a">Claude Code only</span><span class="cat">Slides &amp; Presentations</span></h2>
   <p class="desc">Beamer slide generation with citation strategy decision, code-first matplotlib figures, outline checkpoint with content inventory, structure-aware rhetoric, Devil&#x27;s Advocate slides, code blocks, and transition slides. Two optional axes tune the deck: `structure=` (mba [default], teaching, faculty, p
   <a class="more" href="skills/beamer.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/beamer.zip">Download beamer.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/beamer.zip'>Download beamer.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>Claude-specific frontmatter (ignored on other platforms): argument-hint, triggers</li><li>has external file references</li><li>written with Claude Code in mind</li><li>uses subagents (Claude feature)</li><li>allowed-tools pre-approves shell/agent tools (Claude Code oriented)</li></ul></details>
+  <div class='install'><b>Claude Code (developer tool)</b> This skill needs software on your own computer, so it only works in Claude Code: <code>/plugin marketplace add johngraff512/mccombs-ai-skills</code></div>
+  <div class='install'><b>Claude (web/desktop) and ChatGPT</b> Not available — see the notes below.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>needs companion files that aren&#x27;t included in its download — installed on its own, some features may be missing (the repo bundles these files into the zip as a workaround)</li><li>instructions reference Claude Code specifically — behavior on other platforms may differ</li><li>designed to delegate work to Claude subagents — on ChatGPT it runs in a simpler single-assistant mode</li><li>includes Claude-specific settings (argument-hint, triggers) — ChatGPT ignores these; the skill still works but may activate less reliably there</li><li>built for Claude Code: it runs command-line software on your computer (e.g. biber, bibtex, brew, fc) — hosted platforms like claude.ai and ChatGPT don&#x27;t provide these programs</li></ul></details>
 </div>
 
 <div class="card" data-category="Research &amp; Summaries">
@@ -74,10 +72,9 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   <h2>summary-academic<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Research &amp; Summaries</span></h2>
   <p class="desc">Academic paper summarizer for papers, research articles, and scholarly publications. Structured summaries with citations, thesis, conclusions, methodology, implications, and critical analysis.
   <a class="more" href="skills/summary-academic.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-academic.zip">Download summary-academic.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-academic.zip'>Download summary-academic.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>Claude-specific frontmatter (ignored on other platforms): triggers</li><li>uses subagents (Claude feature)</li></ul></details>
+  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-academic.zip'>Download summary-academic.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-academic.zip'>Download summary-academic.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>designed to delegate work to Claude subagents — on ChatGPT it runs in a simpler single-assistant mode</li><li>includes Claude-specific settings (triggers) — ChatGPT ignores these; the skill still works but may activate less reliably there</li></ul></details>
 </div>
 
 <div class="card" data-category="Research &amp; Summaries">
@@ -85,10 +82,9 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   <h2>summary-general<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Research &amp; Summaries</span></h2>
   <p class="desc">Summarizer for news articles, blog posts, videos, and podcasts. Structured summaries with citations, thesis, themes, and critical analysis. Not for academic papers; use summary-academic.
   <a class="more" href="skills/summary-general.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-general.zip">Download summary-general.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-general.zip'>Download summary-general.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>Claude-specific frontmatter (ignored on other platforms): triggers</li><li>uses subagents (Claude feature)</li></ul></details>
+  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-general.zip'>Download summary-general.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-general.zip'>Download summary-general.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>designed to delegate work to Claude subagents — on ChatGPT it runs in a simpler single-assistant mode</li><li>includes Claude-specific settings (triggers) — ChatGPT ignores these; the skill still works but may activate less reliably there</li></ul></details>
 </div>
 
 <div class="card" data-category="Slides &amp; Presentations">
@@ -96,9 +92,8 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   <h2>mccombs-slides<span class="badge" style="background:#2e7d32">Both platforms</span><span class="cat">Slides &amp; Presentations</span></h2>
   <p class="desc">Create branded PowerPoint presentations following McCombs School of Business style guidelines. Use when creating slides, presentations, or decks for UT Austin McCombs faculty, students, or events. Applies official brand colors (Burnt Orange
   <a class="more" href="skills/mccombs-slides.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-slides.zip">Download mccombs-slides.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-slides.zip'>Download mccombs-slides.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-slides.zip'>Download mccombs-slides.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-slides.zip'>Download mccombs-slides.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
   
 </div>
 
@@ -107,10 +102,9 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   <h2>case-factcheck<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
   <p class="desc">Systematically verify all factual claims in a business case before downstream materials are built. Use this skill when an instructor wants to fact-check a case, verify case data, or check case accuracy before generating teaching notes, exercises, or slides. Triggers on: fact-check this case, verify 
   <a class="more" href="skills/case-factcheck.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip">Download case-factcheck.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip'>Download case-factcheck.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
+  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip'>Download case-factcheck.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip'>Download case-factcheck.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
 </div>
 
 <div class="card" data-category="Case Writing">
@@ -118,10 +112,9 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   <h2>case-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
   <p class="desc">Generate professional business cases for classroom teaching. Use this skill when a faculty member or instructor wants to create a business case about a company or topic, write a case study for class, build teaching materials around a strategic dilemma, or produce a case document with McCombs brandin
   <a class="more" href="skills/case-generator.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip">Download case-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip'>Download case-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
+  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip'>Download case-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip'>Download case-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
 </div>
 
 <div class="card" data-category="Case Writing">
@@ -129,10 +122,9 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   <h2>case-idea-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
   <p class="desc">Generate curated business case ideas for MBA/EMBA instruction. Use this skill when a faculty member wants to brainstorm case ideas for a course, module, or framework. Triggers on: case ideas, brainstorm cases, what companies could I write a case about, find me a good case topic, case idea generator,
   <a class="more" href="skills/case-idea-generator.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip">Download case-idea-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip'>Download case-idea-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
+  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip'>Download case-idea-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip'>Download case-idea-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
 </div>
 
 <div class="card" data-category="Case Writing">
@@ -140,10 +132,9 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   <h2>case-refresher<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
   <p class="desc">Update an existing business case with current data and recent developments. Use this skill when an instructor has an existing case and wants it refreshed with current information. Triggers on: refresh this case, update the case, what&#x27;s changed since this case was written, case refresher, bring this 
   <a class="more" href="skills/case-refresher.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-refresher.zip">Download case-refresher.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-refresher.zip'>Download case-refresher.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 2 script(s) — requires code execution enabled on the platform</li></ul></details>
+  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-refresher.zip'>Download case-refresher.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-refresher.zip'>Download case-refresher.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
 </div>
 
 <div class="card" data-category="Class Preparation">
@@ -151,10 +142,9 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   <h2>class-exercise-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Class Preparation</span></h2>
   <p class="desc">Generate a menu of interactive class exercises for a case discussion or lecture session. Use this skill when a faculty member or instructor wants activities for a class — poll questions, think-pair-share, small group breakouts, debates, framework applications, or any structured classroom exercises. 
   <a class="more" href="skills/class-exercise-generator.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip">Download class-exercise-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip'>Download class-exercise-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
+  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip'>Download class-exercise-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip'>Download class-exercise-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
 </div>
 
 <div class="card" data-category="Slides &amp; Presentations">
@@ -162,10 +152,9 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   <h2>slide-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Slides &amp; Presentations</span></h2>
   <p class="desc">Generate McCombs-branded PowerPoint slide decks for case discussions and lectures. Use this skill when an instructor needs a slide deck for facilitating a case discussion or delivering a lecture. Triggers on: create slides, make a slide deck, case discussion slides, lecture slides, presentation for 
   <a class="more" href="skills/slide-generator.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/slide-generator.zip">Download slide-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/slide-generator.zip'>Download slide-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
+  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/slide-generator.zip'>Download slide-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/slide-generator.zip'>Download slide-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
 </div>
 
 <div class="card" data-category="Class Preparation">
@@ -173,10 +162,9 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   <h2>teaching-note-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Class Preparation</span></h2>
   <p class="desc">Generate comprehensive instructor teaching notes for business cases. Use this skill when a faculty member or instructor wants a teaching note, instructor guide, teaching plan, discussion guide, or class facilitation guide for a business case. Triggers on: teaching note, instructor note, discussion p
   <a class="more" href="skills/teaching-note-generator.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip">Download teaching-note-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip'>Download teaching-note-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
+  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip'>Download teaching-note-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip'>Download teaching-note-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
 </div></main>
 <footer>Maintained by the McCombs AI Faculty Working Group &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills">Contribute a skill on GitHub</a>
 &middot; Skills follow the <a href="https://agentskills.io/specification">Agent Skills open standard</a>.</footer>

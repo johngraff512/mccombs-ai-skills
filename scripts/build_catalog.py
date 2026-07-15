@@ -41,6 +41,7 @@ ZIP_URL = REPO_URL + "/releases/latest/download/{skill}.zip"
 BADGES = {
     "both": ("Both platforms", "#2e7d32"),
     "both-with-caveats": ("Both (see notes)", "#b26a00"),
+    "claude-code-only": ("Claude Code only", "#8b1a1a"),
     "claude-only": ("Claude only", "#5f3dc4"),
 }
 
@@ -92,10 +93,20 @@ def card(r):
     zip_link = ZIP_URL.format(skill=r["skill"])
     notes = "".join(f"<li>{html.escape(s)}</li>" for s in r["signals"])
     notes_html = f"<details><summary>Compatibility notes</summary><ul class='notes'>{notes}</ul></details>" if notes else ""
-    chatgpt = ("<div class='install'><b>ChatGPT (UT workspace)</b>"
-               f"<a href='{zip_link}'>Download {r['skill']}.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>"
-               if r["classification"] != "claude-only" else
-               "<div class='install'><b>ChatGPT</b> Not available — this skill depends on Claude-side features.</div>")
+    cls = r["classification"]
+    if cls == "claude-code-only":
+        claude = ("<div class='install'><b>Claude Code (developer tool)</b> This skill needs software on your own computer, "
+                  f"so it only works in Claude Code: <code>/plugin marketplace add {REPO_SLUG}</code></div>")
+        chatgpt = "<div class='install'><b>Claude (web/desktop) and ChatGPT</b> Not available — see the notes below.</div>"
+    elif cls == "claude-only":
+        claude = (f"<div class='install'><b>Claude (UT Claude EDU)</b> <a href='{zip_link}'>Download {r['skill']}.zip</a> "
+                  "&rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>")
+        chatgpt = "<div class='install'><b>ChatGPT</b> Not available — this skill depends on Claude-only features (see notes).</div>"
+    else:
+        claude = (f"<div class='install'><b>Claude (UT Claude EDU)</b> <a href='{zip_link}'>Download {r['skill']}.zip</a> "
+                  "&rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>")
+        chatgpt = (f"<div class='install'><b>ChatGPT (UT workspace)</b> <a href='{zip_link}'>Download {r['skill']}.zip</a> "
+                   "&rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>")
     ver = f" &middot; v{html.escape(str(r['version']))}" if r.get("version") else ""
     cat = r.get("category", "General")
     updated = last_updated(ROOT / "plugins" / r["plugin"] / "skills" / r["skill"])
@@ -106,8 +117,7 @@ def card(r):
   <h2>{html.escape(r['skill'])}<span class="badge" style="background:{label and color}">{label}</span><span class="cat">{html.escape(cat)}</span></h2>
   <p class="desc">{html.escape(r['description'])}
   <a class="more" href="skills/{r['skill']}.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="{zip_link}">Download {r['skill']}.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  {claude}
   {chatgpt}
   {notes_html}
 </div>"""
@@ -135,6 +145,16 @@ def detail_page(r, badge_label, badge_color):
     notes = "".join(f"<li>{html.escape(s)}</li>" for s in r["signals"])
     notes_html = f"<h3>Compatibility notes</h3><ul>{notes}</ul>" if notes else ""
     ver = f"v{html.escape(str(r['version']))} &middot; " if r.get("version") else ""
+    if r["classification"] == "claude-code-only":
+        install = ("<div class='install'><b>Install (Claude Code only)</b> This skill runs software on your own computer, "
+                   f"so it works only in Claude Code: <code>/plugin marketplace add {REPO_SLUG}</code></div>")
+    elif r["classification"] == "claude-only":
+        install = (f"<div class='install'><b>Install (Claude only)</b> <a href='{zip_link}'>Download {r['skill']}.zip</a> "
+                   "&mdash; upload in Claude: Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill. Not available for ChatGPT.</div>")
+    else:
+        install = (f"<div class='install'><b>Install</b> <a href='{zip_link}'>Download {r['skill']}.zip</a> &mdash; then upload in "
+                   "<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or "
+                   "<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>")
     page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(r['skill'])} — McCombs AI Skills</title><style>{CSS}
@@ -145,10 +165,7 @@ a.back{{color:#BF5700;font-weight:600;text-decoration:none}}</style></head><body
 <p>{html.escape(r['plugin'])} &middot; {ver}{html.escape(r.get('category', 'General'))} &middot;
 <span class="badge" style="background:{badge_color}">{badge_label}</span></p></header>
 <main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
-<div class="install"><b>Install</b>
-<a href="{zip_link}">Download {r['skill']}.zip</a> &mdash; then upload in
-<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
-<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
+{install}
 {notes_html}
 <h3>About this skill</h3>
 <p><small>The content below is {source_note}.</small></p>
@@ -174,7 +191,7 @@ def toolkit_detail_page(name, pj, skills):
 .doc pre{{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}}
 .doc table{{border-collapse:collapse}} .doc td,.doc th{{border:1px solid #e3e0db;padding:4px 10px;font-size:13px}}
 a.back{{color:#BF5700;font-weight:600;text-decoration:none}}</style></head><body>
-<header><h1>{html.escape(name)}</h1><p>Toolkit &middot; v{html.escape(ver)} &middot; {len(skills)} skills</p></header>
+<header><h1>{html.escape(name)}</h1><p>Plug-in &middot; v{html.escape(ver)} &middot; {len(skills)} skills</p></header>
 <main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
 <div class="doc">{render_md(src)}</div>
 <p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
@@ -206,15 +223,15 @@ def plugin_cards(report):
         toolkit_detail_page(p["name"], pj, skills)
         out.append(f"""
 <div class="card">
-  <span class="plugin">Toolkit &middot; {len(skills)} skills &middot; v{html.escape(ver)} &middot; updated {updated}</span>
+  <span class="plugin">Plug-in (for Claude only) &middot; {len(skills)} skills &middot; v{html.escape(ver)} &middot; updated {updated}</span>
   <h2>{html.escape(p['name'])}</h2>
   <p class="desc">{html.escape(p['description'])}<br><small>Includes: {html.escape(', '.join(sorted(skills)))}</small>
   <a class="more" href="toolkits/{p['name']}.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude Code / Cowork (installs and auto-updates — no download needed)</b>
+  <div class="install"><b>Claude plug-in (Claude Code / Cowork only — installs and auto-updates, no download)</b>
     Type: <code>/plugin marketplace add {REPO_SLUG}</code> then <code>/plugin install {html.escape(p['name'])}</code>.
-    This pulls straight from GitHub and picks up future updates automatically.</div>
-  <div class="install"><b>Claude (upload once)</b>
-    <a href="{claude_zip}">Download {p['name']}-v{ver}.zip</a> — the full plugin; unzip and upload the
+    ChatGPT and the Claude website don't support plug-ins — use the downloads below instead.</div>
+  <div class="install"><b>Claude website / desktop app (upload once)</b>
+    <a href="{claude_zip}">Download {p['name']}-v{ver}.zip</a> — unzip and upload the
     skills you want in Claude: Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
   <div class="install"><b>ChatGPT (upload once)</b>
     <a href="{chatgpt_zip}">Download {p['name']}-chatgpt-v{ver}.zip</a> — unzip it, then upload each enclosed
@@ -227,7 +244,7 @@ def main():
     report = json.loads((ROOT / "docs" / "compat-report.json").read_text())
     cards = "\n".join(card(r) for r in report)
     toolkits = plugin_cards(report)
-    toolkit_section = f'<h2 class="section">Toolkits — install a whole set at once</h2>\n{toolkits}' if toolkits else ""
+    toolkit_section = f'<h2 class="section">Plug-ins — install a whole skill set at once</h2>\n{toolkits}' if toolkits else ""
     cats = sorted({r.get("category", "General") for r in report})
     chips = "".join(f'<button class="chip" data-cat="{html.escape(c)}">{html.escape(c)}</button>' for c in cats)
     n = len(report)

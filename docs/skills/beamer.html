@@ -28,13 +28,10 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
 a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
 <header><h1>beamer</h1>
 <p>business-ai-tools &middot; v1.0 &middot; Slides &amp; Presentations &middot;
-<span class="badge" style="background:#b26a00">Both (see notes)</span></p></header>
+<span class="badge" style="background:#8b1a1a">Claude Code only</span></p></header>
 <main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
-<div class="install"><b>Install</b>
-<a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/beamer.zip">Download beamer.zip</a> &mdash; then upload in
-<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
-<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
-<h3>Compatibility notes</h3><ul><li>Claude-specific frontmatter (ignored on other platforms): argument-hint, triggers</li><li>has external file references</li><li>written with Claude Code in mind</li><li>uses subagents (Claude feature)</li><li>allowed-tools pre-approves shell/agent tools (Claude Code oriented)</li></ul>
+<div class='install'><b>Install (Claude Code only)</b> This skill runs software on your own computer, so it works only in Claude Code: <code>/plugin marketplace add johngraff512/mccombs-ai-skills</code></div>
+<h3>Compatibility notes</h3><ul><li>needs companion files that aren&#x27;t included in its download — installed on its own, some features may be missing (the repo bundles these files into the zip as a workaround)</li><li>instructions reference Claude Code specifically — behavior on other platforms may differ</li><li>designed to delegate work to Claude subagents — on ChatGPT it runs in a simpler single-assistant mode</li><li>includes Claude-specific settings (argument-hint, triggers) — ChatGPT ignores these; the skill still works but may activate less reliably there</li><li>built for Claude Code: it runs command-line software on your computer (e.g. biber, bibtex, brew, fc) — hosted platforms like claude.ai and ChatGPT don&#x27;t provide these programs</li></ul>
 <h3>About this skill</h3>
 <p><small>The content below is the skill's README.</small></p>
 <div class="doc"><h1>Beamer Slide Generator</h1>
