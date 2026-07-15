@@ -3,7 +3,7 @@ name: Validate skills
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [master]
     tags: ["v*"]
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
 
       # On main: commit the regenerated catalog so GitHub Pages (from /docs) stays current
       - name: Commit updated catalog
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: |
           git config user.name "skills-bot"
           git config user.email "actions@github.com"

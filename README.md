@@ -58,9 +58,9 @@ docs/                                Published catalog (enable Pages from /docs)
 
 ## One-time setup after pushing to GitHub
 
-2. Repo Settings → Pages → Source: `main` branch, `/docs` folder.
-3. Repo Settings → Actions → General → Workflow permissions: "Read and write" (lets CI commit the regenerated catalog).
-4. Tag the first release: `git tag v0.1.0 && git push --tags`.
+1. Repo Settings → Pages → Source: `master` branch, `/docs` folder.
+2. Repo Settings → Actions → General → Workflow permissions: "Read and write" (lets CI commit the regenerated catalog).
+3. Tag the first release: `git tag v0.1.0 && git push --tags`.
 
 ## Platform notes
 
