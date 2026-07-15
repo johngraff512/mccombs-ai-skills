@@ -1,0 +1,4 @@
+interface:
+  display_name: "McCombs Teaching Note Generator"
+  short_description: "Create a complete instructor teaching note and discussion plan."
+  brand_color: "#BF5700"

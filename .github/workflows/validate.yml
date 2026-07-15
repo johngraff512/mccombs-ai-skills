@@ -24,6 +24,12 @@ jobs:
       - name: Spec compliance + platform compatibility check
         run: python3 scripts/check_skills.py --strict --json docs/compat-report.json
 
+      - name: Toolkit build drift check (source of truth is toolkits/, plugins/ is built output)
+        run: |
+          python3 toolkits/mccombs-case-toolkit/scripts/build.py --clean --target claude
+          diff -r toolkits/mccombs-case-toolkit/build/claude/skills plugins/mccombs-case-toolkit/skills \
+            || { echo "::error::plugins/mccombs-case-toolkit is out of sync with toolkits/ source — rebuild and commit"; exit 1; }
+
       - name: Package skill zips (ChatGPT / manual upload)
         run: python3 scripts/package_skills.py
 
@@ -62,8 +68,13 @@ jobs:
       - run: pip install pyyaml
       - run: python3 scripts/check_skills.py --strict
       - run: python3 scripts/package_skills.py
+      - name: Build platform-specific toolkit bundles
+        run: python3 toolkits/mccombs-case-toolkit/scripts/build.py --clean --target all
       - name: Create release with zips
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*.zip
+          files: |
+            dist/*.zip
+            toolkits/mccombs-case-toolkit/dist/chatgpt/*.zip
+            toolkits/mccombs-case-toolkit/dist/claude/*.zip
           generate_release_notes: true

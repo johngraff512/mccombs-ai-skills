@@ -1,0 +1,4 @@
+interface:
+  display_name: "McCombs Slide Generator"
+  short_description: "Build McCombs-branded slides for case discussions and lectures."
+  brand_color: "#BF5700"

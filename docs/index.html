@@ -31,14 +31,27 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
 <h2 class="section">Toolkits — install a whole set at once</h2>
 
 <div class="card">
-  <span class="plugin">Toolkit &middot; 8 skills &middot; v1.2.0 &middot; updated 2026-07-15</span>
+  <span class="plugin">Toolkit &middot; 7 skills &middot; v1.3.0 &middot; updated 2026-07-15</span>
   <h2>mccombs-case-toolkit</h2>
-  <p class="desc">Case-based teaching lifecycle: ideation, case writing, fact-checking, teaching notes, exercises, slides, and refreshes — all McCombs-branded.<br><small>Includes: case-factcheck, case-generator, case-idea-generator, case-refresher, class-exercise-generator, mccombs-slides, slide-generator, teaching-note-generator</small></p>
+  <p class="desc">Case-based teaching lifecycle: ideation, case writing, fact-checking, teaching notes, exercises, slides, and refreshes — all McCombs-branded.<br><small>Includes: case-factcheck, case-generator, case-idea-generator, case-refresher, class-exercise-generator, slide-generator, teaching-note-generator</small></p>
   <div class="install"><b>Claude Code / Cowork (installs and auto-updates — no download needed)</b>
     Type: <code>/plugin marketplace add johngraff512/mccombs-ai-skills</code> then <code>/plugin install mccombs-case-toolkit</code>.
     This pulls straight from GitHub and picks up future updates automatically.</div>
   <div class="install"><b>Everything as one download</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-case-toolkit-plugin.zip">Download mccombs-case-toolkit-plugin.zip</a> — contains all 8 skill folders.
+    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-case-toolkit-plugin.zip">Download mccombs-case-toolkit-plugin.zip</a> — contains all 7 skill folders.
+    Note: Claude and ChatGPT skill upload work one skill at a time, so unzip it and upload the
+    skills you want individually (or use the per-skill downloads below).</div>
+</div>
+
+<div class="card">
+  <span class="plugin">Toolkit &middot; 1 skills &middot; v0.1.0 &middot; updated 2026-07-15</span>
+  <h2>community-skills</h2>
+  <p class="desc">Skills contributed by McCombs faculty — the default home for new submissions.<br><small>Includes: mccombs-slides</small></p>
+  <div class="install"><b>Claude Code / Cowork (installs and auto-updates — no download needed)</b>
+    Type: <code>/plugin marketplace add johngraff512/mccombs-ai-skills</code> then <code>/plugin install community-skills</code>.
+    This pulls straight from GitHub and picks up future updates automatically.</div>
+  <div class="install"><b>Everything as one download</b>
+    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/community-skills-plugin.zip">Download community-skills-plugin.zip</a> — contains all 1 skill folders.
     Note: Claude and ChatGPT skill upload work one skill at a time, so unzip it and upload the
     skills you want individually (or use the per-skill downloads below).</div>
 </div>
@@ -101,63 +114,8 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   <details><summary>Compatibility notes</summary><ul class='notes'><li>Claude-specific frontmatter (ignored on other platforms): triggers</li><li>uses subagents (Claude feature)</li></ul></details>
 </div>
 
-<div class="card" data-category="Case Writing">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.0 &middot; updated 2026-07-15</span>
-  <h2>case-factcheck<span class="badge" style="background:#2e7d32">Both platforms</span><span class="cat">Case Writing</span></h2>
-  <p class="desc">Systematically verify all factual claims in a business case before downstream materials are built. Use this skill when an instructor wants to fact-check a case, verify case data, or check case accuracy before generating teaching notes, exercises, or slides. Triggers on: fact-check this case, verify 
-  <a class="more" href="skills/case-factcheck.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip">Download case-factcheck.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip'>Download case-factcheck.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>has external file references</li></ul></details>
-</div>
-
-<div class="card" data-category="Case Writing">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.0 &middot; updated 2026-07-15</span>
-  <h2>case-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
-  <p class="desc">Generate professional business cases for classroom teaching. Use this skill when a faculty member or instructor wants to create a business case about a company or topic, write a case study for class, build teaching materials around a strategic dilemma, or produce a case document with McCombs brandin
-  <a class="more" href="skills/case-generator.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip">Download case-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip'>Download case-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>has external file references</li><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
-</div>
-
-<div class="card" data-category="Case Writing">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.0 &middot; updated 2026-07-15</span>
-  <h2>case-idea-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
-  <p class="desc">Generate curated business case ideas for MBA/EMBA instruction. Use this skill when a faculty member wants to brainstorm case ideas for a course, module, or framework. Triggers on: case ideas, brainstorm cases, what companies could I write a case about, find me a good case topic, case idea generator,
-  <a class="more" href="skills/case-idea-generator.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip">Download case-idea-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip'>Download case-idea-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>has external file references</li><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
-</div>
-
-<div class="card" data-category="Case Writing">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.0 &middot; updated 2026-07-15</span>
-  <h2>case-refresher<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
-  <p class="desc">Update an existing business case with current data and recent developments. Use this skill when an instructor has an existing case and wants it refreshed with current information. Triggers on: refresh this case, update the case, what&#x27;s changed since this case was written, case refresher, bring this 
-  <a class="more" href="skills/case-refresher.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-refresher.zip">Download case-refresher.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-refresher.zip'>Download case-refresher.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>has external file references</li><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
-</div>
-
-<div class="card" data-category="Class Preparation">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.0 &middot; updated 2026-07-15</span>
-  <h2>class-exercise-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Class Preparation</span></h2>
-  <p class="desc">Generate a menu of interactive class exercises for a case discussion or lecture session. Use this skill when a faculty member or instructor wants activities for a class — poll questions, think-pair-share, small group breakouts, debates, framework applications, or any structured classroom exercises. 
-  <a class="more" href="skills/class-exercise-generator.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude (UT Claude EDU)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip">Download class-exercise-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip'>Download class-exercise-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>has external file references</li><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
-</div>
-
 <div class="card" data-category="Slides &amp; Presentations">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.0 &middot; updated 2026-07-15</span>
+  <span class="plugin">community-skills &middot; v1.0 &middot; updated 2026-07-15</span>
   <h2>mccombs-slides<span class="badge" style="background:#2e7d32">Both platforms</span><span class="cat">Slides &amp; Presentations</span></h2>
   <p class="desc">Create branded PowerPoint presentations following McCombs School of Business style guidelines. Use when creating slides, presentations, or decks for UT Austin McCombs faculty, students, or events. Applies official brand colors (Burnt Orange
   <a class="more" href="skills/mccombs-slides.html">Learn more &rarr;</a></p>
@@ -167,26 +125,81 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
   
 </div>
 
+<div class="card" data-category="Case Writing">
+  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
+  <h2>case-factcheck<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
+  <p class="desc">Systematically verify all factual claims in a business case before downstream materials are built. Use this skill when an instructor wants to fact-check a case, verify case data, or check case accuracy before generating teaching notes, exercises, or slides. Triggers on: fact-check this case, verify 
+  <a class="more" href="skills/case-factcheck.html">Learn more &rarr;</a></p>
+  <div class="install"><b>Claude (UT Claude EDU)</b>
+    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip">Download case-factcheck.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip'>Download case-factcheck.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
+</div>
+
+<div class="card" data-category="Case Writing">
+  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
+  <h2>case-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
+  <p class="desc">Generate professional business cases for classroom teaching. Use this skill when a faculty member or instructor wants to create a business case about a company or topic, write a case study for class, build teaching materials around a strategic dilemma, or produce a case document with McCombs brandin
+  <a class="more" href="skills/case-generator.html">Learn more &rarr;</a></p>
+  <div class="install"><b>Claude (UT Claude EDU)</b>
+    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip">Download case-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip'>Download case-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
+</div>
+
+<div class="card" data-category="Case Writing">
+  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
+  <h2>case-idea-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
+  <p class="desc">Generate curated business case ideas for MBA/EMBA instruction. Use this skill when a faculty member wants to brainstorm case ideas for a course, module, or framework. Triggers on: case ideas, brainstorm cases, what companies could I write a case about, find me a good case topic, case idea generator,
+  <a class="more" href="skills/case-idea-generator.html">Learn more &rarr;</a></p>
+  <div class="install"><b>Claude (UT Claude EDU)</b>
+    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip">Download case-idea-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip'>Download case-idea-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
+</div>
+
+<div class="card" data-category="Case Writing">
+  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
+  <h2>case-refresher<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
+  <p class="desc">Update an existing business case with current data and recent developments. Use this skill when an instructor has an existing case and wants it refreshed with current information. Triggers on: refresh this case, update the case, what&#x27;s changed since this case was written, case refresher, bring this 
+  <a class="more" href="skills/case-refresher.html">Learn more &rarr;</a></p>
+  <div class="install"><b>Claude (UT Claude EDU)</b>
+    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-refresher.zip">Download case-refresher.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-refresher.zip'>Download case-refresher.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 2 script(s) — requires code execution enabled on the platform</li></ul></details>
+</div>
+
+<div class="card" data-category="Class Preparation">
+  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
+  <h2>class-exercise-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Class Preparation</span></h2>
+  <p class="desc">Generate a menu of interactive class exercises for a case discussion or lecture session. Use this skill when a faculty member or instructor wants activities for a class — poll questions, think-pair-share, small group breakouts, debates, framework applications, or any structured classroom exercises. 
+  <a class="more" href="skills/class-exercise-generator.html">Learn more &rarr;</a></p>
+  <div class="install"><b>Claude (UT Claude EDU)</b>
+    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip">Download class-exercise-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
+  <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip'>Download class-exercise-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
+</div>
+
 <div class="card" data-category="Slides &amp; Presentations">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.0 &middot; updated 2026-07-15</span>
+  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
   <h2>slide-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Slides &amp; Presentations</span></h2>
   <p class="desc">Generate McCombs-branded PowerPoint slide decks for case discussions and lectures. Use this skill when an instructor needs a slide deck for facilitating a case discussion or delivering a lecture. Triggers on: create slides, make a slide deck, case discussion slides, lecture slides, presentation for 
   <a class="more" href="skills/slide-generator.html">Learn more &rarr;</a></p>
   <div class="install"><b>Claude (UT Claude EDU)</b>
     <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/slide-generator.zip">Download slide-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
   <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/slide-generator.zip'>Download slide-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>has external file references</li><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
 </div>
 
 <div class="card" data-category="Class Preparation">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.0 &middot; updated 2026-07-15</span>
+  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
   <h2>teaching-note-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Class Preparation</span></h2>
   <p class="desc">Generate comprehensive instructor teaching notes for business cases. Use this skill when a faculty member or instructor wants a teaching note, instructor guide, teaching plan, discussion guide, or class facilitation guide for a business case. Triggers on: teaching note, instructor note, discussion p
   <a class="more" href="skills/teaching-note-generator.html">Learn more &rarr;</a></p>
   <div class="install"><b>Claude (UT Claude EDU)</b>
     <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip">Download teaching-note-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
   <div class='install'><b>ChatGPT (UT workspace)</b><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip'>Download teaching-note-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>has external file references</li><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
+  <details><summary>Compatibility notes</summary><ul class='notes'><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul></details>
 </div></main>
 <footer>Maintained by the McCombs AI Faculty Working Group &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills">Contribute a skill on GitHub</a>
 &middot; Skills follow the <a href="https://agentskills.io/specification">Agent Skills open standard</a>.</footer>

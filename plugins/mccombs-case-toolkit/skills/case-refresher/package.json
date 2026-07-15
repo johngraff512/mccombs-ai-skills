@@ -1,0 +1,9 @@
+{
+  "name": "mccombs-case-refresher",
+  "version": "1.3.0",
+  "private": true,
+  "description": "Runtime dependencies for the case-refresher skill.",
+  "dependencies": {
+    "docx": ">=8 <10"
+  }
+}

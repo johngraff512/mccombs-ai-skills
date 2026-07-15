@@ -20,9 +20,11 @@ Claude Code marketplace installs update automatically. ChatGPT and manual Claude
 
 | Plugin | Skills | Author |
 |---|---|---|
-| `mccombs-case-toolkit` | case-idea-generator, case-generator, case-factcheck, teaching-note-generator, class-exercise-generator, slide-generator, case-refresher, mccombs-slides | John Graff |
+| `mccombs-case-toolkit` | case-idea-generator, case-generator, case-factcheck, teaching-note-generator, class-exercise-generator, slide-generator, case-refresher | John Graff |
 | `business-ai-tools` | ai-council, summary-academic, summary-general, beamer | [Ben Bentzin](https://github.com/AI-Business-Tools/claude-code) (MIT) |
-| `community-skills` | *(your skill here — see [CONTRIBUTING.md](CONTRIBUTING.md))* | McCombs faculty |
+| `community-skills` | mccombs-slides *(your skill here — see [CONTRIBUTING.md](CONTRIBUTING.md))* | McCombs faculty |
+
+**Note on the case toolkit:** as of v1.3.0 it is maintained as a dual-platform source tree under `toolkits/mccombs-case-toolkit/` (canonical `src/`, shared resources injected at build time, platform overlays). `plugins/mccombs-case-toolkit/` contains the *built* output — edit the source, run its `scripts/build.py`, and commit both; CI fails if they drift. Releases include platform-specific bundles built from the same source.
 
 ## For contributors: submitting or updating a skill
 

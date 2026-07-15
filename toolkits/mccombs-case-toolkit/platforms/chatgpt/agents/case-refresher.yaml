@@ -1,0 +1,4 @@
+interface:
+  display_name: "McCombs Case Refresher"
+  short_description: "Update an existing teaching case with current evidence and developments."
+  brand_color: "#BF5700"

@@ -1,0 +1,9 @@
+{
+  "name": "mccombs-slide-generator",
+  "version": "1.3.0",
+  "private": true,
+  "description": "Runtime dependencies for the slide-generator skill.",
+  "dependencies": {
+    "pptxgenjs": ">=3 <5"
+  }
+}

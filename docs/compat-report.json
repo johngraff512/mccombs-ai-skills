@@ -73,94 +73,8 @@
     "category": "Research & Summaries"
   },
   {
-    "skill": "case-factcheck",
-    "plugin": "mccombs-case-toolkit",
-    "errors": [],
-    "warnings": [
-      "external reference '../case-generator/references/case-structure.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
-      "external reference '../case-generator/scripts/generate_case_docx.js' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
-      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
-    ],
-    "signals": [
-      "has external file references"
-    ],
-    "classification": "both",
-    "description": "Systematically verify all factual claims in a business case before downstream materials are built. Use this skill when an instructor wants to fact-check a case, verify case data, or check case accuracy before generating teaching notes, exercises, or slides. Triggers on: fact-check this case, verify ",
-    "version": "1.0",
-    "license": null,
-    "category": "Case Writing"
-  },
-  {
-    "skill": "case-generator",
-    "plugin": "mccombs-case-toolkit",
-    "errors": [],
-    "warnings": [
-      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
-    ],
-    "signals": [
-      "has external file references",
-      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
-    ],
-    "classification": "both-with-caveats",
-    "description": "Generate professional business cases for classroom teaching. Use this skill when a faculty member or instructor wants to create a business case about a company or topic, write a case study for class, build teaching materials around a strategic dilemma, or produce a case document with McCombs brandin",
-    "version": "1.0",
-    "license": null,
-    "category": "Case Writing"
-  },
-  {
-    "skill": "case-idea-generator",
-    "plugin": "mccombs-case-toolkit",
-    "errors": [],
-    "warnings": [
-      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
-    ],
-    "signals": [
-      "has external file references",
-      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
-    ],
-    "classification": "both-with-caveats",
-    "description": "Generate curated business case ideas for MBA/EMBA instruction. Use this skill when a faculty member wants to brainstorm case ideas for a course, module, or framework. Triggers on: case ideas, brainstorm cases, what companies could I write a case about, find me a good case topic, case idea generator,",
-    "version": "1.0",
-    "license": null,
-    "category": "Case Writing"
-  },
-  {
-    "skill": "case-refresher",
-    "plugin": "mccombs-case-toolkit",
-    "errors": [],
-    "warnings": [
-      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
-    ],
-    "signals": [
-      "has external file references",
-      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
-    ],
-    "classification": "both-with-caveats",
-    "description": "Update an existing business case with current data and recent developments. Use this skill when an instructor has an existing case and wants it refreshed with current information. Triggers on: refresh this case, update the case, what's changed since this case was written, case refresher, bring this ",
-    "version": "1.0",
-    "license": null,
-    "category": "Case Writing"
-  },
-  {
-    "skill": "class-exercise-generator",
-    "plugin": "mccombs-case-toolkit",
-    "errors": [],
-    "warnings": [
-      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
-    ],
-    "signals": [
-      "has external file references",
-      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
-    ],
-    "classification": "both-with-caveats",
-    "description": "Generate a menu of interactive class exercises for a case discussion or lecture session. Use this skill when a faculty member or instructor wants activities for a class \u2014 poll questions, think-pair-share, small group breakouts, debates, framework applications, or any structured classroom exercises. ",
-    "version": "1.0",
-    "license": null,
-    "category": "Class Preparation"
-  },
-  {
     "skill": "mccombs-slides",
-    "plugin": "mccombs-case-toolkit",
+    "plugin": "community-skills",
     "errors": [],
     "warnings": [],
     "signals": [],
@@ -171,19 +85,86 @@
     "category": "Slides & Presentations"
   },
   {
+    "skill": "case-factcheck",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [],
+    "signals": [
+      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Systematically verify all factual claims in a business case before downstream materials are built. Use this skill when an instructor wants to fact-check a case, verify case data, or check case accuracy before generating teaching notes, exercises, or slides. Triggers on: fact-check this case, verify ",
+    "version": "1.3.0",
+    "license": null,
+    "category": "Case Writing"
+  },
+  {
+    "skill": "case-generator",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [],
+    "signals": [
+      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Generate professional business cases for classroom teaching. Use this skill when a faculty member or instructor wants to create a business case about a company or topic, write a case study for class, build teaching materials around a strategic dilemma, or produce a case document with McCombs brandin",
+    "version": "1.3.0",
+    "license": null,
+    "category": "Case Writing"
+  },
+  {
+    "skill": "case-idea-generator",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [],
+    "signals": [
+      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Generate curated business case ideas for MBA/EMBA instruction. Use this skill when a faculty member wants to brainstorm case ideas for a course, module, or framework. Triggers on: case ideas, brainstorm cases, what companies could I write a case about, find me a good case topic, case idea generator,",
+    "version": "1.3.0",
+    "license": null,
+    "category": "Case Writing"
+  },
+  {
+    "skill": "case-refresher",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [],
+    "signals": [
+      "bundles 2 script(s) \u2014 requires code execution enabled on the platform"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Update an existing business case with current data and recent developments. Use this skill when an instructor has an existing case and wants it refreshed with current information. Triggers on: refresh this case, update the case, what's changed since this case was written, case refresher, bring this ",
+    "version": "1.3.0",
+    "license": null,
+    "category": "Case Writing"
+  },
+  {
+    "skill": "class-exercise-generator",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [],
+    "signals": [
+      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Generate a menu of interactive class exercises for a case discussion or lecture session. Use this skill when a faculty member or instructor wants activities for a class \u2014 poll questions, think-pair-share, small group breakouts, debates, framework applications, or any structured classroom exercises. ",
+    "version": "1.3.0",
+    "license": null,
+    "category": "Class Preparation"
+  },
+  {
     "skill": "slide-generator",
     "plugin": "mccombs-case-toolkit",
     "errors": [],
-    "warnings": [
-      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
-    ],
+    "warnings": [],
     "signals": [
-      "has external file references",
       "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
     ],
     "classification": "both-with-caveats",
     "description": "Generate McCombs-branded PowerPoint slide decks for case discussions and lectures. Use this skill when an instructor needs a slide deck for facilitating a case discussion or delivering a lecture. Triggers on: create slides, make a slide deck, case discussion slides, lecture slides, presentation for ",
-    "version": "1.0",
+    "version": "1.3.0",
     "license": null,
     "category": "Slides & Presentations"
   },
@@ -191,17 +172,13 @@
     "skill": "teaching-note-generator",
     "plugin": "mccombs-case-toolkit",
     "errors": [],
-    "warnings": [
-      "external reference '../case-generator/references/docx-branding.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
-      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
-    ],
+    "warnings": [],
     "signals": [
-      "has external file references",
       "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
     ],
     "classification": "both-with-caveats",
     "description": "Generate comprehensive instructor teaching notes for business cases. Use this skill when a faculty member or instructor wants a teaching note, instructor guide, teaching plan, discussion guide, or class facilitation guide for a business case. Triggers on: teaching note, instructor note, discussion p",
-    "version": "1.0",
+    "version": "1.3.0",
     "license": null,
     "category": "Class Preparation"
   }

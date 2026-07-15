@@ -1,0 +1,4 @@
+interface:
+  display_name: "McCombs Class Exercise Generator"
+  short_description: "Design interactive activities for a case discussion or lecture."
+  brand_color: "#BF5700"

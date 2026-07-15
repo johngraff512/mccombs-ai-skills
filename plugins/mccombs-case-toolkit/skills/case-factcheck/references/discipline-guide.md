@@ -1,6 +1,6 @@
 # Discipline Guide — McCombs Case Toolkit
 
-This reference helps Claude adapt case toolkit outputs across all McCombs departments.
+This reference helps the assistant adapt case toolkit outputs across all McCombs departments.
 Every skill in the toolkit works across disciplines. When gathering inputs, always ask
 about the instructor's **department and course** so outputs use appropriate frameworks,
 language, and examples.

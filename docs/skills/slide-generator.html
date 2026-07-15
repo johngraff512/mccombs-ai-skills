@@ -27,20 +27,23 @@ a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
 .doc h1,.doc h2,.doc h3{color:#333} .doc pre{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}
 a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
 <header><h1>slide-generator</h1>
-<p>mccombs-case-toolkit &middot; v1.0 &middot; Slides &amp; Presentations &middot;
+<p>mccombs-case-toolkit &middot; v1.3.0 &middot; Slides &amp; Presentations &middot;
 <span class="badge" style="background:#b26a00">Both (see notes)</span></p></header>
 <main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
 <div class="install"><b>Install</b>
 <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/slide-generator.zip">Download slide-generator.zip</a> &mdash; then upload in
 <b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
 <b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
-<h3>Compatibility notes</h3><ul><li>has external file references</li><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul>
+<h3>Compatibility notes</h3><ul><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul>
 <h3>About this skill</h3>
 <p><small>The content below is the skill's full instructions (SKILL.md) — exactly what the AI follows when you use it.</small></p>
 <div class="doc"><h1>Slide Generator</h1>
+<blockquote>
+<p>McCombs Case Toolkit version 1.3.0</p>
+</blockquote>
 <p>Generate McCombs-branded PowerPoint slide decks for case discussions and lectures.</p>
 <h2>Description</h2>
-<p>Use this skill when an instructor needs a slide deck — either for facilitating a case discussion in class or for a general lecture. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See <code>../shared/discipline-guide.md</code> for department-specific guidance on frameworks and discussion questions. The skill produces a polished .pptx file with McCombs branding (Burnt Orange, Arial/Arial Black, widescreen 16:9 format, logo placement).</p>
+<p>Use this skill when an instructor needs a slide deck — either for facilitating a case discussion in class or for a general lecture. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See <code>references/discipline-guide.md</code> for department-specific guidance on frameworks and discussion questions. The skill produces a polished .pptx file with McCombs branding (Burnt Orange, Arial/Arial Black, widescreen 16:9 format, logo placement).</p>
 <p><strong>Trigger phrases:</strong> "create slides," "make a slide deck," "case discussion slides," "lecture slides," "presentation for class," "slide generator"</p>
 <h2>Two Modes</h2>
 <h3>Mode A: Case Discussion Slides</h3>
@@ -251,7 +254,7 @@ a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
 </tbody>
 </table>
 <h3>Phase 4: Generate the Deck</h3>
-<pre><code class="language-bash">node /path/to/skills/slide-generator/scripts/generate_slides.js &lt;input.json&gt; &lt;output.pptx&gt;
+<pre><code class="language-bash">node &lt;skill-path&gt;/scripts/generate_slides.js &lt;input.json&gt; &lt;output.pptx&gt;
 </code></pre>
 <h3>Phase 5: Review and Iterate</h3>
 <p>Show the instructor a preview. Common adjustments:
@@ -274,7 +277,7 @@ a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
 <li><code>assets/mccombs_logo_color.png</code> — full-color logo (for white backgrounds)</li>
 <li><code>assets/mccombs_logo_white.png</code> — white logo (for orange backgrounds)</li>
 </ul></div>
-<h3>Files included</h3><ul><li><code>SKILL.md</code></li><li><code>assets/mccombs_logo_color.png</code></li><li><code>assets/mccombs_logo_header.png</code></li><li><code>assets/mccombs_logo_white.png</code></li><li><code>references/slide-design.md</code></li><li><code>scripts/generate_slides.js</code></li></ul>
+<h3>Files included</h3><ul><li><code>SKILL.md</code></li><li><code>assets/mccombs_logo_color.png</code></li><li><code>assets/mccombs_logo_header.png</code></li><li><code>assets/mccombs_logo_white.png</code></li><li><code>package.json</code></li><li><code>references/discipline-guide.md</code></li><li><code>references/slide-design.md</code></li><li><code>scripts/generate_slides.js</code></li></ul>
 <p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
 <footer>McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
 </body></html>

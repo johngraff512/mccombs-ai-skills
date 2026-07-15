@@ -1,0 +1,9 @@
+{
+  "name": "mccombs-class-exercise-generator",
+  "version": "1.3.0",
+  "private": true,
+  "description": "Runtime dependencies for the class-exercise-generator skill.",
+  "dependencies": {
+    "docx": ">=8 <10"
+  }
+}

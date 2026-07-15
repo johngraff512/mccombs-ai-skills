@@ -1,0 +1,4 @@
+interface:
+  display_name: "McCombs Case Fact-Checker"
+  short_description: "Verify case claims and produce an approved corrected case."
+  brand_color: "#BF5700"

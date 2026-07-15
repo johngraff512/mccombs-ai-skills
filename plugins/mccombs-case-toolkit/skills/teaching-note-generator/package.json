@@ -1,0 +1,9 @@
+{
+  "name": "mccombs-teaching-note-generator",
+  "version": "1.3.0",
+  "private": true,
+  "description": "Runtime dependencies for the teaching-note-generator skill.",
+  "dependencies": {
+    "docx": ">=8 <10"
+  }
+}

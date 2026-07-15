@@ -1,0 +1,14 @@
+{
+  "name": "mccombs-case-toolkit",
+  "version": "1.3.0",
+  "private": true,
+  "description": "Local runtime dependencies for testing McCombs Case Toolkit generators.",
+  "scripts": {
+    "build": "python3 scripts/build.py --clean --target all",
+    "validate": "python3 scripts/validate.py"
+  },
+  "dependencies": {
+    "docx": ">=8 <10",
+    "pptxgenjs": ">=3 <5"
+  }
+}

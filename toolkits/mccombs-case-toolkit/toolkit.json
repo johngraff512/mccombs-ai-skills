@@ -1,0 +1,143 @@
+{
+  "toolkit": "McCombs Case Toolkit",
+  "version": "1.3.0",
+  "skills": {
+    "case-idea-generator": {
+      "copies": [
+        [
+          "shared/references/discipline-guide.md",
+          "references/discipline-guide.md"
+        ],
+        [
+          "shared/assets/mccombs_logo.png",
+          "assets/mccombs_logo.png"
+        ],
+        [
+          "shared/assets/McCombs_Basic.dotx",
+          "assets/McCombs_Basic.dotx"
+        ]
+      ],
+      "npm_dependencies": {
+        "docx": ">=8 <10"
+      }
+    },
+    "case-generator": {
+      "copies": [
+        [
+          "shared/references/discipline-guide.md",
+          "references/discipline-guide.md"
+        ],
+        [
+          "shared/scripts/generate_case_docx.js",
+          "scripts/generate_case_docx.js"
+        ],
+        [
+          "shared/assets/mccombs_logo.png",
+          "assets/mccombs_logo.png"
+        ],
+        [
+          "shared/assets/McCombs_Basic.dotx",
+          "assets/McCombs_Basic.dotx"
+        ]
+      ],
+      "npm_dependencies": {
+        "docx": ">=8 <10"
+      }
+    },
+    "case-factcheck": {
+      "copies": [
+        [
+          "shared/references/discipline-guide.md",
+          "references/discipline-guide.md"
+        ],
+        [
+          "shared/scripts/generate_case_docx.js",
+          "scripts/generate_case_docx.js"
+        ],
+        [
+          "shared/assets/mccombs_logo.png",
+          "assets/mccombs_logo.png"
+        ],
+        [
+          "skills/case-generator/references/case-structure.md",
+          "references/case-structure.md"
+        ]
+      ],
+      "npm_dependencies": {
+        "docx": ">=8 <10"
+      }
+    },
+    "teaching-note-generator": {
+      "copies": [
+        [
+          "shared/references/discipline-guide.md",
+          "references/discipline-guide.md"
+        ],
+        [
+          "shared/assets/mccombs_logo.png",
+          "assets/mccombs_logo.png"
+        ],
+        [
+          "shared/assets/McCombs_Basic.dotx",
+          "assets/McCombs_Basic.dotx"
+        ],
+        [
+          "skills/case-generator/references/docx-branding.md",
+          "references/docx-branding.md"
+        ]
+      ],
+      "npm_dependencies": {
+        "docx": ">=8 <10"
+      }
+    },
+    "class-exercise-generator": {
+      "copies": [
+        [
+          "shared/references/discipline-guide.md",
+          "references/discipline-guide.md"
+        ],
+        [
+          "shared/assets/mccombs_logo.png",
+          "assets/mccombs_logo.png"
+        ],
+        [
+          "shared/assets/McCombs_Basic.dotx",
+          "assets/McCombs_Basic.dotx"
+        ]
+      ],
+      "npm_dependencies": {
+        "docx": ">=8 <10"
+      }
+    },
+    "slide-generator": {
+      "copies": [
+        [
+          "shared/references/discipline-guide.md",
+          "references/discipline-guide.md"
+        ]
+      ],
+      "npm_dependencies": {
+        "pptxgenjs": ">=3 <5"
+      }
+    },
+    "case-refresher": {
+      "copies": [
+        [
+          "shared/references/discipline-guide.md",
+          "references/discipline-guide.md"
+        ],
+        [
+          "shared/scripts/generate_case_docx.js",
+          "scripts/generate_case_docx.js"
+        ],
+        [
+          "shared/assets/mccombs_logo.png",
+          "assets/mccombs_logo.png"
+        ]
+      ],
+      "npm_dependencies": {
+        "docx": ">=8 <10"
+      }
+    }
+  }
+}

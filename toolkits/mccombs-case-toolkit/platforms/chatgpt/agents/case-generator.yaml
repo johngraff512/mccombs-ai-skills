@@ -1,0 +1,4 @@
+interface:
+  display_name: "McCombs Case Generator"
+  short_description: "Create a classroom-ready, McCombs-branded business case."
+  brand_color: "#BF5700"
