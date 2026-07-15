@@ -12,9 +12,15 @@ Actions) or falls back to REPO_SLUG below — update it after you create the rep
 import html
 import json
 import os
+import re
 import subprocess
 from datetime import date
 from pathlib import Path
+
+try:
+    import markdown  # pip install markdown (CI installs it; falls back to <pre> if missing)
+except ImportError:
+    markdown = None
 
 
 def last_updated(path: Path) -> str:
@@ -58,6 +64,8 @@ h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#B
 .chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
 .chip.on{background:#BF5700;color:#fff}
 .cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
+a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
+.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
 """
 
 JS = """
@@ -91,16 +99,67 @@ def card(r):
     ver = f" &middot; v{html.escape(str(r['version']))}" if r.get("version") else ""
     cat = r.get("category", "General")
     updated = last_updated(ROOT / "plugins" / r["plugin"] / "skills" / r["skill"])
+    detail_page(r, label, color)
     return f"""
 <div class="card" data-category="{html.escape(cat)}">
   <span class="plugin">{html.escape(r['plugin'])}{ver} &middot; updated {updated}</span>
   <h2>{html.escape(r['skill'])}<span class="badge" style="background:{label and color}">{label}</span><span class="cat">{html.escape(cat)}</span></h2>
-  <p class="desc">{html.escape(r['description'])}</p>
+  <p class="desc">{html.escape(r['description'])}
+  <a class="more" href="skills/{r['skill']}.html">Learn more &rarr;</a></p>
   <div class="install"><b>Claude (UT Claude EDU)</b>
     <a href="{zip_link}">Download {r['skill']}.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
   {chatgpt}
   {notes_html}
 </div>"""
+
+
+def render_md(src: str) -> str:
+    if markdown:
+        return markdown.markdown(src, extensions=["tables", "fenced_code"])
+    return f"<pre style='white-space:pre-wrap'>{html.escape(src)}</pre>"
+
+
+def detail_page(r, badge_label, badge_color):
+    """Write docs/skills/<skill>.html — full documentation so faculty can read before installing."""
+    skill_dir = ROOT / "plugins" / r["plugin"] / "skills" / r["skill"]
+    readme = skill_dir / "README.md"
+    if readme.exists():
+        src, source_note = readme.read_text(encoding="utf-8", errors="replace"), "the skill's README"
+    else:
+        raw = (skill_dir / "SKILL.md").read_text(encoding="utf-8", errors="replace")
+        src = re.sub(r"^---\n.*?\n---\n", "", raw, flags=re.S)
+        source_note = "the skill's full instructions (SKILL.md) — exactly what the AI follows when you use it"
+    files = sorted(str(p.relative_to(skill_dir)) for p in skill_dir.rglob("*") if p.is_file())
+    file_list = "".join(f"<li><code>{html.escape(f)}</code></li>" for f in files)
+    zip_link = ZIP_URL.format(skill=r["skill"])
+    notes = "".join(f"<li>{html.escape(s)}</li>" for s in r["signals"])
+    notes_html = f"<h3>Compatibility notes</h3><ul>{notes}</ul>" if notes else ""
+    ver = f"v{html.escape(str(r['version']))} &middot; " if r.get("version") else ""
+    page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{html.escape(r['skill'])} — McCombs AI Skills</title><style>{CSS}
+.doc{{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}}
+.doc h1,.doc h2,.doc h3{{color:#333}} .doc pre{{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}}
+a.back{{color:#BF5700;font-weight:600;text-decoration:none}}</style></head><body>
+<header><h1>{html.escape(r['skill'])}</h1>
+<p>{html.escape(r['plugin'])} &middot; {ver}{html.escape(r.get('category', 'General'))} &middot;
+<span class="badge" style="background:{badge_color}">{badge_label}</span></p></header>
+<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
+<div class="install"><b>Install</b>
+<a href="{zip_link}">Download {r['skill']}.zip</a> &mdash; then upload in
+<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
+<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
+{notes_html}
+<h3>About this skill</h3>
+<p><small>The content below is {source_note}.</small></p>
+<div class="doc">{render_md(src)}</div>
+<h3>Files included</h3><ul>{file_list}</ul>
+<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
+<footer>McCombs AI Skills &middot; <a href="{REPO_URL}/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</body></html>"""
+    out = ROOT / "docs" / "skills" / f"{r['skill']}.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(page)
 
 
 def plugin_cards(report):
@@ -144,7 +203,8 @@ def main():
     page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>McCombs AI Skills Catalog</title><style>{CSS}</style></head><body>
-<header><h1>McCombs AI Skills Catalog</h1>
+<header><span class="contribute"><a href="{REPO_URL}/blob/master/CONTRIBUTING.md">Contribute a skill (no coding needed)</a></span>
+<h1>McCombs AI Skills Catalog</h1>
 <p>{n} skills for teaching and learning &middot; {both} work in both Claude EDU and ChatGPT &middot; updated {date.today().isoformat()}</p></header>
 <main><input id="q" placeholder="Search skills (e.g. case, slides, teaching note)&hellip;">
 <div class="chips">{chips}</div>

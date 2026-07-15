@@ -1,0 +1,199 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>beamer — McCombs AI Skills</title><style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:#faf9f7;color:#333}
+header{background:#BF5700;color:#fff;padding:28px 32px}
+header h1{margin:0 0 4px;font-size:26px} header p{margin:0;opacity:.9}
+main{max-width:960px;margin:24px auto;padding:0 16px}
+input#q{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;margin-bottom:18px;box-sizing:border-box}
+.card{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.card h2{margin:0 0 2px;font-size:18px} .plugin{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;vertical-align:2px}
+.desc{margin:8px 0 10px;font-size:14px;line-height:1.45}
+details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font-weight:600}
+.notes li{margin:2px 0} .install{background:#f5f2ee;border-radius:8px;padding:10px 14px;margin-top:8px}
+.install b{display:block;margin-bottom:2px}
+footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
+code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
+h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
+.chips{margin-bottom:16px}
+.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
+.chip.on{background:#BF5700;color:#fff}
+.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
+a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
+.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
+
+.doc{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
+.doc h1,.doc h2,.doc h3{color:#333} .doc pre{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}
+a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
+<header><h1>beamer</h1>
+<p>business-ai-tools &middot; v1.0 &middot; Slides &amp; Presentations &middot;
+<span class="badge" style="background:#b26a00">Both (see notes)</span></p></header>
+<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
+<div class="install"><b>Install</b>
+<a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/beamer.zip">Download beamer.zip</a> &mdash; then upload in
+<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
+<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
+<h3>Compatibility notes</h3><ul><li>Claude-specific frontmatter (ignored on other platforms): argument-hint, triggers</li><li>has external file references</li><li>written with Claude Code in mind</li><li>uses subagents (Claude feature)</li><li>allowed-tools pre-approves shell/agent tools (Claude Code oriented)</li></ul>
+<h3>About this skill</h3>
+<p><small>The content below is the skill's README.</small></p>
+<div class="doc"><h1>Beamer Slide Generator</h1>
+<p>Generate production-quality LaTeX Beamer presentations from source content. The skill handles the complete workflow: structure and register triage, citation strategy decision, outline checkpoint with content inventory, code-first figure generation, <code>.tex</code> authoring, compilation, and a merged quality audit agent.</p>
+<hr />
+<h2>Problem</h2>
+<p>Converting research, reports, or structured notes into slides requires three things that are hard to do consistently at the same time: visual quality, narrative structure, and technical correctness (clean compilation, no layout defects). Ad-hoc Beamer generation produces decks that compile but look wrong (TikZ overlaps, year values formatted as "2,024", sourcecite citations displaced, bars not centered over labels). The audit checklist exists because these defects recur and are not reliably caught by visual inspection alone.</p>
+<p>A second problem is mechanism selection. When everything is a TikZ diagram, the diagrams become harder to maintain and are no better looking than a well-styled booktabs table. This skill applies a decision matrix to route each slide to the right LaTeX mechanism before any <code>.tex</code> content is written.</p>
+<hr />
+<h2>Approach</h2>
+<p>The skill follows a staged pipeline that separates planning from execution:</p>
+<ol>
+<li><strong>Structure and register triage:</strong> match the request to a domain pattern (<code>structure=</code>: mba [default], teaching, faculty, professional, consulting, or working) that defines rhetoric balance, slide count range, density level, and which optional elements (Devil's Advocate slides, transition slides, code blocks) to include; and resolve the language level (<code>register=</code>: business [default] translates the source's domain jargon for a non-specialist reader, technical keeps it).</li>
+<li><strong>Citation strategy decision:</strong> state up front whether the deck is single-source (one paper or report drives 80 percent or more of slides; title-slide attribution, no per-slide citations) or multi-source (per-slide <code>\sourcecite{}</code> everywhere). Locks the strategy before slide writing so per-slide citations do not drift onto a single-source deck.</li>
+<li><strong>Outline checkpoint:</strong> produce a complete slide sequence with assertion titles, a figure plan, a source content inventory (Render / Compress / Drop per major table or figure with a reason for each Compress and Drop), and a citation strategy recap before writing any <code>.tex</code> content. Wait for approval.</li>
+<li><strong>Code-first figure generation:</strong> for any figures identified as needing matplotlib (per the decision matrix in <code>figure_generation.md</code>), write and run standalone Python scripts before authoring the <code>.tex</code> file. pgfplots figures are authored inline.</li>
+<li><strong>Figure extraction:</strong> for figures that must be pulled from source PDFs, render, verify, and crop before writing any <code>.tex</code> content.</li>
+<li><strong><code>.tex</code> authoring:</strong> copy the preamble verbatim from the style guide's Quick Reference section. Apply the visual mechanism decision table. Compute TikZ box heights from source before writing overlay text (do not rely on post-compilation visual inspection).</li>
+<li><strong>Compilation cycle:</strong> run <code>pdflatex</code> at least twice (required for <code>\sourcecite</code> overlay positioning). Fix all hbox/vbox warnings before proceeding.</li>
+<li><strong>Quality audit:</strong> launch one audit agent (general-purpose, on a strong model) that reads the style guide, the audit checklist, the compiled PDF, and the <code>.tex</code> source, then checks every slide against every checklist item including deck-level checks (citation strategy consolidation, Limitations format). Fix all findings and recompile.</li>
+<li><strong>Deliverable placement:</strong> copy <code>slides.pdf</code> to the parent folder as <code>&lt;base_name&gt;_slides.pdf</code>.</li>
+</ol>
+<hr />
+<h2>Design Rationale</h2>
+<p><strong>Why pdflatex only:</strong> The preamble uses <code>pdflatex</code>-compatible packages (<code>pgfplots</code>, <code>booktabs</code>, <code>colortbl</code>). Switching to lualatex or xelatex requires a font system incompatible with the <code>fontspec</code>-free setup, and the <code>\sourcecite</code> overlay uses <code>remember picture,overlay</code> which is sensitive to engine differences.</p>
+<p><strong>Why two pdflatex passes:</strong> The <code>\sourcecite{}</code> macro positions citations using a TikZ overlay with <code>remember picture,overlay</code>. This mechanism writes absolute page coordinates to the <code>.aux</code> file on the first pass and reads them back on the second. A single pass places the citation at coordinates from the previous run (or nowhere on a first compile), producing displaced citations.</p>
+<p><strong>Why the empty-box-plus-overlay pattern:</strong> Putting text inside a TikZ node with <code>minimum height</code> causes the node to expand beyond the minimum when content is tall enough. This produces non-uniform box heights in sibling groups. Drawing empty box nodes and overlaying text with a separate <code>\node[anchor=north west]</code> guarantees uniform box sizes regardless of content length. The pattern requires pre-computing content height before writing, which is why the checklist includes mandatory vertical arithmetic rather than visual inspection.</p>
+<p><strong>Why <code>axis lines=left</code> with <code>axis on top</code>:</strong> The default pgfplots axis draws a box (all four sides). On projected slides, this box reads as an unwanted border. <code>axis lines=left</code> draws only the left y-axis and bottom x-axis (L-shape). <code>axis on top</code> ensures bars do not visually cover the axis lines.</p>
+<p><strong>Why no <code>symbolic x coords</code>:</strong> Symbolic x coordinates prevent <code>xmin</code>/<code>xmax</code> padding from working correctly, making it impossible to ensure bars are fully contained within the chart boundary. Numerical coordinates with <code>xticklabels</code> produce reliable containment.</p>
+<p><strong>Why <code>bar shift=0pt</code> per <code>\addplot</code>:</strong> When multiple <code>\addplot</code> commands each draw a single bar at a different x-position (per-bar coloring), pgfplots treats each <code>\addplot</code> as a grouped series and applies a positional offset. Each bar shifts left or right of its label. <code>bar shift=0pt</code> forces each bar to render centered on its coordinate, overriding the grouped-series offset. The axis-level <code>ybar=0pt</code> option does not do this.</p>
+<p><strong>Why the circuit breaker:</strong> After three failed fix attempts on the same defect, the state of the <code>.tex</code> file degrades. Each attempt introduces side effects that obscure the original error. Stopping at three and reporting produces a recoverable state; continuing typically does not.</p>
+<p><strong>Why one merged audit agent:</strong> The former pipeline ran three separate agents (deck evaluation, graphics verification, quality checklist). Each agent had to load the full PDF and <code>.tex</code> source into context independently. A single agent reads the same files once and applies all three audit domains in one pass, producing equivalent findings at lower token cost.</p>
+<p><strong>Why the audit runs on a strong model:</strong> The audit is exhaustive rule application: scan every slide for every applicable pattern. Smaller models have been observed to spot-check rather than exhaustively apply, shipping defects the checklist had explicit rules for. A smaller tier is acceptable only for small decks (under 10 slides) with no TikZ boxes or charts.</p>
+<p><strong>Why the outline checkpoint requires a source content inventory:</strong> The most common information-loss pattern in this skill is silently collapsing two information-dense tables (for example, a "rises" table and a "falls" table, each with per-row magnitudes) into one categorical slide that strips the magnitudes. Requiring an explicit Render / Compress / Drop decision per major table or figure at outline time, with a one-line reason for each Compress and Drop, makes that decision visible and reviewable before any <code>.tex</code> is written.</p>
+<p><strong>Why the citation strategy decision is its own step:</strong> Single-source decks with <code>\sourcecite{}</code> repeated on every slide carry the same citation 15 times. The visual noise is significant. The audit can catch the pattern after the fact, but consolidating 14 of 15 slides post-audit forces a re-audit cycle. Deciding up front and pinning the choice into the approved outline prevents the drift.</p>
+<hr />
+<h2>The Compilation Cycle</h2>
+<pre><code>export PATH=&quot;/Library/TeX/texbin:$PATH&quot;
+
+# First pass: write .aux coordinates
+pdflatex slides.tex
+
+# (Optional) For Dropbox-synced directories, use a temp jobname:
+# pdflatex -jobname=slides_tmp slides.tex
+
+# Fix ALL hbox/vbox warnings before continuing.
+
+# Second pass: read .aux and stabilize \sourcecite overlay positions
+pdflatex slides.tex
+
+# If bibtex/biber is used:
+bibtex slides
+pdflatex slides.tex
+pdflatex slides.tex
+
+# Recompile again if log reports &quot;Label(s) may have changed&quot;
+</code></pre>
+<p>The two-pass minimum is non-negotiable for any deck using <code>\sourcecite{}</code>.</p>
+<hr />
+<h2>Usage</h2>
+<p><strong>From within Claude Code:</strong></p>
+<pre><code>beamer [content source] [structure=mba|teaching|faculty|professional|consulting|working] [register=business|technical]
+</code></pre>
+<p>Provide one or more of:
+- A <code>notes.md</code> file from a deep reading workflow (see <code>../split-pdf/SKILL.md</code>)
+- A <code>summary.md</code> file from a summarization workflow
+- Raw text or pasted content</p>
+<p>If no structure is specified, the skill defaults to <strong>MBA / Executive</strong> (Logos 50% / Ethos 25% / Pathos 25%, 8+ slides): the research-paper-to-slides skeleton that opens Title then Methodology then Summary and closes with Limitations, Conclusions, and Key Takeaways, each when appropriate. If no register is specified, it defaults to <strong>business</strong> (domain jargon translated or glossed for a non-specialist reader). The legacy <code>audience=</code> parameter still works as a deprecated alias for <code>structure=</code>.</p>
+<p><strong>Standalone invocation:</strong> If invoked without source content, the skill asks what to build slides from.</p>
+<p><strong>As part of a larger workflow:</strong> If notes and a summary already exist in the working subdirectory (produced by an upstream skill), the skill reads them directly without prompting.</p>
+<h3>Working on an existing deck (edit, audit, and PPTX modes)</h3>
+<p>Generating a deck is the default. The skill also works on a deck it produced earlier through three additional modes:</p>
+<ul>
+<li><strong>Edit</strong> (<code>mode=edit</code>, an edit/revise/fix trigger, or auto-detected when the working directory already contains a <code>*_build/slides.tex</code>): loads the existing source and context, presents a menu (edit, run the quality audit, or convert to PPTX), applies your changes, and runs the full compilation and audit cycle. If you report a visual defect, the skill reads the relevant slides, proposes a fix, and waits for approval before editing. Each delivered edit round is preserved as a numbered <code>vNN</code> version snapshot (PDF plus its paired <code>.tex</code>), so every version remains recoverable without Git.</li>
+<li><strong>Audit</strong> (<code>mode=audit</code> or an audit trigger): re-runs the quality audit against an already-compiled deck and applies fixes, without other content changes. Useful for revisiting a deck after a pause.</li>
+<li><strong>PPTX</strong> (<code>mode=pptx</code> or "convert to pptx"): converts the compiled PDF to a styled PowerPoint via the PPTX style guide workflow.</li>
+</ul>
+<p>After any PPTX conversion, the skill offers an optional <strong>PDF-vs-PPTX conversion audit</strong>: a slide-by-slide comparison that flags text, numeric, table, chart, image, and citation divergences between the Beamer PDF and the saved PPTX, then asks how to handle each finding. This is report-and-ask, not auto-fix, because conversion divergences are often judgment calls.</p>
+<h3>Build directory convention</h3>
+<p>The skill expects a <code>_build/</code> subdirectory inside the project folder. Name it <code>&lt;parent_folder_name&gt;_build/</code>. For example, a project in <code>2026-03-ai-energy/</code> gets a build folder at <code>2026-03-ai-energy/2026-03-ai-energy_build/</code>. The deliverable PDF is placed in the parent folder as <code>&lt;base_name&gt;_slides.pdf</code>.</p>
+<hr />
+<h2>Output</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Location</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>slides.tex</code></td>
+<td><code>_build/</code></td>
+<td>Beamer source (authoritative)</td>
+</tr>
+<tr>
+<td><code>slides.pdf</code></td>
+<td><code>_build/</code></td>
+<td>Compiled Beamer output</td>
+</tr>
+<tr>
+<td><code>outline.md</code></td>
+<td><code>_build/</code></td>
+<td>Approved outline from checkpoint</td>
+</tr>
+<tr>
+<td><code>figures/</code></td>
+<td><code>_build/</code></td>
+<td>Extracted and matplotlib-generated figures</td>
+</tr>
+<tr>
+<td><code>figures/originals/</code></td>
+<td><code>_build/</code></td>
+<td>Full-page PDF renders at 300 DPI (for re-cropping)</td>
+</tr>
+<tr>
+<td><code>scripts/</code></td>
+<td><code>_build/</code></td>
+<td>Standalone Python scripts for matplotlib figures</td>
+</tr>
+<tr>
+<td><code>&lt;base_name&gt;_slides.pdf</code></td>
+<td>Parent folder</td>
+<td>Deliverable PDF (auto-placed)</td>
+</tr>
+</tbody>
+</table>
+<p>Build intermediates (<code>.aux</code>, <code>.log</code>, <code>.nav</code>, <code>.out</code>, <code>.snm</code>, <code>.toc</code>) remain in <code>_build/</code> and are not moved.</p>
+<hr />
+<h2>Style Guide</h2>
+<p>Visual design is defined in <code>../../style-guides/beamer/style-guide.md</code>. Key specifications:</p>
+<ul>
+<li><strong>Document class:</strong> <code>\documentclass[aspectratio=169,10pt]{beamer}</code></li>
+<li><strong>Theme:</strong> <code>\usetheme{default}</code> with all colors overridden (no other theme)</li>
+<li><strong>Font:</strong> Beamer default sans-serif (Computer Modern Sans Serif); no <code>fontspec</code>, no <code>FiraSans</code>, no <code>lmodern</code></li>
+<li><strong>Color palette:</strong> 13 named colors including SlateNavy, DeepTeal, CyanBlue, DustyPlum, CharText, and MedGray (reserved for <code>\sourcecite</code> text and chart reference lines only)</li>
+<li><strong>Preamble:</strong> copy verbatim from the Quick Reference section; do not reconstruct from memory</li>
+<li><strong>Citations:</strong> <code>\sourcecite{}</code> macro with Chicago Author-Date format; no ad-hoc "Source: X" text</li>
+<li><strong>Overflow rule:</strong> never use <code>[shrink=N]</code> on frames; never drop below <code>\small</code> for primary TikZ content; reduce content instead</li>
+</ul>
+<p>The audit checklist in <code>audit-checklist.md</code> covers all style guide compliance checks, plus TikZ geometry checks, pgfplots axis containment checks, and narrative arc checks.</p>
+<hr />
+<h2>Installation</h2>
+<ol>
+<li>Copy the entire <code>skills/beamer/</code> directory (which includes <code>SKILL.md</code>, <code>audit-checklist.md</code>, <code>domain_patterns.md</code>, and <code>figure_generation.md</code>) into <code>~/.claude/skills/beamer/</code>. All four files are needed; the audit checklist runs in the quality audit step, domain patterns drive the structure triage, and figure generation guides matplotlib output.</li>
+<li>Install TeX Live (or MacTeX on macOS) so <code>pdflatex</code> is on your <code>PATH</code>. The skill checks for <code>pdflatex</code> at the start of every run and stops if it is missing. Install instructions for each OS are in <code>SKILL.md</code> Step 0.</li>
+<li>Copy <code>style-guides/beamer/style-guide.md</code> into the matching path on your system, or update the reference in <code>SKILL.md</code> to point at your own Beamer style guide.</li>
+<li>Restart Claude Code (or run <code>/skills</code> to reload).</li>
+<li>Trigger by saying "build a deck," "make a beamer presentation," or any other phrase listed under Usage.</li>
+</ol>
+<h2>Acknowledgments</h2>
+<p>The code-first figure generation approach, audience-aware rhetoric patterns, Devil's Advocate slides, and transition slide conventions in this skill are adapted from <strong>Scott Cunningham's</strong> <code>beautiful_deck</code> skill. Scott Cunningham is Professor of Economics, Baylor University, and the author of <em>Causal Inference: The Mixtape</em>. His original work is available in the <a href="https://github.com/scunning1975/MixtapeTools">MixtapeTools</a> repository.</p>
+<ul>
+<li><a href="https://www.linkedin.com/in/scott-cunningham-7788912/">LinkedIn</a></li>
+<li><a href="https://github.com/scunning1975">GitHub</a></li>
+</ul>
+<p>The <code>\sourcecite{}</code> overlay macro, color palette, and quality audit checklist are original additions.</p></div>
+<h3>Files included</h3><ul><li><code>README.md</code></li><li><code>SKILL.md</code></li><li><code>audit-checklist.md</code></li><li><code>domain_patterns.md</code></li><li><code>figure_generation.md</code></li></ul>
+<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
+<footer>McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</body></html>

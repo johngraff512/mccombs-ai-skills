@@ -1,0 +1,89 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>summary-academic — McCombs AI Skills</title><style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:#faf9f7;color:#333}
+header{background:#BF5700;color:#fff;padding:28px 32px}
+header h1{margin:0 0 4px;font-size:26px} header p{margin:0;opacity:.9}
+main{max-width:960px;margin:24px auto;padding:0 16px}
+input#q{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;margin-bottom:18px;box-sizing:border-box}
+.card{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.card h2{margin:0 0 2px;font-size:18px} .plugin{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;vertical-align:2px}
+.desc{margin:8px 0 10px;font-size:14px;line-height:1.45}
+details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font-weight:600}
+.notes li{margin:2px 0} .install{background:#f5f2ee;border-radius:8px;padding:10px 14px;margin-top:8px}
+.install b{display:block;margin-bottom:2px}
+footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
+code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
+h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
+.chips{margin-bottom:16px}
+.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
+.chip.on{background:#BF5700;color:#fff}
+.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
+a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
+.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
+
+.doc{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
+.doc h1,.doc h2,.doc h3{color:#333} .doc pre{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}
+a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
+<header><h1>summary-academic</h1>
+<p>business-ai-tools &middot; v1.0 &middot; Research &amp; Summaries &middot;
+<span class="badge" style="background:#b26a00">Both (see notes)</span></p></header>
+<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
+<div class="install"><b>Install</b>
+<a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-academic.zip">Download summary-academic.zip</a> &mdash; then upload in
+<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
+<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
+<h3>Compatibility notes</h3><ul><li>Claude-specific frontmatter (ignored on other platforms): triggers</li><li>uses subagents (Claude feature)</li></ul>
+<h3>About this skill</h3>
+<p><small>The content below is the skill's README.</small></p>
+<div class="doc"><h1>Academic Paper Summary</h1>
+<p>Turn an academic paper into a structured, citation-backed summary with a consistent section layout every time.</p>
+<h2>Problem</h2>
+<p>Research papers are dense, and ad-hoc summaries come out shaped differently every time: sometimes a wall of prose, sometimes a citation with no methodology, sometimes a confident gloss that quietly drops the population studied or the effect sizes. When you summarize many papers, that inconsistency makes them hard to compare and hard to file. You also want the summary to read as direct exposition, not as a book report about "what the authors argue."</p>
+<p>This skill fixes the shape. Every paper comes out with the same nine sections, a correct Chicago Author-Date citation, and an expository voice that states findings as facts rather than narrating the source.</p>
+<h2>Approach</h2>
+<p>The skill enforces a fixed output contract. The structure is the same for every paper, so a stack of summaries is directly comparable, and sections that do not apply (population for a theoretical paper, issues when there are none) are skipped cleanly rather than padded.</p>
+<p>Two design choices carry most of the value. First, the expository-style rule bans "the author," "the paper," and "the study argues," which forces the summary to commit to the content instead of hedging behind attribution. Second, the citation block is format-aware: published articles, preprints, and working papers each get the correct Chicago Author-Date form, so the summary is ready to cite without rework.</p>
+<p>A quick variant trades depth for speed: citation, one-sentence thesis, a handful of key points, and a short summary paragraph.</p>
+<h2>The Flow</h2>
+<ol>
+<li><strong>Read the source.</strong> A PDF of 4 pages or fewer is read directly. A longer PDF is split into 4-page chunks and read in a subagent that writes notes, which keeps the full document out of the main context window and avoids a shallow skim. Text, web links, and pasted content are read in place. If a prior text extract exists, it is read instead of re-processing the PDF.</li>
+<li><strong>Compose the citation.</strong> Chicago Author-Date, with the correct variant for a published article, a preprint, or a working paper.</li>
+<li><strong>State the thesis.</strong> One sentence, with explicit handling for literature reviews, meta-analyses, and exploratory studies that have no single thesis.</li>
+<li><strong>Fill the fixed sections.</strong> Key points, conclusions with quantified effects, population and methodology, implications, undergraduate-level concepts, and any factual errors, fallacies, or strong unaddressed counterarguments. Inapplicable sections are skipped.</li>
+<li><strong>Write the summary paragraph.</strong> 100 to 300 words, neutral, scaled to the complexity of the conclusions.</li>
+<li><strong>Save.</strong> Written to <code>&lt;project_name&gt;_summary.md</code> in the project folder.</li>
+</ol>
+<h2>Usage</h2>
+<p><strong>Trigger phrases:</strong> <code>summarize this paper</code>, <code>summarize this research</code>, <code>academic summary</code>, <code>/academic-summary</code>, <code>quick academic summary</code>, <code>brief paper summary</code>, <code>/academic-summary quick</code></p>
+<p><strong>Good uses:</strong>
+- Building a comparable library of paper summaries you will revisit or cite
+- Getting the methodology, population, and effect sizes pulled out cleanly, not just the headline
+- A fast read on whether a paper is worth a full read (use the quick variant)</p>
+<p><strong>Not good uses:</strong>
+- News, blog posts, videos, or podcasts (use the summary-general skill)
+- A reading you intend to quote at length (read the source; a summary is not a substitute)</p>
+<p><strong>Tips:</strong>
+- Pass a file path rather than pasting a long paper.
+- If you have already extracted the text once, keep the <code>&lt;basename&gt;_text.md</code> file next to the PDF; the skill reads it instead of re-splitting.
+- Use the quick variant for triage, the full variant for papers you will actually use.</p>
+<h2>Installation</h2>
+<ol>
+<li>Copy <code>SKILL.md</code> to <code>~/.claude/skills/summary-academic/SKILL.md</code>.</li>
+<li>Restart Claude Code (or start a new session).</li>
+<li>The skill activates on any trigger phrase above.</li>
+</ol>
+<p>This skill pairs with the <a href="../split-pdf/">split-pdf</a> skill for long PDFs and with the <a href="../summary-general/">summary-general</a> skill for non-academic content. Install those too if you want the full set.</p>
+<h2>Output</h2>
+<p>A single markdown file, <code>&lt;project_name&gt;_summary.md</code>, written to the project folder. <code>&lt;project_name&gt;</code> resolves to a name you specified, otherwise the source filename without its extension, otherwise the folder name.</p>
+<h2>Design Rationale</h2>
+<p><strong>A fixed nine-section contract.</strong> Comparability is the point. When every paper has the same sections in the same order, a folder of summaries becomes a dataset you can scan, not a pile of differently-shaped notes.</p>
+<p><strong>Expository voice, no source references.</strong> Banning "the author argues" forces the summary to assert the content. A summary that hides behind attribution on every line is harder to use and quietly less accountable for whether the claim is right.</p>
+<p><strong>Format-aware citations.</strong> A preprint is not a published article and a working paper is not either. Encoding the three Chicago Author-Date variants means the citation is correct on the first pass.</p>
+<p><strong>Skip, do not pad.</strong> Theoretical papers have no population; many papers have no factual errors. The skill omits those sections entirely rather than writing "not applicable," which keeps the summary honest about what it actually contains.</p>
+<p><strong>A quick variant for triage.</strong> Deciding whether to read a paper is a different task from summarizing one you have committed to. The quick variant serves the first without pretending to do the second.</p></div>
+<h3>Files included</h3><ul><li><code>README.md</code></li><li><code>SKILL.md</code></li></ul>
+<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
+<footer>McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</body></html>

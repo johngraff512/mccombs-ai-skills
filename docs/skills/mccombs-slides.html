@@ -1,0 +1,222 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>mccombs-slides — McCombs AI Skills</title><style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:#faf9f7;color:#333}
+header{background:#BF5700;color:#fff;padding:28px 32px}
+header h1{margin:0 0 4px;font-size:26px} header p{margin:0;opacity:.9}
+main{max-width:960px;margin:24px auto;padding:0 16px}
+input#q{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;margin-bottom:18px;box-sizing:border-box}
+.card{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.card h2{margin:0 0 2px;font-size:18px} .plugin{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;vertical-align:2px}
+.desc{margin:8px 0 10px;font-size:14px;line-height:1.45}
+details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font-weight:600}
+.notes li{margin:2px 0} .install{background:#f5f2ee;border-radius:8px;padding:10px 14px;margin-top:8px}
+.install b{display:block;margin-bottom:2px}
+footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
+code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
+h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
+.chips{margin-bottom:16px}
+.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
+.chip.on{background:#BF5700;color:#fff}
+.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
+a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
+.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
+
+.doc{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
+.doc h1,.doc h2,.doc h3{color:#333} .doc pre{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}
+a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
+<header><h1>mccombs-slides</h1>
+<p>mccombs-case-toolkit &middot; v1.0 &middot; Slides &amp; Presentations &middot;
+<span class="badge" style="background:#2e7d32">Both platforms</span></p></header>
+<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
+<div class="install"><b>Install</b>
+<a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-slides.zip">Download mccombs-slides.zip</a> &mdash; then upload in
+<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
+<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
+
+<h3>About this skill</h3>
+<p><small>The content below is the skill's full instructions (SKILL.md) — exactly what the AI follows when you use it.</small></p>
+<div class="doc"><h1>McCombs Slides Skill</h1>
+<p>Create professional presentations that follow McCombs School of Business brand standards.</p>
+<h2>Quick Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Specification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primary Color</td>
+<td>Burnt Orange <code>#C05900</code></td>
+</tr>
+<tr>
+<td>Secondary Colors</td>
+<td>Steel Gray <code>#9CACB6</code>, Dark Blue <code>#005E86</code></td>
+</tr>
+<tr>
+<td>Fonts</td>
+<td>Arial (body), Arial Black (headlines), Georgia (serif accent)</td>
+</tr>
+<tr>
+<td>Slide Size</td>
+<td>16:9 widescreen</td>
+</tr>
+</tbody>
+</table>
+<h2>Workflow</h2>
+<ol>
+<li>Read full style guidelines: <code>references/style-guidelines.md</code></li>
+<li>Follow the pptx skill for technical creation: <code>/mnt/skills/public/pptx/SKILL.md</code></li>
+<li>Apply McCombs brand standards throughout</li>
+<li>Use the template in <code>assets/UT_MSB_Template.pptx</code> as reference for layouts</li>
+<li><strong>Verify against the source before delivering.</strong> Re-read the source table/figure and
+   confirm every measured value plotted or quoted on a slide matches the source. List any
+   value you could not verify, and flag illustrative charts explicitly. Do not deliver a
+   chart presented as data unless its numbers trace back to the source.</li>
+</ol>
+<h2>Brand Colors</h2>
+<h3>Primary</h3>
+<ul>
+<li><strong>Burnt Orange</strong>: <code>#C05900</code> — headlines, accents, title slide backgrounds</li>
+<li><strong>White</strong>: <code>#FFFFFF</code> — backgrounds, text on dark</li>
+<li><strong>Steel Gray</strong>: <code>#9CACB6</code> — secondary accent</li>
+<li><strong>Warm Gray</strong>: <code>#D6D2C4</code> — neutral backgrounds</li>
+</ul>
+<h3>Accent (for charts/emphasis)</h3>
+<ul>
+<li>Bright Orange: <code>#F7961F</code></li>
+<li>Yellow: <code>#FFD600</code></li>
+<li>Green: <code>#579C41</code></li>
+<li>Dark Blue: <code>#005E86</code></li>
+<li>Teal: <code>#00A8B6</code></li>
+</ul>
+<h2>Typography Rules</h2>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Font</th>
+<th>Size</th>
+<th>Style</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Headlines</td>
+<td>Arial Black</td>
+<td>48pt</td>
+<td>ALL CAPS</td>
+</tr>
+<tr>
+<td>Subtitles</td>
+<td>Arial</td>
+<td>24pt</td>
+<td>Sentence case</td>
+</tr>
+<tr>
+<td>Body</td>
+<td>Arial</td>
+<td>18pt</td>
+<td>Sentence case</td>
+</tr>
+<tr>
+<td>Captions</td>
+<td>Arial</td>
+<td>12-14pt</td>
+<td>Sentence case</td>
+</tr>
+</tbody>
+</table>
+<h2>Slide Types</h2>
+<h3>Title Slide</h3>
+<ul>
+<li>Burnt Orange background</li>
+<li>White text, Arial Black, ALL CAPS headline</li>
+<li>White dividing line above presenter info</li>
+<li>Presenter name bold, title regular</li>
+</ul>
+<h3>Content Slide</h3>
+<ul>
+<li>White background</li>
+<li>Title at top</li>
+<li>1-3 key points maximum</li>
+<li>Logo placement: lower-left</li>
+</ul>
+<h3>Section Divider</h3>
+<ul>
+<li>Centered headline</li>
+<li>White or orange background</li>
+<li>Use for transitions between major sections</li>
+</ul>
+<h2>Working from a Reference Image</h2>
+<p>When the user provides a reference image (a slide to match or a paper figure to recreate):</p>
+<ol>
+<li>Reproduce the <strong>layout</strong> — relative position and grouping of title, columns, cards,
+   chart, and captions — rather than inventing a new arrangement.</li>
+<li>Re-skin it to McCombs brand (colors, Arial/Arial Black/Georgia, 14pt minimum) instead
+   of copying the source's styling.</li>
+<li>Keep all elements native and editable (see Charts and Data).</li>
+<li><strong>Preserve the source's wording for findings and claims exactly</strong> — do not paraphrase or
+   "improve" a stated finding; if rephrasing is needed, ask first.</li>
+<li>Save as a <strong>new file</strong>, never overwriting the user's existing slide.</li>
+</ol>
+<h2>Content Guidelines</h2>
+<ul>
+<li>Use active voice</li>
+<li>Front-load key information</li>
+<li>Keep slides focused and readable</li>
+<li><strong>Source footer:</strong> every slide built from external material gets a small source line
+  (Arial 10–12pt, Steel Gray, bottom-left or bottom-right). Use the cited source when
+  known; use "Pre-publication research" when the source is unpublished/illustrative.
+  Apply this for consistency across a deck even when a single reference image didn't show
+  one — if unsure whether to include it, default to adding it and note it to the user.</li>
+</ul>
+<h2>Charts and Data</h2>
+<p>Apply colors in order: Burnt Orange → Dark Blue → Steel Gray → Bright Orange → Green → Yellow</p>
+<ul>
+<li>Remove unnecessary gridlines</li>
+<li>Use direct data labels when possible</li>
+<li>Avoid 3D effects</li>
+<li>Title every chart clearly</li>
+</ul>
+<h3>Rebuild figures as native, editable charts (default)</h3>
+<p>When recreating a figure from a paper, report, or reference image, build it as a
+<strong>native PowerPoint chart or native shapes</strong> — never a pasted screenshot or flattened
+image. Axes, gridlines, data series, baselines, and labels must all be individually
+editable in PowerPoint. This is the default for every figure unless the user explicitly
+asks for an image copy.</p>
+<h3>Measured vs. illustrative data — always label it</h3>
+<p>For every chart, decide and state which it is:</p>
+<ul>
+<li><strong>Measured</strong> — the plotted values come from the source's actual data/tables. Use these
+  exact values; do not round or "clean" them without saying so.</li>
+<li><strong>Illustrative</strong> — the shape conveys a pattern but the values are not measured. When a
+  chart is illustrative, add a small caption such as "Illustrative — not to scale" so it
+  is never mistaken for data.</li>
+</ul>
+<p>Tell the user, in the delivery message, which charts are measured and which are illustrative.</p>
+<h2>Things to Avoid</h2>
+<ul>
+<li>Text smaller than 14pt</li>
+<li>Colors outside brand palette</li>
+<li>Clip art or low-quality images</li>
+<li>Busy backgrounds</li>
+<li>Heavy drop shadows or 3D effects</li>
+<li>Horizontal lines separating title from body (use whitespace instead)</li>
+</ul>
+<h2>QA Checklist</h2>
+<p>Before finalizing:
+- [ ] Arial/Georgia fonts only
+- [ ] Colors match brand palette
+- [ ] Text readable at 14pt minimum
+- [ ] Consistent alignment throughout
+- [ ] All recreated figures are native/editable (no pasted screenshots)
+- [ ] Measured values verified against the source; illustrative charts labeled as such
+- [ ] Source footer present (or "Pre-publication research"); saved as a new file</p></div>
+<h3>Files included</h3><ul><li><code>SKILL.md</code></li><li><code>assets/UT_MSB_Template.pptx</code></li><li><code>references/style-guidelines.md</code></li></ul>
+<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
+<footer>McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</body></html>

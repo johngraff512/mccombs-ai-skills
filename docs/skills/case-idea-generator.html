@@ -1,0 +1,181 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>case-idea-generator — McCombs AI Skills</title><style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:#faf9f7;color:#333}
+header{background:#BF5700;color:#fff;padding:28px 32px}
+header h1{margin:0 0 4px;font-size:26px} header p{margin:0;opacity:.9}
+main{max-width:960px;margin:24px auto;padding:0 16px}
+input#q{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;margin-bottom:18px;box-sizing:border-box}
+.card{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.card h2{margin:0 0 2px;font-size:18px} .plugin{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;vertical-align:2px}
+.desc{margin:8px 0 10px;font-size:14px;line-height:1.45}
+details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font-weight:600}
+.notes li{margin:2px 0} .install{background:#f5f2ee;border-radius:8px;padding:10px 14px;margin-top:8px}
+.install b{display:block;margin-bottom:2px}
+footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
+code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
+h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
+.chips{margin-bottom:16px}
+.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
+.chip.on{background:#BF5700;color:#fff}
+.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
+a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
+.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
+
+.doc{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
+.doc h1,.doc h2,.doc h3{color:#333} .doc pre{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}
+a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
+<header><h1>case-idea-generator</h1>
+<p>mccombs-case-toolkit &middot; v1.0 &middot; Case Writing &middot;
+<span class="badge" style="background:#b26a00">Both (see notes)</span></p></header>
+<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
+<div class="install"><b>Install</b>
+<a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip">Download case-idea-generator.zip</a> &mdash; then upload in
+<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
+<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
+<h3>Compatibility notes</h3><ul><li>has external file references</li><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul>
+<h3>About this skill</h3>
+<p><small>The content below is the skill's full instructions (SKILL.md) — exactly what the AI follows when you use it.</small></p>
+<div class="doc"><h1>Case Idea Generator</h1>
+<p>Generate a curated set of 3–5 business case ideas for MBA/EMBA instruction, delivered as a McCombs-branded Word document. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See <code>../shared/discipline-guide.md</code> for department-specific frameworks and dilemma types.</p>
+<h2>Description</h2>
+<p>Use this skill when a faculty member wants to brainstorm case ideas for a course, module, or framework. The skill takes a topic, strategic framework, industry, or course context and produces a short list of high-potential case ideas — each with enough detail to evaluate whether it's worth developing into a full teaching case.</p>
+<p><strong>Trigger phrases:</strong> "case ideas," "brainstorm cases," "what companies could I write a case about," "find me a good case topic," "case idea generator," "suggest cases for my course"</p>
+<h2>Workflow</h2>
+<h3>Phase 1: Gather Inputs</h3>
+<p>Ask the instructor for context. At minimum, get ONE of the following:</p>
+<ul>
+<li><strong>Topic or framework</strong> (e.g., Strategy: "competitive advantage," "platform strategy," "Five Forces"; Finance: "capital structure," "valuation," "M&amp;A"; Marketing: "customer segmentation," "brand repositioning," "pricing strategy"; Operations: "supply chain risk," "quality management"; MIS: "digital transformation," "data governance")</li>
+<li><strong>Industry or sector</strong> (e.g., "healthcare AI," "electric vehicles," "fintech")</li>
+<li><strong>Course context</strong> (e.g., "second week of MBA Strategic Management — we cover industry analysis," or "module 3 of Financial Analysis — we cover capital allocation")</li>
+<li><strong>A specific company or situation</strong> they've been thinking about</li>
+</ul>
+<p>Also ask (if not provided):</p>
+<ul>
+<li><strong>Target audience</strong>: MBA, EMBA, undergraduate, or executive education</li>
+<li><strong>Recency preference</strong>: Should ideas be current (last 1-2 years) or is historical ok?</li>
+<li><strong>Any companies or industries to avoid?</strong> (e.g., cases they already use)</li>
+</ul>
+<h3>Phase 2: Research and Identify Ideas</h3>
+<p>Use <strong>web search</strong> to find 3–5 companies/situations that meet these criteria:</p>
+<ol>
+<li><strong>Genuine dilemma</strong> — not just an interesting company, but a specific decision point where reasonable people could disagree (this may be a strategic, financial, marketing, operational, or technology dilemma depending on the discipline)</li>
+<li><strong>Identifiable protagonist</strong> — a named decision-maker (CEO, founder, division head, CFO, CMO, CTO, CIO) facing the dilemma</li>
+<li><strong>Teachable frameworks</strong> — the situation naturally lends itself to at least 2 frameworks in the discipline (see <code>../shared/discipline-guide.md</code> for framework lists by department)</li>
+<li><strong>Data availability</strong> — sufficient public information exists (financials, press coverage, analyst reports) to write a full case</li>
+<li><strong>Student engagement</strong> — the company or industry is relevant and interesting to the target audience</li>
+</ol>
+<p>For each idea, gather enough detail to write a compelling summary. Prioritize specificity over breadth — a concrete dilemma beats a vague "this company is interesting."</p>
+<h3>Phase 3: Structure the Ideas</h3>
+<p>For each case idea, prepare the following elements:</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Company</strong></td>
+<td>Name and brief identifier (e.g., "Stripe — fintech payments infrastructure")</td>
+</tr>
+<tr>
+<td><strong>Protagonist</strong></td>
+<td>Named decision-maker and their role</td>
+</tr>
+<tr>
+<td><strong>The Dilemma</strong></td>
+<td>2-3 sentence description of the specific strategic decision. Must be a genuine fork in the road with at least 2 defensible paths</td>
+</tr>
+<tr>
+<td><strong>Why It's Teachable</strong></td>
+<td>What makes this case pedagogically valuable — what will students learn?</td>
+</tr>
+<tr>
+<td><strong>Key Frameworks</strong></td>
+<td>2-3 strategic frameworks that apply (e.g., Five Forces, VRIO, platform economics, network effects)</td>
+</tr>
+<tr>
+<td><strong>Strategic Options</strong></td>
+<td>2-3 distinct paths the protagonist could take</td>
+</tr>
+<tr>
+<td><strong>Data Availability</strong></td>
+<td>Assessment of whether enough public data exists to write a full case (financial data, press coverage, industry reports). Flag any gaps</td>
+</tr>
+<tr>
+<td><strong>Timeliness</strong></td>
+<td>Is this situation current, recent, or historical? Any risk of the situation resolving before the case is written?</td>
+</tr>
+<tr>
+<td><strong>Source leads</strong></td>
+<td>3-5 specific sources to start from (articles, reports, filings)</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 4: Generate the Document</h3>
+<p>Write the content as a JSON object following the schema below, then generate the .docx:</p>
+<pre><code class="language-json">{
+  &quot;title&quot;: &quot;Case Ideas: [Topic/Framework]&quot;,
+  &quot;meta&quot;: &quot;McCombs School of Business  |  [Date]&quot;,
+  &quot;context&quot;: {
+    &quot;requestedBy&quot;: &quot;Faculty name (if known)&quot;,
+    &quot;topic&quot;: &quot;The topic, framework, or course context provided&quot;,
+    &quot;audience&quot;: &quot;MBA / EMBA / Undergraduate / Executive Education&quot;,
+    &quot;generatedDate&quot;: &quot;Month Year&quot;
+  },
+  &quot;ideas&quot;: [
+    {
+      &quot;company&quot;: &quot;Company Name — brief identifier&quot;,
+      &quot;protagonist&quot;: &quot;Name, Title&quot;,
+      &quot;dilemma&quot;: &quot;2-3 sentence description of the specific strategic decision...&quot;,
+      &quot;whyTeachable&quot;: &quot;What makes this pedagogically valuable...&quot;,
+      &quot;frameworks&quot;: [&quot;Framework 1&quot;, &quot;Framework 2&quot;, &quot;Framework 3&quot;],
+      &quot;strategicOptions&quot;: [
+        &quot;Option 1: brief description&quot;,
+        &quot;Option 2: brief description&quot;,
+        &quot;Option 3: brief description (if applicable)&quot;
+      ],
+      &quot;dataAvailability&quot;: &quot;Assessment of public data availability...&quot;,
+      &quot;timeliness&quot;: &quot;Current / Recent / Historical — with context&quot;,
+      &quot;sourceleads&quot;: [
+        &quot;Source 1: description&quot;,
+        &quot;Source 2: description&quot;,
+        &quot;Source 3: description&quot;
+      ]
+    }
+  ],
+  &quot;selectionNotes&quot;: &quot;Brief note on how these ideas were selected and any patterns across them&quot;
+}
+</code></pre>
+<p>Then run the docx generation script:</p>
+<pre><code class="language-bash">node /path/to/skills/case-idea-generator/scripts/generate_ideas_docx.js &lt;input.json&gt; &lt;output.docx&gt;
+</code></pre>
+<h3>Phase 5: Review and Iterate</h3>
+<p>Present the document to the instructor. They may want to:
+- Drop ideas that don't fit
+- Ask for deeper research on a promising idea
+- Request additional ideas in a different direction
+- Take a strong idea directly into the Case Generator skill</p>
+<p>When an instructor wants to develop an idea into a full case, hand off to the <strong>Case Generator</strong> skill with the idea's details as the starting brief.</p>
+<h2>Quality Standards</h2>
+<p>Each case idea must pass these checks:</p>
+<ul>
+<li>[ ] The dilemma is specific — not "Company X faces challenges" but "CEO Y must decide between A and B by Q3 2026"</li>
+<li>[ ] At least 2 strategic options are genuinely defensible</li>
+<li>[ ] The situation maps to identifiable frameworks</li>
+<li>[ ] Sufficient public data exists to write a full case</li>
+<li>[ ] The protagonist is a real, named person</li>
+<li>[ ] Source leads are specific (not just "Google it")</li>
+</ul>
+<h2>References</h2>
+<ul>
+<li><code>references/idea-quality.md</code> — criteria for evaluating case idea quality</li>
+<li><code>assets/mccombs_logo.png</code> — McCombs logo for document header</li>
+</ul></div>
+<h3>Files included</h3><ul><li><code>SKILL.md</code></li><li><code>assets/McCombs_Basic.dotx</code></li><li><code>assets/mccombs_logo.png</code></li><li><code>references/idea-quality.md</code></li><li><code>scripts/generate_ideas_docx.js</code></li></ul>
+<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
+<footer>McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</body></html>

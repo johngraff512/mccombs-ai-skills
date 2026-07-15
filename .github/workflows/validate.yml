@@ -19,7 +19,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install pyyaml
+        run: pip install pyyaml markdown
 
       - name: Spec compliance + platform compatibility check
         run: python3 scripts/check_skills.py --strict --json docs/compat-report.json

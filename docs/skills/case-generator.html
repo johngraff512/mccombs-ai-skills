@@ -1,0 +1,185 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>case-generator — McCombs AI Skills</title><style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:#faf9f7;color:#333}
+header{background:#BF5700;color:#fff;padding:28px 32px}
+header h1{margin:0 0 4px;font-size:26px} header p{margin:0;opacity:.9}
+main{max-width:960px;margin:24px auto;padding:0 16px}
+input#q{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;margin-bottom:18px;box-sizing:border-box}
+.card{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.card h2{margin:0 0 2px;font-size:18px} .plugin{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;vertical-align:2px}
+.desc{margin:8px 0 10px;font-size:14px;line-height:1.45}
+details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font-weight:600}
+.notes li{margin:2px 0} .install{background:#f5f2ee;border-radius:8px;padding:10px 14px;margin-top:8px}
+.install b{display:block;margin-bottom:2px}
+footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
+code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
+h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
+.chips{margin-bottom:16px}
+.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
+.chip.on{background:#BF5700;color:#fff}
+.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
+a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
+.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
+
+.doc{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
+.doc h1,.doc h2,.doc h3{color:#333} .doc pre{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}
+a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
+<header><h1>case-generator</h1>
+<p>mccombs-case-toolkit &middot; v1.0 &middot; Case Writing &middot;
+<span class="badge" style="background:#b26a00">Both (see notes)</span></p></header>
+<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
+<div class="install"><b>Install</b>
+<a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip">Download case-generator.zip</a> &mdash; then upload in
+<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
+<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
+<h3>Compatibility notes</h3><ul><li>has external file references</li><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul>
+<h3>About this skill</h3>
+<p><small>The content below is the skill's full instructions (SKILL.md) — exactly what the AI follows when you use it.</small></p>
+<div class="doc"><h1>Case Generator Skill</h1>
+<p>Create professional, classroom-ready business cases as McCombs-branded Word documents. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See <code>../shared/discipline-guide.md</code> for department-specific guidance on framing, frameworks, and exhibits.</p>
+<h2>What This Skill Produces</h2>
+<p>A polished .docx business case document containing:
+- McCombs School of Business logo header
+- Opening hook with protagonist and decision
+- Company/industry background with historical context
+- The core dilemma with tensions, trade-offs, and constraints
+- Supporting evidence and exhibits
+- Closing that restates the decision to be made
+- Sources section with all references</p>
+<h2>Workflow</h2>
+<h3>Phase 1: Gather Information from the Instructor</h3>
+<p>Before doing any research or writing, collect these inputs through conversation:</p>
+<ol>
+<li><strong>Case type</strong>: Company-specific or topic-specific?</li>
+<li><strong>Company/topic</strong>: Which company, or what topic/trend?</li>
+<li><strong>Learning objectives</strong>: 2-5 learning objectives for the class session. Each objective must start with a Bloom's taxonomy action verb (analyze, evaluate, assess, apply, create, etc.) and specify both the skill and the framework or context. If the instructor provides topics instead of properly formed objectives, reformulate them into Bloom's format and confirm. Examples by discipline:</li>
+<li>Strategy: "Evaluate how [company] builds and sustains competitive advantage by applying Porter's Five Forces and resource-based view frameworks."</li>
+<li>Finance: "Analyze the capital allocation decision using DCF and comparable company valuation frameworks."</li>
+<li>Marketing: "Evaluate the company's market positioning by applying segmentation, targeting, and positioning (STP) analysis."</li>
+<li>Operations: "Assess the supply chain trade-offs using process mapping and bottleneck analysis."</li>
+<li>MIS: "Evaluate the build-vs-buy technology decision using IT portfolio management frameworks."</li>
+<li><strong>Course level</strong>: Undergraduate, MBA, or Executive MBA?</li>
+<li><strong>Discipline</strong>: Strategy, Marketing, Finance, Operations, Management, etc.</li>
+<li><strong>Instructor-provided materials</strong> (optional): Any URLs, PDFs, or articles the instructor has already found</li>
+</ol>
+<p>If the instructor provides a company name and objectives upfront, confirm the details and proceed. Don't force them through unnecessary questions if they've been clear about what they want.</p>
+<h3>Phase 2: Research</h3>
+<p>Use web search to find current, relevant content about the company or topic. Search for:</p>
+<ul>
+<li>Recent news articles (within the last 6-12 months)</li>
+<li>Strategic decisions, challenges, or dilemmas the company faces</li>
+<li>Executive quotes or perspectives</li>
+<li>Financial or operational data points</li>
+<li>Competitive landscape context</li>
+<li>Multiple stakeholder perspectives</li>
+</ul>
+<p>For <strong>topic-specific cases</strong>, also search for:
+- 2-3 companies illustrating different approaches to the topic
+- Industry trends and evolution
+- Conflicting viewpoints from experts</p>
+<p>If the instructor provided URLs or uploaded documents, read those first and use them as primary sources. Supplement with web search to fill gaps.</p>
+<p><strong>Research quality matters.</strong> Aim for 5-10 substantive sources. Flag for the instructor if you can't find enough current coverage of their chosen company/topic.</p>
+<h3>Phase 3: Outline and Confirm</h3>
+<p>Present a brief outline to the instructor before writing the full case:</p>
+<ul>
+<li><strong>Protagonist</strong>: Who is the decision-maker?</li>
+<li><strong>Core dilemma</strong>: What decision must they make? What are the 2+ viable options?</li>
+<li><strong>Key tensions</strong>: What makes this decision hard?</li>
+<li><strong>Proposed sections</strong>: Brief description of background, evidence, and exhibits you plan to include</li>
+</ul>
+<p>Wait for the instructor's confirmation or adjustments before proceeding to writing.</p>
+<h3>Phase 4: Write the Case</h3>
+<p>Read <code>references/case-structure.md</code> for the detailed case writing guidelines. The case narrative should follow this structure:</p>
+<p><strong>For company-specific cases:</strong>
+1. Opening hook (the protagonist faces a decision)
+2. Company background (history, industry context, competitive position)
+3. The dilemma (what happened, stakeholder perspectives, constraints)
+4. Supporting evidence (data, quotes, market information)
+5. Exhibits (financial tables, competitive comparisons, timelines)
+6. Closing (restate the decision; do NOT resolve it)</p>
+<p><strong>For topic-specific cases:</strong>
+1. Opening (the topic/trend and why it matters now)
+2. Concept overview (definitions, frameworks, key questions)
+3. Company examples (2-3 companies showing different approaches)
+4. Comparative analysis (outcomes, trade-offs, what worked and what didn't)
+5. Closing dilemma (given these examples, what should a leader do?)</p>
+<p><strong>Writing principles (these are essential):</strong>
+- Write in engaging, narrative prose — not like a textbook
+- Maintain ambiguity: there must be 2+ defensible positions. Never signal a "right answer"
+- Use real quotes, real data, real stakeholder names where possible
+- Keep the case concise: target 3-5 pages of text plus 1-2 pages of exhibits
+- Write at the appropriate level for the course (MBA cases assume more business sophistication than undergraduate)
+- <strong>Every specific data point must trace to a source.</strong> The Sources section at the end is the primary citation record. Do not include any industry figure, financial statistic, market share estimate, or executive quote that doesn't have a corresponding numbered entry there. Attribute claims naturally in the prose (e.g., "per Nvidia's FY2025 annual report..." or "according to industry analysts...") rather than using footnote numbers for routine citations.
+- <strong>Use footnotes sparingly and only for clarification.</strong> A footnote is appropriate when a specific claim is accurate but requires contextual nuance that would break the narrative if written inline — for example, when a term was used by a speaker in a broader context than how it reads in the case. Most cases need zero to two footnotes at most. See <code>references/case-structure.md</code> for the full guidance.</p>
+<h3>Phase 5: Generate the Document</h3>
+<p>Use the bundled script <code>scripts/generate_case_docx.js</code> to produce the .docx file. This script handles all McCombs branding (logo, colors, fonts, margins, page numbers) automatically. You do not need to read the docx skill or write docx-js code from scratch.</p>
+<p><strong>How to use the script:</strong></p>
+<ol>
+<li>Write a JSON file containing the structured case content. The schema is documented at the top of the script, but here's the structure:</li>
+</ol>
+<pre><code class="language-json">{
+  &quot;title&quot;: &quot;Case Title&quot;,
+  &quot;subtitle&quot;: &quot;Optional tagline&quot;,
+  &quot;meta&quot;: &quot;MBA Strategic Management  |  February 2026&quot;,
+  &quot;learningObjectives&quot;: [&quot;Objective 1...&quot;, &quot;Objective 2...&quot;],
+  &quot;sections&quot;: [
+    {
+      &quot;heading&quot;: &quot;Section Title&quot;,
+      &quot;content&quot;: [
+        { &quot;type&quot;: &quot;paragraph&quot;, &quot;text&quot;: &quot;Body text...&quot; },
+        { &quot;type&quot;: &quot;paragraph&quot;, &quot;runs&quot;: [
+            { &quot;text&quot;: &quot;Bold lead. &quot;, &quot;bold&quot;: true },
+            { &quot;text&quot;: &quot;Regular text continues...&quot; }
+        ]},
+        { &quot;type&quot;: &quot;subheading&quot;, &quot;text&quot;: &quot;Subsection Title&quot; },
+        { &quot;type&quot;: &quot;paragraph&quot;, &quot;text&quot;: &quot;More text...&quot; }
+      ]
+    }
+  ],
+  &quot;exhibits&quot;: [
+    {
+      &quot;title&quot;: &quot;Exhibit 1: Financial Summary&quot;,
+      &quot;headers&quot;: [&quot;Metric&quot;, &quot;FY2023&quot;, &quot;FY2024&quot;],
+      &quot;rows&quot;: [
+        { &quot;cells&quot;: [&quot;Revenue&quot;, &quot;$27B&quot;, &quot;$61B&quot;], &quot;bold_first&quot;: true }
+      ],
+      &quot;source&quot;: &quot;Source: Company reports.&quot;
+    }
+  ],
+  &quot;footnotes&quot;: {
+    &quot;1&quot;: &quot;Clarifying context for a nuanced claim — use sparingly.&quot;
+  },
+  &quot;sources&quot;: [&quot;Source 1...&quot;, &quot;Source 2...&quot;]
+}
+</code></pre>
+<ol>
+<li>Run the script:</li>
+</ol>
+<pre><code class="language-bash">node &lt;skill-path&gt;/scripts/generate_case_docx.js case_data.json output.docx
+</code></pre>
+<p>The script produces a fully formatted McCombs-branded document with the logo header, Burnt Orange accent rule, learning objectives block, heading hierarchy, exhibit tables with branded styling, numbered sources, and page numbers in the footer.</p>
+<p><strong>Content types supported in section <code>content</code> arrays:</strong>
+- <code>{ "type": "paragraph", "text": "..." }</code> — standard body paragraph
+- <code>{ "type": "paragraph", "runs": [...] }</code> — paragraph with mixed formatting (bold, italic). Each run accepts: <code>text</code>, <code>bold</code>, <code>italics</code>, <code>color</code>
+- <code>{ "type": "subheading", "text": "..." }</code> — H2 subsection heading (renders in ALL CAPS Burnt Orange)</p>
+<h3>Phase 6: Review and Iterate</h3>
+<p>After generating the initial document, ask the instructor:
+- Does the case capture the right dilemma?
+- Is the difficulty level appropriate for their students?
+- Would they like to adjust emphasis, add/remove sections, or change the narrative angle?
+- Are there gaps in evidence or perspective they'd like filled?</p>
+<p>Regenerate based on feedback. The instructor should be able to refine iteratively without starting over.</p>
+<h2>Key Reminders</h2>
+<ul>
+<li>The case must present a genuine dilemma with no obvious answer. If you find yourself writing toward a conclusion, stop and reframe.</li>
+<li>Cases should feel current and relevant. Prioritize recent events and data.</li>
+<li>Attribution matters. Include a Sources section at the end of the document listing all references.</li>
+<li>The output is always a .docx file saved to the user's working folder.</li>
+<li>When in doubt about tone, write like the best business journalism: clear, specific, and narrative-driven.</li>
+</ul></div>
+<h3>Files included</h3><ul><li><code>SKILL.md</code></li><li><code>assets/McCombs_Basic.dotx</code></li><li><code>assets/mccombs_logo.png</code></li><li><code>references/case-structure.md</code></li><li><code>references/docx-branding.md</code></li><li><code>scripts/generate_case_docx.js</code></li></ul>
+<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
+<footer>McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</body></html>

@@ -1,0 +1,247 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>case-factcheck — McCombs AI Skills</title><style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:#faf9f7;color:#333}
+header{background:#BF5700;color:#fff;padding:28px 32px}
+header h1{margin:0 0 4px;font-size:26px} header p{margin:0;opacity:.9}
+main{max-width:960px;margin:24px auto;padding:0 16px}
+input#q{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;margin-bottom:18px;box-sizing:border-box}
+.card{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.card h2{margin:0 0 2px;font-size:18px} .plugin{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;vertical-align:2px}
+.desc{margin:8px 0 10px;font-size:14px;line-height:1.45}
+details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font-weight:600}
+.notes li{margin:2px 0} .install{background:#f5f2ee;border-radius:8px;padding:10px 14px;margin-top:8px}
+.install b{display:block;margin-bottom:2px}
+footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
+code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
+h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
+.chips{margin-bottom:16px}
+.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
+.chip.on{background:#BF5700;color:#fff}
+.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
+a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
+.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
+
+.doc{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
+.doc h1,.doc h2,.doc h3{color:#333} .doc pre{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}
+a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
+<header><h1>case-factcheck</h1>
+<p>mccombs-case-toolkit &middot; v1.0 &middot; Case Writing &middot;
+<span class="badge" style="background:#2e7d32">Both platforms</span></p></header>
+<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
+<div class="install"><b>Install</b>
+<a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip">Download case-factcheck.zip</a> &mdash; then upload in
+<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
+<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
+<h3>Compatibility notes</h3><ul><li>has external file references</li></ul>
+<h3>About this skill</h3>
+<p><small>The content below is the skill's full instructions (SKILL.md) — exactly what the AI follows when you use it.</small></p>
+<div class="doc"><h1>Case Fact-Checker</h1>
+<p>Systematically verify every factual claim in a business case. Designed to run after the Case Generator and before the Teaching Note Generator, Class Exercise Generator, or Slide Generator, so corrections are made once in the source and never cascade across multiple files. See <code>references/factcheck-guidelines.md</code> for the claim taxonomy and verification standards.</p>
+<h2>What This Skill Produces</h2>
+<ol>
+<li>A structured <strong>fact-check report</strong> (<code>factcheck_report.md</code>) documenting every verified claim, its status, the primary source used, and any corrections</li>
+<li>A <strong>corrected case markdown</strong> (<code>case.md</code>) with all approved fixes applied</li>
+<li>A <strong>regenerated .docx</strong> with corrections and McCombs branding</li>
+</ol>
+<h2>Position in the Case Toolkit Pipeline</h2>
+<pre><code>Case Idea Generator → Case Generator → Case Fact-Check → Teaching Note Generator
+                                                                    ↓
+                                                          Class Exercise Generator
+                                                                    ↓
+                                                            Slide Generator
+</code></pre>
+<p>Run this skill immediately after the Case Generator completes. All downstream materials (teaching notes, exercises, slides) will then build on verified content.</p>
+<h2>File Organization</h2>
+<p>All intermediate files go in the existing <code>&lt;foldername&gt;_build/</code> subdirectory. Final deliverables stay in the working directory.</p>
+<pre><code>&lt;working-directory&gt;/
+├── [Company or Topic] Case.docx            ← regenerated with corrections
+└── &lt;foldername&gt;_build/
+    ├── case.md                              ← corrected (original backed up as case_pre-factcheck.md)
+    ├── case_pre-factcheck.md                ← backup of original case before corrections
+    ├── outline.md                           ← unchanged from Case Generator
+    └── factcheck_report.md                  ← structured verification report
+</code></pre>
+<p>Reuse the existing <code>&lt;foldername&gt;_build/</code> directory. Do not create a new one.</p>
+<h2>Workflow</h2>
+<h3>Phase 1: Locate the Case</h3>
+<p>Find the case content to verify:</p>
+<ol>
+<li><strong>Preferred path:</strong> Look for <code>&lt;foldername&gt;_build/case.md</code> in the working directory. If it exists, use it (this is the output of the Case Generator).</li>
+<li><strong>Alternative:</strong> If a path to a .docx or PDF is provided, read it directly.</li>
+<li><strong>Fallback:</strong> If no case content is found, ask the instructor which file to verify.</li>
+</ol>
+<p>Read <code>references/factcheck-guidelines.md</code> for the claim taxonomy and verification standards.</p>
+<h3>Phase 2: Extract Claims</h3>
+<p>Parse the case content and extract every verifiable factual claim into a structured list. Organize claims into these categories:</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Financial data</strong></td>
+<td>Revenue, profit, margins, stock prices, market cap, headcount, growth rates</td>
+</tr>
+<tr>
+<td><strong>Dates and timelines</strong></td>
+<td>When events occurred, chronological sequence, duration of periods</td>
+</tr>
+<tr>
+<td><strong>Names and titles</strong></td>
+<td>People's names and spellings, job titles, company names, product names</td>
+</tr>
+<tr>
+<td><strong>Quotes and attributions</strong></td>
+<td>Direct quotes, who said what, where it was published</td>
+</tr>
+<tr>
+<td><strong>Events and actions</strong></td>
+<td>What was announced, what happened, corporate actions taken</td>
+</tr>
+<tr>
+<td><strong>Market and industry data</strong></td>
+<td>Market share, rankings, industry statistics, competitor data</td>
+</tr>
+</tbody>
+</table>
+<p>For each claim, record:
+- The claim as stated in the case
+- The category
+- The source cited in the case (if any)
+- Where it appears (section and approximate location)</p>
+<p><strong>Present the extracted claim list to the instructor</strong> with a count by category (e.g., "I found 34 verifiable claims: 12 financial, 6 dates, 4 names, 3 quotes, 5 events, 4 market data"). Ask: "Proceed with verification, or adjust the scope?"</p>
+<p>This is a decision point. Wait for confirmation before proceeding.</p>
+<h3>Phase 3: Verify Claims</h3>
+<p>For each claim, search for verification using primary sources. Prioritize sources in this order:</p>
+<ol>
+<li><strong>SEC filings</strong> (10-K, 10-Q, 8-K, proxy statements) for financial data</li>
+<li><strong>Earnings releases and investor presentations</strong> for quarterly/annual figures</li>
+<li><strong>Official press releases</strong> for corporate announcements</li>
+<li><strong>Court filings and regulatory documents</strong> for legal matters</li>
+<li><strong>Major financial data providers</strong> (company IR pages, stock exchanges) for market data</li>
+<li><strong>Reputable journalism</strong> (WSJ, NYT, Bloomberg, Reuters, FT) for events and quotes</li>
+</ol>
+<p>Assign each claim a verification status:</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Confirmed</strong></td>
+<td>Verified against a primary source</td>
+<td>No change needed</td>
+</tr>
+<tr>
+<td><strong>Corrected</strong></td>
+<td>Primary source contradicts the claim</td>
+<td>Correction provided with source</td>
+</tr>
+<tr>
+<td><strong>Adjusted</strong></td>
+<td>Claim approximately right but imprecise</td>
+<td>More accurate figure or phrasing provided</td>
+</tr>
+<tr>
+<td><strong>Unverifiable</strong></td>
+<td>No primary source found to confirm or deny</td>
+<td>Flagged for instructor decision</td>
+</tr>
+<tr>
+<td><strong>Disputed</strong></td>
+<td>Multiple credible sources give conflicting data</td>
+<td>Options presented with sources</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verification discipline:</strong>
+- Do not assume a claim is correct because it appears in the case. Verify independently.
+- When financial figures differ between sources, prefer the company's own filings (10-K, earnings release) over journalist reports.
+- For quotes, verify the exact wording and the original publication. Flag paraphrases presented as direct quotes.
+- For headcount and employee data, note whether the figure is end-of-period, average, or full-time-equivalent, as these often differ.
+- For stock prices, note whether the figure is closing price, intraday, or adjusted for splits.
+- When a claim attributes a statement to a person (e.g., "the CEO said"), verify both the quote and the attribution.</p>
+<h3>Phase 4: Present Report</h3>
+<p>Generate <code>&lt;foldername&gt;_build/factcheck_report.md</code> with this structure:</p>
+<pre><code class="language-markdown"># Fact-Check Report: [Case Title]
+
+**Date:** [YYYY-MM-DD]
+**Case file:** case.md
+**Claims verified:** [N]
+**Result summary:** [N] confirmed, [N] corrected, [N] adjusted, [N] unverifiable, [N] disputed
+
+## Summary of Changes
+
+[1-2 paragraph overview of what was found. Lead with the most significant corrections.]
+
+## Corrections Required
+
+[List each Corrected or Adjusted claim with the current text, the corrected text, and the source.]
+
+### [Claim number]. [Brief description]
+- **Category:** [financial / date / name / quote / event / market]
+- **Current text:** &quot;[exact text from case]&quot;
+- **Corrected text:** &quot;[corrected version]&quot;
+- **Source:** [Chicago Author-Date citation]
+- **Impact:** [How this affects the case narrative, if at all]
+
+## Unverifiable Claims
+
+[List each claim that could not be verified, with a note on what was searched and why it could not be confirmed.]
+
+## Disputed Claims
+
+[List each claim where sources conflict, with the options and sources for each.]
+
+## Confirmed Claims
+
+[Brief summary table of confirmed claims, grouped by category.]
+
+| # | Claim | Category | Source |
+|---|-------|----------|--------|
+| 1 | [claim summary] | Financial | [source] |
+| ... | ... | ... | ... |
+</code></pre>
+<p><strong>Present the report to the instructor.</strong> Walk through each correction and flag, and ask: "Approve these corrections? Any claims you want handled differently?"</p>
+<p>This is a decision point. Wait for approval before applying corrections.</p>
+<h3>Phase 5: Apply Corrections</h3>
+<p>After instructor approval:</p>
+<ol>
+<li><strong>Back up the original:</strong> Copy <code>case.md</code> to <code>case_pre-factcheck.md</code> in the build directory</li>
+<li><strong>Apply corrections</strong> to <code>case.md</code> using the Edit tool. Apply only the corrections the instructor approved.</li>
+<li><strong>Regenerate the .docx</strong> using the Case Generator's bundled docx script (see <code>../case-generator/scripts/generate_case_docx.js</code>). Build a JSON payload from the corrected case.md following the same format the Case Generator uses, then run the script to produce the branded .docx.</li>
+<li><strong>Confirm completion</strong> to the instructor with a summary: how many corrections applied, which claims remain unverifiable or disputed.</li>
+</ol>
+<p><strong>Handoff prompts:</strong></p>
+<blockquote>
+<p>"Generate a teaching note for this case?"
+"Create exercises for this case discussion?"
+"Build slides for the case session?"</p>
+</blockquote>
+<h2>Key Reminders</h2>
+<ul>
+<li>This skill verifies facts, not pedagogy. Do not second-guess analytical framing, learning objectives, or narrative choices.</li>
+<li>Back up the original case.md before applying any changes.</li>
+<li>Financial figures from SEC filings override journalist reports. Company filings are the primary source of truth for company data.</li>
+<li>Present the full report before changing anything. The instructor decides which corrections to apply.</li>
+<li>Claims attributed as someone's statement (e.g., "Dorsey claimed $500K per employee") are verified for attribution accuracy, not for whether the underlying claim is true. The case may deliberately present disputed claims as part of the dilemma.</li>
+</ul>
+<h2>References</h2>
+<ul>
+<li><code>references/factcheck-guidelines.md</code>: claim taxonomy and verification standards</li>
+<li><code>../case-generator/references/case-structure.md</code>: case writing guidelines (for understanding case structure)</li>
+<li><code>../shared/discipline-guide.md</code>: department-specific guidance</li>
+</ul></div>
+<h3>Files included</h3><ul><li><code>SKILL.md</code></li><li><code>references/factcheck-guidelines.md</code></li></ul>
+<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
+<footer>McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</body></html>

@@ -1,0 +1,280 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>slide-generator — McCombs AI Skills</title><style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:#faf9f7;color:#333}
+header{background:#BF5700;color:#fff;padding:28px 32px}
+header h1{margin:0 0 4px;font-size:26px} header p{margin:0;opacity:.9}
+main{max-width:960px;margin:24px auto;padding:0 16px}
+input#q{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;margin-bottom:18px;box-sizing:border-box}
+.card{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.card h2{margin:0 0 2px;font-size:18px} .plugin{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;vertical-align:2px}
+.desc{margin:8px 0 10px;font-size:14px;line-height:1.45}
+details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font-weight:600}
+.notes li{margin:2px 0} .install{background:#f5f2ee;border-radius:8px;padding:10px 14px;margin-top:8px}
+.install b{display:block;margin-bottom:2px}
+footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
+code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
+h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
+.chips{margin-bottom:16px}
+.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
+.chip.on{background:#BF5700;color:#fff}
+.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
+a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
+.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
+
+.doc{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
+.doc h1,.doc h2,.doc h3{color:#333} .doc pre{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}
+a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
+<header><h1>slide-generator</h1>
+<p>mccombs-case-toolkit &middot; v1.0 &middot; Slides &amp; Presentations &middot;
+<span class="badge" style="background:#b26a00">Both (see notes)</span></p></header>
+<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
+<div class="install"><b>Install</b>
+<a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/slide-generator.zip">Download slide-generator.zip</a> &mdash; then upload in
+<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
+<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
+<h3>Compatibility notes</h3><ul><li>has external file references</li><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul>
+<h3>About this skill</h3>
+<p><small>The content below is the skill's full instructions (SKILL.md) — exactly what the AI follows when you use it.</small></p>
+<div class="doc"><h1>Slide Generator</h1>
+<p>Generate McCombs-branded PowerPoint slide decks for case discussions and lectures.</p>
+<h2>Description</h2>
+<p>Use this skill when an instructor needs a slide deck — either for facilitating a case discussion in class or for a general lecture. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See <code>../shared/discipline-guide.md</code> for department-specific guidance on frameworks and discussion questions. The skill produces a polished .pptx file with McCombs branding (Burnt Orange, Arial/Arial Black, widescreen 16:9 format, logo placement).</p>
+<p><strong>Trigger phrases:</strong> "create slides," "make a slide deck," "case discussion slides," "lecture slides," "presentation for class," "slide generator"</p>
+<h2>Two Modes</h2>
+<h3>Mode A: Case Discussion Slides</h3>
+<p>Takes a case (case JSON, teaching note JSON, or uploaded case document) and generates a slide deck designed to facilitate a case discussion in class. Typical structure:</p>
+<ol>
+<li><strong>Title slide</strong> — case name, course, date</li>
+<li><strong>Case setup</strong> (1-2 slides) — protagonist, situation, key context</li>
+<li><strong>Discussion question slides</strong> — one per major discussion question, with the question prominently displayed</li>
+<li><strong>Framework analysis slides</strong> — pre-built framework templates (Five Forces, VRIO, etc.) for the class to fill in together</li>
+<li><strong>Key data/exhibit slides</strong> — important financials, market data, or quotes from the case</li>
+<li><strong>Strategic options slide</strong> — the 2-3 paths the protagonist could take</li>
+<li><strong>Debate/vote slide</strong> — for structured debate or class vote</li>
+<li><strong>Wrap-up slide</strong> — key takeaways and connections to theory</li>
+<li><strong>Next class slide</strong> — what to prepare for next time (optional)</li>
+</ol>
+<h3>Mode B: General Lecture Slides</h3>
+<p>Takes a topic, outline, or content and generates a branded lecture deck. The instructor provides the content direction; the skill handles structure and formatting.</p>
+<h2>Workflow</h2>
+<h3>Phase 1: Gather Inputs</h3>
+<p>Determine which mode is needed and collect:</p>
+<p><strong>For Case Discussion (Mode A):</strong>
+- The case — either a case generator JSON file, a teaching note JSON, or an uploaded case document
+- Session length (to calibrate number of slides)
+- Any specific discussion questions or frameworks to include
+- Whether the instructor wants data/exhibit slides</p>
+<p><strong>For General Lecture (Mode B):</strong>
+- Topic and key points to cover
+- Session length
+- Any specific frameworks, examples, or structures they want
+- Level of detail (high-level overview vs. detailed lecture)</p>
+<h3>Phase 2: Design the Deck Structure</h3>
+<p>Plan the slide sequence. A well-designed discussion deck typically has 12-20 slides for a 75-minute session:</p>
+<ul>
+<li><strong>Title slide</strong>: 1</li>
+<li><strong>Case setup</strong>: 1-2 slides</li>
+<li><strong>Discussion blocks</strong>: 2-3 slides per major question (question slide + supporting data/framework)</li>
+<li><strong>Options/synthesis</strong>: 2-3 slides</li>
+<li><strong>Wrap-up</strong>: 1-2 slides</li>
+</ul>
+<p>For lectures, plan 1 slide per 3-5 minutes of content, favoring fewer, cleaner slides.</p>
+<h3>Phase 3: Write the Content</h3>
+<p>Create a JSON object following the schema below. Each slide has a type that determines its layout.</p>
+<pre><code class="language-json">{
+  &quot;title&quot;: &quot;Deck title&quot;,
+  &quot;subtitle&quot;: &quot;Course name | Date&quot;,
+  &quot;presenter&quot;: &quot;Instructor name&quot;,
+  &quot;presenterTitle&quot;: &quot;Title, Department&quot;,
+  &quot;slides&quot;: [
+    {
+      &quot;type&quot;: &quot;title&quot;,
+      &quot;headline&quot;: &quot;NVIDIA'S AI FORTRESS&quot;,
+      &quot;subtitle&quot;: &quot;Strategic Management Case Discussion&quot;,
+      &quot;presenter&quot;: &quot;Prof. John Graff&quot;,
+      &quot;presenterTitle&quot;: &quot;McCombs School of Business&quot;,
+      &quot;date&quot;: &quot;February 2026&quot;
+    },
+    {
+      &quot;type&quot;: &quot;section&quot;,
+      &quot;headline&quot;: &quot;COMPETITIVE ANALYSIS&quot;,
+      &quot;subtitle&quot;: &quot;Understanding Nvidia's moat&quot;
+    },
+    {
+      &quot;type&quot;: &quot;content&quot;,
+      &quot;title&quot;: &quot;The AI Chip Landscape&quot;,
+      &quot;bullets&quot;: [
+        &quot;Nvidia controls ~80% of AI training chip market&quot;,
+        &quot;CUDA ecosystem: 4M+ developers, 15+ years of lock-in&quot;,
+        &quot;$130.5B revenue in FY2025 — up 114% YoY&quot;
+      ],
+      &quot;footnote&quot;: &quot;Source: Nvidia FY2025 Annual Report&quot;
+    },
+    {
+      &quot;type&quot;: &quot;question&quot;,
+      &quot;question&quot;: &quot;What is Nvidia's primary source of competitive advantage, and how durable is it?&quot;,
+      &quot;subtext&quot;: &quot;Consider both the hardware and software dimensions&quot;
+    },
+    {
+      &quot;type&quot;: &quot;framework&quot;,
+      &quot;title&quot;: &quot;Porter's Five Forces — AI Chips&quot;,
+      &quot;framework&quot;: &quot;five_forces&quot;,
+      &quot;items&quot;: {
+        &quot;rivalry&quot;: &quot;High — AMD, Intel, hyperscaler custom silicon&quot;,
+        &quot;newEntrants&quot;: &quot;Moderate — huge capital requirements but well-funded entrants&quot;,
+        &quot;substitutes&quot;: &quot;Growing — custom ASICs (Google TPU, Amazon Trainium)&quot;,
+        &quot;buyerPower&quot;: &quot;Increasing — hyperscalers are 40%+ of revenue&quot;,
+        &quot;supplierPower&quot;: &quot;High — TSMC near-monopoly on advanced nodes&quot;
+      }
+    },
+    {
+      &quot;type&quot;: &quot;two_column&quot;,
+      &quot;title&quot;: &quot;Build vs. Buy: The Hyperscaler Dilemma&quot;,
+      &quot;leftHeading&quot;: &quot;Stay with Nvidia&quot;,
+      &quot;leftBullets&quot;: [&quot;Best-in-class performance&quot;, &quot;CUDA ecosystem&quot;, &quot;Full-stack integration&quot;],
+      &quot;rightHeading&quot;: &quot;Build Custom Silicon&quot;,
+      &quot;rightBullets&quot;: [&quot;Lower per-unit cost at scale&quot;, &quot;Reduce dependency&quot;, &quot;Customize for workloads&quot;]
+    },
+    {
+      &quot;type&quot;: &quot;options&quot;,
+      &quot;title&quot;: &quot;Three Strategic Paths&quot;,
+      &quot;options&quot;: [
+        { &quot;name&quot;: &quot;Fortify the Moat&quot;, &quot;description&quot;: &quot;Accelerate R&amp;D cadence, deepen CUDA lock-in&quot; },
+        { &quot;name&quot;: &quot;Open the Platform&quot;, &quot;description&quot;: &quot;Make CUDA portable, monetize software separately&quot; },
+        { &quot;name&quot;: &quot;Evolve Beyond Chips&quot;, &quot;description&quot;: &quot;Become an AI infrastructure company&quot; }
+      ]
+    },
+    {
+      &quot;type&quot;: &quot;quote&quot;,
+      &quot;quote&quot;: &quot;The more we accelerate, the more you save.&quot;,
+      &quot;attribution&quot;: &quot;Jensen Huang, CES 2025&quot;
+    },
+    {
+      &quot;type&quot;: &quot;data&quot;,
+      &quot;title&quot;: &quot;Nvidia Revenue Growth&quot;,
+      &quot;dataPoints&quot;: [
+        { &quot;label&quot;: &quot;FY2023&quot;, &quot;value&quot;: &quot;$27.0B&quot; },
+        { &quot;label&quot;: &quot;FY2024&quot;, &quot;value&quot;: &quot;$61.0B&quot; },
+        { &quot;label&quot;: &quot;FY2025&quot;, &quot;value&quot;: &quot;$130.5B&quot; }
+      ],
+      &quot;footnote&quot;: &quot;Source: Nvidia Annual Reports&quot;
+    },
+    {
+      &quot;type&quot;: &quot;takeaway&quot;,
+      &quot;title&quot;: &quot;Key Takeaways&quot;,
+      &quot;bullets&quot;: [
+        &quot;Competitive advantage has multiple layers — hardware, software, ecosystem&quot;,
+        &quot;The moat/motivation paradox: strength invites circumvention&quot;,
+        &quot;No dominant strategy — each path solves one problem and creates another&quot;
+      ]
+    },
+    {
+      &quot;type&quot;: &quot;next&quot;,
+      &quot;title&quot;: &quot;Next Class&quot;,
+      &quot;content&quot;: &quot;Read: Apple's Services Strategy case\nPrepare: Pre-class questions 1-3&quot;
+    }
+  ]
+}
+</code></pre>
+<h3>Supported Slide Types</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Layout</th>
+<th>Use For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title</code></td>
+<td>Burnt Orange background, large white headline</td>
+<td>Opening slide</td>
+</tr>
+<tr>
+<td><code>section</code></td>
+<td>Burnt Orange or white, centered headline</td>
+<td>Transitions between sections</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td>White background, title + bullets</td>
+<td>Standard content</td>
+</tr>
+<tr>
+<td><code>question</code></td>
+<td>Large centered question text</td>
+<td>Discussion prompts</td>
+</tr>
+<tr>
+<td><code>framework</code></td>
+<td>Structured layout for the named framework</td>
+<td>Five Forces, VRIO, etc.</td>
+</tr>
+<tr>
+<td><code>two_column</code></td>
+<td>Side-by-side comparison</td>
+<td>Pros/cons, compare options</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td>Numbered strategic options with descriptions</td>
+<td>Decision options</td>
+</tr>
+<tr>
+<td><code>quote</code></td>
+<td>Large centered quote with attribution</td>
+<td>Key quotes from case</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td>Key metrics displayed prominently</td>
+<td>Financial data, KPIs</td>
+</tr>
+<tr>
+<td><code>takeaway</code></td>
+<td>Title + summary bullets</td>
+<td>Wrap-up / synthesis</td>
+</tr>
+<tr>
+<td><code>next</code></td>
+<td>Next class info</td>
+<td>Closing slide</td>
+</tr>
+<tr>
+<td><code>blank</code></td>
+<td>Blank branded slide</td>
+<td>Flexible use</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 4: Generate the Deck</h3>
+<pre><code class="language-bash">node /path/to/skills/slide-generator/scripts/generate_slides.js &lt;input.json&gt; &lt;output.pptx&gt;
+</code></pre>
+<h3>Phase 5: Review and Iterate</h3>
+<p>Show the instructor a preview. Common adjustments:
+- Add or remove slides
+- Adjust discussion questions
+- Change the framework on a framework slide
+- Add data exhibits
+- Reorder the flow</p>
+<h2>Brand Standards (Built Into Script)</h2>
+<ul>
+<li><strong>Primary color</strong>: Burnt Orange <code>#BF5700</code> (note: docx skills use this; the pptx template uses <code>#C05900</code> — the script uses <code>#BF5700</code> for consistency with the rest of the toolkit)</li>
+<li><strong>Fonts</strong>: Arial Black for headlines (ALL CAPS), Arial for body text</li>
+<li><strong>Layout</strong>: 16:9 widescreen</li>
+<li><strong>Logo</strong>: McCombs logo in lower-left (color version on white, white version on orange backgrounds)</li>
+<li><strong>Text sizes</strong>: Title 36-44pt, Body 20-24pt, Footnotes 10-12pt</li>
+</ul>
+<h2>References</h2>
+<ul>
+<li><code>references/slide-design.md</code> — slide design principles and best practices</li>
+<li><code>assets/mccombs_logo_color.png</code> — full-color logo (for white backgrounds)</li>
+<li><code>assets/mccombs_logo_white.png</code> — white logo (for orange backgrounds)</li>
+</ul></div>
+<h3>Files included</h3><ul><li><code>SKILL.md</code></li><li><code>assets/mccombs_logo_color.png</code></li><li><code>assets/mccombs_logo_header.png</code></li><li><code>assets/mccombs_logo_white.png</code></li><li><code>references/slide-design.md</code></li><li><code>scripts/generate_slides.js</code></li></ul>
+<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
+<footer>McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</body></html>

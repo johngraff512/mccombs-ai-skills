@@ -1,0 +1,215 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>class-exercise-generator — McCombs AI Skills</title><style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:#faf9f7;color:#333}
+header{background:#BF5700;color:#fff;padding:28px 32px}
+header h1{margin:0 0 4px;font-size:26px} header p{margin:0;opacity:.9}
+main{max-width:960px;margin:24px auto;padding:0 16px}
+input#q{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;margin-bottom:18px;box-sizing:border-box}
+.card{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.card h2{margin:0 0 2px;font-size:18px} .plugin{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;vertical-align:2px}
+.desc{margin:8px 0 10px;font-size:14px;line-height:1.45}
+details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font-weight:600}
+.notes li{margin:2px 0} .install{background:#f5f2ee;border-radius:8px;padding:10px 14px;margin-top:8px}
+.install b{display:block;margin-bottom:2px}
+footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
+code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
+h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
+.chips{margin-bottom:16px}
+.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
+.chip.on{background:#BF5700;color:#fff}
+.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
+a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
+.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
+
+.doc{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
+.doc h1,.doc h2,.doc h3{color:#333} .doc pre{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}
+a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
+<header><h1>class-exercise-generator</h1>
+<p>mccombs-case-toolkit &middot; v1.0 &middot; Class Preparation &middot;
+<span class="badge" style="background:#b26a00">Both (see notes)</span></p></header>
+<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
+<div class="install"><b>Install</b>
+<a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip">Download class-exercise-generator.zip</a> &mdash; then upload in
+<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
+<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
+<h3>Compatibility notes</h3><ul><li>has external file references</li><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul>
+<h3>About this skill</h3>
+<p><small>The content below is the skill's full instructions (SKILL.md) — exactly what the AI follows when you use it.</small></p>
+<div class="doc"><h1>Class Exercise Generator Skill</h1>
+<p>Generate a curated menu of 5-8 interactive exercises for a single class session, delivered as a McCombs-branded instructor guide. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See <code>../shared/discipline-guide.md</code> for department-specific guidance on exercise framing.</p>
+<h2>What This Skill Produces</h2>
+<p>A single <strong>Instructor Exercise Guide</strong> (.docx) containing a mix of exercises an instructor can choose from when facilitating a case discussion or lecture. The guide includes everything the instructor needs — the exercise descriptions, timing, facilitation instructions, student-facing content to display or distribute, and answer guidance — all in one document.</p>
+<p>A typical guide for a 75-minute case discussion might include:</p>
+<ul>
+<li>1-2 <strong>Quick-fire exercises</strong> (polls, short-answer prompts) — 2-5 min each</li>
+<li>1-2 <strong>Think-Pair-Share</strong> exercises — 5-8 min each</li>
+<li>1-2 <strong>Small group breakouts</strong> — 10-15 min each</li>
+<li>1 <strong>Flagship exercise</strong> (structured debate, role play, framework deep-dive) — 15-30 min</li>
+<li>The instructor picks what fits their flow; they don't use all of them</li>
+</ul>
+<h2>Exercise Types</h2>
+<p>Read <code>references/exercise-types.md</code> for detailed design guidance on each type.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Format</th>
+<th>Typical Duration</th>
+<th>Student Materials?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Poll / Vote</strong></td>
+<td>Show of hands, clicker, or anonymous poll</td>
+<td>2-3 min</td>
+<td>Question on slide/screen</td>
+</tr>
+<tr>
+<td><strong>Short Answer</strong></td>
+<td>Cold-call or voluntary response to a focused question</td>
+<td>3-5 min</td>
+<td>Question on slide/screen</td>
+</tr>
+<tr>
+<td><strong>Think-Pair-Share</strong></td>
+<td>Individual reflection → partner discussion → share with class</td>
+<td>5-8 min</td>
+<td>Prompt on slide/screen</td>
+</tr>
+<tr>
+<td><strong>Small Group Breakout</strong></td>
+<td>Teams of 3-5 analyze a question, then report out</td>
+<td>10-20 min</td>
+<td>Optional discussion guide</td>
+</tr>
+<tr>
+<td><strong>Framework Application</strong></td>
+<td>Groups apply a framework (Five Forces, VRIO, etc.) to the case</td>
+<td>12-20 min</td>
+<td>Worksheet template</td>
+</tr>
+<tr>
+<td><strong>Structured Debate</strong></td>
+<td>Teams argue assigned positions; class votes</td>
+<td>20-35 min</td>
+<td>Position assignments + analysis guide</td>
+</tr>
+<tr>
+<td><strong>Role Play</strong></td>
+<td>Students adopt stakeholder roles and negotiate/present</td>
+<td>20-35 min</td>
+<td>Role cards</td>
+</tr>
+<tr>
+<td><strong>Decision Memo</strong></td>
+<td>Write a 1-page recommendation memo</td>
+<td>12-20 min</td>
+<td>Memo template</td>
+</tr>
+<tr>
+<td><strong>Gallery Walk</strong></td>
+<td>Teams create visuals, then rotate and annotate</td>
+<td>25-40 min</td>
+<td>Poster prompts + annotation guide</td>
+</tr>
+</tbody>
+</table>
+<h2>Workflow</h2>
+<h3>Phase 1: Gather Inputs</h3>
+<p>Get these from the instructor:</p>
+<p><strong>Required:</strong>
+- <strong>The case or topic</strong> — case JSON, uploaded document, or description
+- <strong>Session length</strong> — how many total minutes for the class?
+- <strong>Class size</strong> — approximate number of students (this affects report-out time, group sizes, and exercise feasibility)</p>
+<p><strong>Helpful:</strong>
+- <strong>Learning objectives</strong> — what should students take away?
+- <strong>Class format</strong> — is this entirely case discussion, or part lecture / part discussion?
+- <strong>Instructor style</strong> — do they prefer high-energy activities, or more reflective ones?
+- <strong>Physical constraints</strong> — room layout, breakout spaces, available tech (polling tools, whiteboards)
+- <strong>Exercises to avoid</strong> — anything they've already used recently or don't like</p>
+<h3>Phase 2: Design the Exercise Menu</h3>
+<p><strong>Key principle:</strong> The menu should be <strong>flexible, not prescriptive.</strong> The instructor won't use every exercise. The guide gives them options that they can mix and match based on how the class discussion unfolds.</p>
+<p><strong>Design the mix based on these factors:</strong></p>
+<ol>
+<li>
+<p><strong>Case content</strong> — What dilemmas, data, and frameworks does the case naturally lend itself to? A case with strong competing positions favors debate; a data-heavy case favors framework application.</p>
+</li>
+<li>
+<p><strong>Session length</strong> — Longer sessions can accommodate more and longer exercises.</p>
+</li>
+<li>50-minute session: 4-5 exercises (mostly quick-fire + 1 breakout or flagship)</li>
+<li>75-minute session: 5-7 exercises (mix of quick-fire, TPS, breakout, 1 flagship)</li>
+<li>
+<p>90-minute session: 6-8 exercises (full mix with potentially 2 flagship options)</p>
+</li>
+<li>
+<p><strong>Class size</strong> — This critically affects timing, especially for report-outs.</p>
+</li>
+<li><strong>Report-out scaling:</strong> If 10 groups each get 2 min to report, that's 20 minutes. If 3 groups each get 3 min, that's 9 minutes. The guide must account for this.</li>
+<li><strong>Group formation time:</strong> Larger classes take longer to form groups. Budget 2-3 min for classes &gt;60.</li>
+<li><strong>Poll/vote feasibility:</strong> Show-of-hands works for &lt;60; larger classes need digital polling.</li>
+<li>
+<p>For exercises with report-outs, always note: "Select 3-4 groups to present (not all groups need to report out)."</p>
+</li>
+<li>
+<p><strong>Discussion arc</strong> — Exercises should follow the natural arc of a case discussion:</p>
+</li>
+<li><strong>Opening</strong> — warm-up exercises that activate prior knowledge (polls, short-answer)</li>
+<li><strong>Analysis</strong> — exercises that deepen understanding (TPS, framework application, breakouts)</li>
+<li><strong>Synthesis</strong> — exercises that force a decision or position (debate, decision memo, vote)</li>
+<li>
+<p><strong>Close</strong> — reflection exercises (takeaway TPS, exit poll)</p>
+</li>
+<li>
+<p><strong>Energy management</strong> — Alternate between individual/pair work and group work. Don't stack three small-group exercises back-to-back.</p>
+</li>
+</ol>
+<h3>Phase 3: Write the Content</h3>
+<p>Create a JSON object following the schema documented at the top of the generation script (<code>scripts/generate_exercise_docx.js</code>).</p>
+<p>For each exercise, include:
+- <strong>What it is</strong> and how it works
+- <strong>When to use it</strong> in the class flow (Opening, Analysis, Synthesis, Close)
+- <strong>Exact timing</strong> broken down by phase, with explicit notes on how class size affects timing
+- <strong>The prompt/question</strong> — exactly what the instructor says or displays
+- <strong>Facilitation notes</strong> — what to watch for, how to manage
+- <strong>Student-facing content</strong> (if any) — what to project, distribute, or display
+- <strong>Debrief transition</strong> — how to connect the exercise back to the discussion
+- <strong>Answer guidance</strong> — expected student responses and what to probe</p>
+<h3>Phase 4: Generate the Document</h3>
+<pre><code class="language-bash">node &lt;skill-path&gt;/scripts/generate_exercise_docx.js &lt;input.json&gt; &lt;output.docx&gt;
+</code></pre>
+<p>The script produces a single instructor guide with:
+- Title page with session overview and learning objectives
+- Exercise menu summary (which exercises, when to use them, which are essential vs. optional)
+- Each exercise as a self-contained card with all facilitation details
+- Student-facing content embedded inline (marked clearly for display/distribution)
+- Answer guidance for exercises that need it
+- Suggested session flow at the end</p>
+<h3>Phase 5: Review and Iterate</h3>
+<p>The instructor may want to:
+- Swap one exercise type for another
+- Adjust timing for their class size
+- Add or remove exercises
+- Modify prompts or questions
+- Adjust the suggested flow</p>
+<h2>Key Design Principles</h2>
+<ol>
+<li><strong>The menu is flexible</strong> — not every exercise gets used. Mark which are essential and which are optional.</li>
+<li><strong>Report-out time scales with class size</strong> — always calculate and note this explicitly.</li>
+<li><strong>Exercises build on each other</strong> — later exercises should reference insights from earlier ones.</li>
+<li><strong>Student-facing content is embedded</strong> — the instructor doesn't need a separate document. They display the prompt on screen or read it aloud.</li>
+<li><strong>Energy management matters</strong> — alternate active/reflective, individual/group, short/long.</li>
+<li><strong>The debrief is where learning happens</strong> — every exercise needs a clear bridge back to the case discussion.</li>
+</ol>
+<h2>References</h2>
+<ul>
+<li><code>references/exercise-types.md</code> — detailed design patterns for each exercise type</li>
+<li><code>assets/mccombs_logo.png</code> — McCombs logo for document header</li>
+</ul></div>
+<h3>Files included</h3><ul><li><code>SKILL.md</code></li><li><code>assets/McCombs_Basic.dotx</code></li><li><code>assets/mccombs_logo.png</code></li><li><code>references/exercise-types.md</code></li><li><code>scripts/generate_exercise_docx.js</code></li></ul>
+<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
+<footer>McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</body></html>

@@ -1,0 +1,100 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ai-council — McCombs AI Skills</title><style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:#faf9f7;color:#333}
+header{background:#BF5700;color:#fff;padding:28px 32px}
+header h1{margin:0 0 4px;font-size:26px} header p{margin:0;opacity:.9}
+main{max-width:960px;margin:24px auto;padding:0 16px}
+input#q{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;margin-bottom:18px;box-sizing:border-box}
+.card{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.card h2{margin:0 0 2px;font-size:18px} .plugin{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;vertical-align:2px}
+.desc{margin:8px 0 10px;font-size:14px;line-height:1.45}
+details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font-weight:600}
+.notes li{margin:2px 0} .install{background:#f5f2ee;border-radius:8px;padding:10px 14px;margin-top:8px}
+.install b{display:block;margin-bottom:2px}
+footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
+code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
+h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
+.chips{margin-bottom:16px}
+.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
+.chip.on{background:#BF5700;color:#fff}
+.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
+a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
+.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
+
+.doc{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
+.doc h1,.doc h2,.doc h3{color:#333} .doc pre{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}
+a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
+<header><h1>ai-council</h1>
+<p>business-ai-tools &middot; v1.0 &middot; Decision Support &middot;
+<span class="badge" style="background:#b26a00">Both (see notes)</span></p></header>
+<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
+<div class="install"><b>Install</b>
+<a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/ai-council.zip">Download ai-council.zip</a> &mdash; then upload in
+<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
+<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
+<h3>Compatibility notes</h3><ul><li>Claude-specific frontmatter (ignored on other platforms): triggers</li><li>has external file references</li><li>uses subagents (Claude feature)</li></ul>
+<h3>About this skill</h3>
+<p><small>The content below is the skill's README.</small></p>
+<div class="doc"><h1>AI Council</h1>
+<p>Pressure-test decisions with a structured five-advisor deliberation, anonymous peer review, and chairman synthesis.</p>
+<h2>Problem</h2>
+<p>When you ask one AI a question, you get one answer. That answer might be sharp or shallow, and you have no way to tell because you only saw one perspective. Asking the same model multiple times does not help; the responses converge around the same framing.</p>
+<p>High-stakes decisions, strategic choices, and important pieces of writing benefit from genuine disagreement, not simulated balance. The council produces that disagreement by design.</p>
+<h2>Approach</h2>
+<p>The skill is adapted from Andrej Karpathy's LLM Council methodology: dispatch the question to multiple independent agents, have them peer-review each other anonymously, then a chairman synthesizes the results into a final verdict.</p>
+<p>Rather than using different models, this implementation assigns each agent a distinct thinking lens. The lenses are chosen to create structural tension with each other, which forces the deliberation to cover ground that any single perspective would skip.</p>
+<h2>The Deliberation Process</h2>
+<p><strong>Step 1: Frame the question.</strong> Before convening, the skill reads workspace context files to give advisors grounded, specific information rather than generic starting points. The raw question is reframed as a neutral prompt with relevant context, stakes, and (when analyzing a published source) author credibility and publication context. For source analysis, a fact-check pass runs before advisors are convened.</p>
+<p><strong>Step 2: Five advisors in parallel.</strong> All five advisors analyze the framed question simultaneously as sub-agents. Parallel execution is required; sequential spawning would allow earlier responses to anchor later ones.</p>
+<p><strong>Step 3: Anonymous peer review.</strong> Advisor responses are collected and relabeled A through E with randomized mapping. Five new reviewer sub-agents each evaluate all five anonymized responses, identifying the strongest contribution, the biggest blind spot, what all five missed collectively, and any claims being treated as established without verification.</p>
+<p><strong>Step 4: Chairman synthesis.</strong> One agent receives everything: the framed question, all five de-anonymized advisor responses, and all five peer reviews. The chairman produces a structured verdict covering points of agreement, genuine disagreements, blind spots surfaced by peer review, an advisor position map with peer-consensus ratings, a clear recommendation, and a single concrete next step.</p>
+<p><strong>Step 5 and 6: Report and transcript.</strong> The session produces an HTML report (clean, scannable, with collapsible advisor sections) and a full Markdown transcript for reference.</p>
+<h2>Design Rationale</h2>
+<p><strong>Five specific lenses, not five generic opinions.</strong> The Contrarian and Expansionist create downside/upside tension. The First Principles Thinker and Executor create rethink/act tension. The Outsider sits across all four as a check on the curse of knowledge. Each lens was chosen because it catches things the others will systematically miss.</p>
+<p><strong>Anonymous peer review is the core mechanism.</strong> Without anonymization, reviewers defer to thinking styles they find credible rather than evaluating the actual argument. Anonymization forces evaluation on merit. This is Karpathy's key insight.</p>
+<p><strong>The chairman can override the majority.</strong> If four advisors recommend one path but the fifth dissenter has the strongest argument, the chairman should side with the dissenter and explain why. Synthesis is not a vote.</p>
+<p><strong>Parallel execution is not optional.</strong> Sequential advisor spawning lets earlier responses anchor later ones. The independence of thought that makes peer review valuable requires that advisors never see each other's work during Step 2.</p>
+<p><strong>Don't council trivial questions.</strong> The process takes several minutes. Use it for decisions where being wrong is expensive and multiple reasonable paths exist. For questions with one right answer, just answer directly.</p>
+<h2>Usage</h2>
+<p>Trigger phrases: <code>council</code>, <code>council this</code>, <code>run the council</code>, <code>war room this</code>, <code>pressure-test this</code>, <code>stress-test this</code>, <code>debate this</code></p>
+<p>Good questions for the council:
+- Pricing and positioning decisions
+- "Should I do X or Y?" when both options are genuinely reasonable
+- Strategic pivots where the stakes are high
+- Evaluating published arguments, essays, or white papers before acting on them
+- Stress-testing a draft before publishing</p>
+<p>Not good questions for the council:
+- Factual lookups with a single correct answer
+- Content creation tasks ("write me a tweet")
+- Simple summarization or processing tasks</p>
+<p>The skill can run standalone or after a prior fact-checking or analysis pass. When running after a prior analysis, include that analysis as context so advisors build on it rather than repeat it.</p>
+<p>For high-stakes decisions where one wrong assumption can poison the whole council, see the <a href="../ai-council-deep/"><code>ai-council-deep</code></a> sibling skill. It adds three user-in-the-loop checkpoints (clarify, surface assumptions, iterate) on top of the same five advisors and anonymous peer review.</p>
+<h2>Output</h2>
+<p>Every council session produces two files in the workspace:</p>
+<pre><code>&lt;project_name&gt;-COUNCIL REPORT.html        visual report for scanning
+&lt;project_name&gt;-COUNCIL TRANSCRIPT.md      full transcript for reference
+</code></pre>
+<p>The HTML report is the primary deliverable: chairman verdict at the top, collapsible advisor sections, agreement/disagreement visual, and a footer with timestamp. The Markdown transcript preserves the full deliberation record, including the anonymization mapping, for sessions where you want to trace how each advisor's argument was received.</p>
+<h2>Installation</h2>
+<ol>
+<li>Copy <code>SKILL.md</code> into <code>~/.claude/skills/ai-council/SKILL.md</code>.</li>
+<li>Confirm your environment has API access to the model providers the skill calls. Edit the model list in <code>SKILL.md</code> if you want a different lineup than the default.</li>
+<li>Restart Claude Code (or run <code>/skills</code> to reload).</li>
+<li>Trigger by saying "council this," "pressure-test this," or any other phrase listed under Usage.</li>
+</ol>
+<p>For deeper, interactive deliberation on high-stakes decisions, also install the <a href="../ai-council-deep/"><code>ai-council-deep</code></a> sibling skill.</p>
+<h2>Acknowledgments</h2>
+<p>The AI Council skill is adapted from an original LLM Council skill by <strong>John Graff</strong>, Assistant Professor of Instruction, UT Austin McCombs School of Business.</p>
+<ul>
+<li><a href="http://linkedin.com/in/johnmgraff/">LinkedIn</a></li>
+</ul>
+<p>The underlying methodology is <strong>Andrej Karpathy's</strong> LLM Council: query multiple models independently, have them peer-review each other anonymously, and synthesize with a chairman agent. Karpathy is the founder of Eureka Labs.</p>
+<ul>
+<li><a href="https://github.com/karpathy">GitHub</a></li>
+</ul></div>
+<h3>Files included</h3><ul><li><code>README.md</code></li><li><code>SKILL.md</code></li></ul>
+<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
+<footer>McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</body></html>

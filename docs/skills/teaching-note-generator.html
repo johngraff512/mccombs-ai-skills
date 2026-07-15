@@ -1,0 +1,162 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>teaching-note-generator — McCombs AI Skills</title><style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:#faf9f7;color:#333}
+header{background:#BF5700;color:#fff;padding:28px 32px}
+header h1{margin:0 0 4px;font-size:26px} header p{margin:0;opacity:.9}
+main{max-width:960px;margin:24px auto;padding:0 16px}
+input#q{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;margin-bottom:18px;box-sizing:border-box}
+.card{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.card h2{margin:0 0 2px;font-size:18px} .plugin{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;vertical-align:2px}
+.desc{margin:8px 0 10px;font-size:14px;line-height:1.45}
+details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font-weight:600}
+.notes li{margin:2px 0} .install{background:#f5f2ee;border-radius:8px;padding:10px 14px;margin-top:8px}
+.install b{display:block;margin-bottom:2px}
+footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
+code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
+h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
+.chips{margin-bottom:16px}
+.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
+.chip.on{background:#BF5700;color:#fff}
+.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
+a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
+.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
+
+.doc{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
+.doc h1,.doc h2,.doc h3{color:#333} .doc pre{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}
+a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
+<header><h1>teaching-note-generator</h1>
+<p>mccombs-case-toolkit &middot; v1.0 &middot; Class Preparation &middot;
+<span class="badge" style="background:#b26a00">Both (see notes)</span></p></header>
+<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
+<div class="install"><b>Install</b>
+<a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip">Download teaching-note-generator.zip</a> &mdash; then upload in
+<b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or
+<b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
+<h3>Compatibility notes</h3><ul><li>has external file references</li><li>bundles 1 script(s) — requires code execution enabled on the platform</li></ul>
+<h3>About this skill</h3>
+<p><small>The content below is the skill's full instructions (SKILL.md) — exactly what the AI follows when you use it.</small></p>
+<div class="doc"><h1>Teaching Note Generator Skill</h1>
+<p>Create professional, classroom-ready instructor teaching notes as McCombs-branded Word documents. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See <code>../shared/discipline-guide.md</code> for department-specific guidance on discussion questions, board plans, and teaching points.</p>
+<h2>What This Skill Produces</h2>
+<p>A polished INSTRUCTOR COPY .docx teaching note containing:
+- Synopsis of the case
+- Learning objectives with pedagogical context
+- Suggested course positioning and prerequisite topics
+- Pre-class assignment questions (given to students before class)
+- Teaching plan with session timing
+- Discussion questions with analysis, teaching points, and board capture notes
+- Board plan (suggested visual layout for capturing discussion)
+- Optional epilogue (what actually happened after the case)</p>
+<h2>Workflow</h2>
+<h3>Phase 1: Gather Inputs</h3>
+<p>Collect these before generating:</p>
+<ol>
+<li><strong>The case</strong>: Either —</li>
+<li>The JSON file from the Case Generator (preferred — gives full structured access to all case content), or</li>
+<li>
+<p>An uploaded case document (Word .docx or PDF — Claude will read and extract the content)</p>
+</li>
+<li>
+<p><strong>Session length</strong>: How long is the class session? (e.g., 75 minutes, 90 minutes)</p>
+</li>
+<li>
+<p><strong>Key emphasis</strong>: Are there specific frameworks, concepts, or discussion angles the instructor wants to prioritize? Or any sections they want to omit?</p>
+</li>
+<li>
+<p><strong>Epilogue</strong>: Does the instructor want to include an epilogue? If so, do they know what actually happened (or should Claude research it)?</p>
+</li>
+</ol>
+<p>If the case was just generated in the same session, most of this is already known — confirm session length and proceed.</p>
+<h3>Phase 2: Analyze the Case</h3>
+<p>Before writing, think through the case as an experienced case method instructor would:</p>
+<ul>
+<li>What is the core disciplinary tension? What makes this a genuinely hard decision? (For strategy: competitive positioning. For finance: capital allocation or valuation. For marketing: customer or brand choices. For operations: efficiency vs. quality trade-offs.)</li>
+<li>What frameworks apply? Use the discipline's frameworks — strategy (Five Forces, RBV, BCG), finance (DCF, WACC, capital structure), marketing (STP, CLV, pricing models), operations (process mapping, bottleneck analysis), MIS (system architecture, build-vs-buy), accounting (audit risk model, materiality). See <code>../shared/discipline-guide.md</code> for comprehensive lists.</li>
+<li>What will students likely argue? What are the 2-3 most defensible positions?</li>
+<li>What are the common mistakes or misreadings students make with this type of case?</li>
+<li>What order should the discussion unfold to build insight progressively?</li>
+<li>What should be on the board at the end of class?</li>
+</ul>
+<p>This analysis is the foundation for high-quality discussion questions and teaching points.</p>
+<h3>Phase 3: Generate the Teaching Note</h3>
+<p>Read <code>references/teaching-note-structure.md</code> for the full structural guidelines. Generate all sections:</p>
+<ol>
+<li><strong>Synopsis</strong> — 2-3 paragraph neutral summary of the case. Does not reveal a "right answer."</li>
+<li><strong>Learning Objectives</strong> — Restate from the case; add brief pedagogical context for each (what student behavior demonstrates this objective)</li>
+<li><strong>Suggested Positioning</strong> — Where in a course curriculum this case fits best; prerequisite topics; paired readings if relevant</li>
+<li><strong>Pre-Class Assignment Questions</strong> — 2-4 questions given to students before class to ensure preparation; these are not identical to in-class discussion questions</li>
+<li><strong>Teaching Plan</strong> — Session timeline as a table: Time | Phase | Activity | Instructor Goal</li>
+<li><strong>Discussion Questions + Analysis</strong> — 4-8 questions in suggested discussion order, each with: purpose, key teaching points, anticipated student responses, and board capture note</li>
+<li><strong>Board Plan</strong> — Visual layout of what to capture on the board/slides during discussion</li>
+<li><strong>Epilogue</strong> (if requested) — What actually happened; keep it brief and place at the very end so instructors can choose when to reveal it</li>
+</ol>
+<h3>Phase 4: Generate the Document</h3>
+<p>Use <code>scripts/generate_teaching_note_docx.js</code> to produce the .docx. The schema is documented at the top of the script. Here's the structure:</p>
+<pre><code class="language-json">{
+  &quot;title&quot;: &quot;Teaching Note: Case Title&quot;,
+  &quot;meta&quot;: &quot;MBA Strategic Management  |  February 2026  |  INSTRUCTOR COPY — NOT FOR DISTRIBUTION&quot;,
+  &quot;synopsis&quot;: &quot;Paragraph 1...\n\nParagraph 2...&quot;,
+  &quot;learningObjectives&quot;: [
+    { &quot;objective&quot;: &quot;Evaluate how Nvidia builds competitive advantage...&quot;, &quot;context&quot;: &quot;Students demonstrate this by applying Five Forces...&quot; }
+  ],
+  &quot;positioning&quot;: {
+    &quot;suggestedCourses&quot;: [&quot;MBA Strategic Management&quot;, &quot;Competitive Strategy&quot;],
+    &quot;whereinCurriculum&quot;: &quot;Best placed in weeks 3-5 when covering competitive advantage and platform strategy...&quot;,
+    &quot;prerequisiteTopics&quot;: [&quot;Porter's Five Forces&quot;, &quot;Resource-Based View&quot;, &quot;Platform/ecosystem strategy&quot;],
+    &quot;pairedReadings&quot;: [&quot;Porter, 'What is Strategy?' HBR 1996&quot;, &quot;Barney, 'Firm Resources and Sustained Competitive Advantage' 1991&quot;]
+  },
+  &quot;preClassQuestions&quot;: [
+    &quot;What is Nvidia's primary source of competitive advantage, and how durable is it?&quot;,
+    &quot;Which of the three strategic paths would you recommend to Jensen Huang, and why?&quot;
+  ],
+  &quot;teachingPlan&quot;: [
+    { &quot;minutes&quot;: &quot;0–10&quot;, &quot;phase&quot;: &quot;Opening&quot;, &quot;activity&quot;: &quot;Cold call 2 students on pre-class Q1. Map initial responses on board.&quot;, &quot;goal&quot;: &quot;Establish baseline understanding; surface divergent views early.&quot; },
+    { &quot;minutes&quot;: &quot;10–30&quot;, &quot;phase&quot;: &quot;Competitive Analysis&quot;, &quot;activity&quot;: &quot;Small group discussion: apply Five Forces to Nvidia's position.&quot;, &quot;goal&quot;: &quot;Reveal the structural sources of advantage — and fragility.&quot; }
+  ],
+  &quot;discussionQuestions&quot;: [
+    {
+      &quot;question&quot;: &quot;What is Nvidia's competitive advantage, and which parts of it are most durable?&quot;,
+      &quot;timing&quot;: &quot;Minutes 0–20&quot;,
+      &quot;purpose&quot;: &quot;Opens the competitive analysis; surfaces whether students see hardware vs. software as the real moat.&quot;,
+      &quot;teachingPoints&quot;: [
+        &quot;CUDA is the moat, not the GPU — the hardware is increasingly replicable&quot;,
+        &quot;Switching costs are embedded in developer workflows, not just code&quot;,
+        &quot;Four million CUDA developers represent a self-reinforcing ecosystem&quot;
+      ],
+      &quot;anticipatedResponses&quot;: &quot;Most students will cite GPU performance first. Push them: if AMD matches GPU specs, why doesn't Nvidia lose share? This surfaces the software ecosystem argument.&quot;,
+      &quot;boardCapture&quot;: &quot;Column 1: Sources of Advantage → list hardware vs. software items separately&quot;
+    }
+  ],
+  &quot;boardPlan&quot;: {
+    &quot;description&quot;: &quot;Three-column layout. Build left-to-right as discussion progresses.&quot;,
+    &quot;columns&quot;: [
+      { &quot;header&quot;: &quot;Sources of Advantage&quot;, &quot;points&quot;: [&quot;CUDA ecosystem (4M devs)&quot;, &quot;One-year product cadence&quot;, &quot;Full-stack integration&quot;, &quot;Supply chain relationships&quot;] },
+      { &quot;header&quot;: &quot;Competitive Threats&quot;, &quot;points&quot;: [&quot;Hyperscaler custom silicon (44.6% ASIC growth)&quot;, &quot;AMD + OpenAI (ROCm open-source)&quot;, &quot;China export ban ($50B gap)&quot;, &quot;Customer → competitor dynamic&quot;] },
+      { &quot;header&quot;: &quot;Strategic Options&quot;, &quot;points&quot;: [&quot;Fortify the moat (R&amp;D acceleration)&quot;, &quot;Open the platform (CUDA portability)&quot;, &quot;Evolve beyond chips (AI factory)&quot;] }
+    ]
+  },
+  &quot;epilogue&quot;: &quot;Optional text describing what actually happened...&quot;
+}
+</code></pre>
+<p>Run the script:</p>
+<pre><code class="language-bash">node &lt;skill-path&gt;/scripts/generate_teaching_note_docx.js teaching_note_data.json output.docx
+</code></pre>
+<h3>Phase 5: Review and Iterate</h3>
+<p>After generating, ask the instructor:
+- Does the discussion sequence feel right for their teaching style?
+- Are the timing estimates realistic for their class format?
+- Do they want to add or remove any sections?</p>
+<h2>Key Reminders</h2>
+<ul>
+<li>Teaching notes are INSTRUCTOR ONLY — always include the "NOT FOR DISTRIBUTION" header</li>
+<li>Discussion questions should build progressively: open → analyze → evaluate → synthesize</li>
+<li>Teaching points are what the instructor should draw out; anticipated responses are what students will actually say (often different)</li>
+<li>The board plan should tell the visual story of the class — what a student photographs at the end of class should capture the key insights</li>
+<li>For McCombs branding specs, see <code>../case-generator/references/docx-branding.md</code></li>
+</ul></div>
+<h3>Files included</h3><ul><li><code>SKILL.md</code></li><li><code>assets/McCombs_Basic.dotx</code></li><li><code>assets/mccombs_logo.png</code></li><li><code>references/teaching-note-structure.md</code></li><li><code>scripts/generate_teaching_note_docx.js</code></li></ul>
+<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
+<footer>McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</body></html>
