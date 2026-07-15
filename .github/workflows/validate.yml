@@ -1,0 +1,65 @@
+name: Validate skills
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Spec compliance + platform compatibility check
+        run: python3 scripts/check_skills.py --strict --json docs/compat-report.json
+
+      - name: Package skill zips (ChatGPT / manual upload)
+        run: python3 scripts/package_skills.py
+
+      - name: Build catalog page
+        run: python3 scripts/build_catalog.py
+
+      - name: Upload zips as build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: skill-zips
+          path: dist/*.zip
+
+      # On main: commit the regenerated catalog so GitHub Pages (from /docs) stays current
+      - name: Commit updated catalog
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "skills-bot"
+          git config user.email "actions@github.com"
+          git add docs/
+          git diff --cached --quiet || git commit -m "chore: regenerate catalog [skip ci]"
+          git push
+
+  release:
+    # Publish zips to a GitHub Release whenever a version tag is pushed (v1.0.0 etc.)
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+      - run: python3 scripts/check_skills.py --strict
+      - run: python3 scripts/package_skills.py
+      - name: Create release with zips
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
+          generate_release_notes: true

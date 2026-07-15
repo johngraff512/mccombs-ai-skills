@@ -1,0 +1,9 @@
+{
+  "name": "mccombs-case-toolkit",
+  "version": "1.2.0",
+  "description": "Seven AI-powered skills for case-based teaching at McCombs School of Business — from ideation through classroom delivery and case updates.",
+  "author": {
+    "name": "John Graff"
+  },
+  "keywords": ["mccombs", "case-teaching", "business-cases", "mba", "education"]
+}

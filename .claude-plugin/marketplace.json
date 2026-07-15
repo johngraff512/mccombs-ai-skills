@@ -1,0 +1,25 @@
+{
+  "name": "mccombs-ai-skills",
+  "owner": {
+    "name": "John Graff",
+    "email": "john.graff@me.com"
+  },
+  "metadata": {
+    "description": "AI skills for teaching and learning at the McCombs School of Business, UT Austin. Maintained by the AI Faculty Working Group.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "mccombs-case-toolkit",
+      "source": "./plugins/mccombs-case-toolkit",
+      "description": "Case-based teaching lifecycle: ideation, case writing, fact-checking, teaching notes, exercises, slides, and refreshes — all McCombs-branded.",
+      "category": "education"
+    },
+    {
+      "name": "business-ai-tools",
+      "source": "./plugins/business-ai-tools",
+      "description": "Skills by Prof. Ben Bentzin (McCombs): AI Council decision review, academic and general summarizers, and Beamer slide generation. MIT licensed.",
+      "category": "education"
+    }
+  ]
+}

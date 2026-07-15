@@ -1,0 +1,11 @@
+{
+  "name": "business-ai-tools",
+  "version": "1.0.0",
+  "description": "Skills for business faculty by Ben Bentzin, Associate Professor, McCombs School of Business: ai-council, summary-academic, summary-general, beamer.",
+  "author": {
+    "name": "Ben Bentzin"
+  },
+  "homepage": "https://github.com/AI-Business-Tools/claude-code",
+  "license": "MIT",
+  "keywords": ["mccombs", "education", "summaries", "decision-review", "slides"]
+}

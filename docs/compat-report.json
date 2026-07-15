@@ -1,0 +1,196 @@
+[
+  {
+    "skill": "ai-council",
+    "plugin": "business-ai-tools",
+    "errors": [],
+    "warnings": [
+      "external reference '../ai-council-deep/' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
+    ],
+    "signals": [
+      "Claude-specific frontmatter (ignored on other platforms): triggers",
+      "has external file references",
+      "uses subagents (Claude feature)"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Run any question, idea, or decision through a council of 5 AI advisors who independently analyze it, peer-review each other anonymously, and synthesize a final verdict. Adapted from Andrej Karpathy's LLM Council methodology.",
+    "version": null,
+    "license": null
+  },
+  {
+    "skill": "beamer",
+    "plugin": "business-ai-tools",
+    "errors": [],
+    "warnings": [
+      "SKILL.md is 966 lines (spec recommends <500; move detail to references/)",
+      "external reference '../../style-guides/beamer/style-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
+      "external reference '../../style-guides/pptx/style-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
+      "external reference '../figures/' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
+      "external reference '../split-pdf/SKILL.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
+      "external reference '../writing-voice-guide/README.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
+    ],
+    "signals": [
+      "Claude-specific frontmatter (ignored on other platforms): argument-hint, triggers",
+      "has external file references",
+      "written with Claude Code in mind",
+      "uses subagents (Claude feature)",
+      "allowed-tools pre-approves shell/agent tools (Claude Code oriented)"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Beamer slide generation with citation strategy decision, code-first matplotlib figures, outline checkpoint with content inventory, structure-aware rhetoric, Devil's Advocate slides, code blocks, and transition slides. Two optional axes tune the deck: `structure=` (mba [default], teaching, faculty, p",
+    "version": null,
+    "license": null
+  },
+  {
+    "skill": "summary-academic",
+    "plugin": "business-ai-tools",
+    "errors": [],
+    "warnings": [],
+    "signals": [
+      "Claude-specific frontmatter (ignored on other platforms): triggers",
+      "uses subagents (Claude feature)"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Academic paper summarizer for papers, research articles, and scholarly publications. Structured summaries with citations, thesis, conclusions, methodology, implications, and critical analysis.",
+    "version": null,
+    "license": null
+  },
+  {
+    "skill": "summary-general",
+    "plugin": "business-ai-tools",
+    "errors": [],
+    "warnings": [],
+    "signals": [
+      "Claude-specific frontmatter (ignored on other platforms): triggers",
+      "uses subagents (Claude feature)"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Summarizer for news articles, blog posts, videos, and podcasts. Structured summaries with citations, thesis, themes, and critical analysis. Not for academic papers; use summary-academic.",
+    "version": null,
+    "license": null
+  },
+  {
+    "skill": "case-factcheck",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [
+      "external reference '../case-generator/references/case-structure.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
+      "external reference '../case-generator/scripts/generate_case_docx.js' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
+      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
+    ],
+    "signals": [
+      "has external file references"
+    ],
+    "classification": "both",
+    "description": "Systematically verify all factual claims in a business case before downstream materials are built. Use this skill when an instructor wants to fact-check a case, verify case data, or check case accuracy before generating teaching notes, exercises, or slides. Triggers on: fact-check this case, verify ",
+    "version": null,
+    "license": null
+  },
+  {
+    "skill": "case-generator",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [
+      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
+    ],
+    "signals": [
+      "has external file references",
+      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Generate professional business cases for classroom teaching. Use this skill when a faculty member or instructor wants to create a business case about a company or topic, write a case study for class, build teaching materials around a strategic dilemma, or produce a case document with McCombs brandin",
+    "version": null,
+    "license": null
+  },
+  {
+    "skill": "case-idea-generator",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [
+      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
+    ],
+    "signals": [
+      "has external file references",
+      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Generate curated business case ideas for MBA/EMBA instruction. Use this skill when a faculty member wants to brainstorm case ideas for a course, module, or framework. Triggers on: case ideas, brainstorm cases, what companies could I write a case about, find me a good case topic, case idea generator,",
+    "version": null,
+    "license": null
+  },
+  {
+    "skill": "case-refresher",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [
+      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
+    ],
+    "signals": [
+      "has external file references",
+      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Update an existing business case with current data and recent developments. Use this skill when an instructor has an existing case and wants it refreshed with current information. Triggers on: refresh this case, update the case, what's changed since this case was written, case refresher, bring this ",
+    "version": null,
+    "license": null
+  },
+  {
+    "skill": "class-exercise-generator",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [
+      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
+    ],
+    "signals": [
+      "has external file references",
+      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Generate a menu of interactive class exercises for a case discussion or lecture session. Use this skill when a faculty member or instructor wants activities for a class \u2014 poll questions, think-pair-share, small group breakouts, debates, framework applications, or any structured classroom exercises. ",
+    "version": null,
+    "license": null
+  },
+  {
+    "skill": "mccombs-slides",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [],
+    "signals": [],
+    "classification": "both",
+    "description": "Create branded PowerPoint presentations following McCombs School of Business style guidelines. Use when creating slides, presentations, or decks for UT Austin McCombs faculty, students, or events. Applies official brand colors (Burnt Orange",
+    "version": null,
+    "license": null
+  },
+  {
+    "skill": "slide-generator",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [
+      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
+    ],
+    "signals": [
+      "has external file references",
+      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Generate McCombs-branded PowerPoint slide decks for case discussions and lectures. Use this skill when an instructor needs a slide deck for facilitating a case discussion or delivering a lecture. Triggers on: create slides, make a slide deck, case discussion slides, lecture slides, presentation for ",
+    "version": null,
+    "license": null
+  },
+  {
+    "skill": "teaching-note-generator",
+    "plugin": "mccombs-case-toolkit",
+    "errors": [],
+    "warnings": [
+      "external reference '../case-generator/references/docx-branding.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
+      "external reference '../shared/discipline-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead"
+    ],
+    "signals": [
+      "has external file references",
+      "bundles 1 script(s) \u2014 requires code execution enabled on the platform"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Generate comprehensive instructor teaching notes for business cases. Use this skill when a faculty member or instructor wants a teaching note, instructor guide, teaching plan, discussion guide, or class facilitation guide for a business case. Triggers on: teaching note, instructor note, discussion p",
+    "version": null,
+    "license": null
+  }
+]
