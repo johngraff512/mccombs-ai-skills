@@ -43,7 +43,7 @@ open docs/index.html                            # preview the catalog
 
 ## Can't or don't want to use GitHub at all?
 
-Email your skill folder (zipped) to the AI Faculty Working Group and we'll submit it for you, credited to you.
+Email your skill folder (zipped) to the AI Faculty Working Group at [john.graff@mccombs.utexas.edu](mailto:john.graff@mccombs.utexas.edu) and we'll submit it for you, credited to you.
 
 ## Ground rules for all submissions
 
