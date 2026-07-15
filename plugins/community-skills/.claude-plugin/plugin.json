@@ -1,0 +1,9 @@
+{
+  "name": "community-skills",
+  "version": "0.1.0",
+  "description": "Skills contributed by McCombs faculty — the default home for new submissions until they find a themed plugin.",
+  "author": {
+    "name": "McCombs AI Faculty Working Group"
+  },
+  "keywords": ["mccombs", "education", "community"]
+}

@@ -16,6 +16,12 @@
       "category": "education"
     },
     {
+      "name": "community-skills",
+      "source": "./plugins/community-skills",
+      "description": "Skills contributed by McCombs faculty — the default home for new submissions.",
+      "category": "education"
+    },
+    {
       "name": "business-ai-tools",
       "source": "./plugins/business-ai-tools",
       "description": "Skills by Prof. Ben Bentzin (McCombs): AI Council decision review, academic and general summarizers, and Beamer slide generation. MIT licensed.",

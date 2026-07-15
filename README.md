@@ -22,25 +22,18 @@ Claude Code marketplace installs update automatically. ChatGPT and manual Claude
 |---|---|---|
 | `mccombs-case-toolkit` | case-idea-generator, case-generator, case-factcheck, teaching-note-generator, class-exercise-generator, slide-generator, case-refresher, mccombs-slides | John Graff |
 | `business-ai-tools` | ai-council, summary-academic, summary-general, beamer | [Ben Bentzin](https://github.com/AI-Business-Tools/claude-code) (MIT) |
+| `community-skills` | *(your skill here — see [CONTRIBUTING.md](CONTRIBUTING.md))* | McCombs faculty |
 
 ## For contributors: submitting or updating a skill
 
-1. Fork/branch, add your skill folder under `plugins/<plugin>/skills/<skill-name>/` (must contain `SKILL.md`; see the [spec](https://agentskills.io/specification)).
-2. Open a pull request — the template walks you through the checklist, including a **manual test on both platforms**.
-3. CI automatically validates every PR:
+**New to GitHub? Start with [CONTRIBUTING.md](CONTRIBUTING.md)** — a click-by-click walkthrough for submitting a skill entirely through your web browser, no Git or coding required. (It also covers the Git workflow for those who prefer it.)
+
+Every submission, either way, gets the same treatment:
+
+1. CI automatically validates the pull request:
    - **Spec compliance** — frontmatter fields, naming rules, description limits, oversized SKILL.md
    - **Cross-platform classification** — each skill is tagged `Both platforms`, `Both (see notes)`, or `Claude only`, based on Claude-specific frontmatter, bundled scripts, MCP dependencies, and external file references
-4. A working-group maintainer reviews and merges. On merge, the catalog regenerates; on a version tag (`git tag v0.2.0 && git push --tags`), zips are published to a GitHub Release that the catalog links to.
-
-Run the checks locally before pushing:
-
-```bash
-pip install pyyaml
-python3 scripts/check_skills.py                 # validation + compatibility report
-python3 scripts/package_skills.py               # build zips into dist/
-python3 scripts/check_skills.py --json docs/compat-report.json && python3 scripts/build_catalog.py
-open docs/index.html                            # preview the catalog
-```
+2. A working-group maintainer reviews and merges. On merge, the catalog regenerates; on a version tag (`git tag v0.2.0 && git push --tags`), zips are published to a GitHub Release that the catalog links to.
 
 ## Repo layout
 
