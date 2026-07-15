@@ -6,12 +6,12 @@ Maintained by the AI Faculty Working Group.
 
 ## For faculty: installing a skill
 
-Browse the **[skill catalog](https://YOUR-USERNAME.github.io/mccombs-ai-skills/)** — each skill card shows a compatibility badge and install buttons.
+Browse the **[skill catalog](https://johngraff512.github.io/mccombs-ai-skills/)** — each skill card shows a compatibility badge and install buttons.
 
 | Platform | How to install |
 |---|---|
 | **Claude (EDU / desktop)** | Settings → Capabilities → Skills → Upload skill → choose the skill's `.zip` from the catalog |
-| **Claude Code** | `/plugin marketplace add YOUR-USERNAME/mccombs-ai-skills` then `/plugin install mccombs-case-toolkit` |
+| **Claude Code** | `/plugin marketplace add johngraff512/mccombs-ai-skills` then `/plugin install mccombs-case-toolkit` |
 | **ChatGPT (UT workspace)** | Skills → Create → Upload from your computer → choose the same `.zip` |
 
 Claude Code marketplace installs update automatically. ChatGPT and manual Claude uploads are point-in-time copies — the catalog page shows version numbers and update dates so you know when to re-download.
@@ -58,7 +58,6 @@ docs/                                Published catalog (enable Pages from /docs)
 
 ## One-time setup after pushing to GitHub
 
-1. Replace `YOUR-USERNAME` in this README and `REPO_SLUG` in `scripts/build_catalog.py`.
 2. Repo Settings → Pages → Source: `main` branch, `/docs` folder.
 3. Repo Settings → Actions → General → Workflow permissions: "Read and write" (lets CI commit the regenerated catalog).
 4. Tag the first release: `git tag v0.1.0 && git push --tags`.

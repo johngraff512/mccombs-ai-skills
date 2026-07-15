@@ -16,7 +16,7 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REPO_SLUG = os.environ.get("GITHUB_REPOSITORY", "jgraff/mccombs-ai-skills")  # TODO: update
+REPO_SLUG = os.environ.get("GITHUB_REPOSITORY", "johngraff512/mccombs-ai-skills")
 REPO_URL = f"https://github.com/{REPO_SLUG}"
 ZIP_URL = REPO_URL + "/releases/latest/download/{skill}.zip"
 
