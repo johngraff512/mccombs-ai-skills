@@ -73,7 +73,7 @@ def check_skill(skill_dir: Path):
         "plugin": skill_dir.parent.parent.name,
         "errors": [], "warnings": [], "signals": [],
         "classification": "both",
-        "description": "", "version": None, "license": None,
+        "description": "", "version": None, "license": None, "category": "General",
     }
     skill_md = skill_dir / "SKILL.md"
     if not skill_md.exists():
@@ -111,6 +111,11 @@ def check_skill(skill_dir: Path):
     meta = fm.get("metadata") or {}
     if isinstance(meta, dict):
         r["version"] = meta.get("version")
+        r["category"] = meta.get("category", "General")
+        if "category" not in meta:
+            r["warnings"].append("no metadata.category — will show as 'General' in the catalog")
+        if "version" not in meta:
+            r["warnings"].append("no metadata.version — updates won't be visible to faculty; add one")
     r["license"] = fm.get("license")
 
     body_lines = text.count("\n") + 1

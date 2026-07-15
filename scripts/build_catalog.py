@@ -12,8 +12,20 @@ Actions) or falls back to REPO_SLUG below — update it after you create the rep
 import html
 import json
 import os
+import subprocess
 from datetime import date
 from pathlib import Path
+
+
+def last_updated(path: Path) -> str:
+    """Date of the last git commit touching this path (needs full clone: fetch-depth 0 in CI)."""
+    try:
+        out = subprocess.run(
+            ["git", "log", "-1", "--format=%cs", "--", str(path)],
+            capture_output=True, text=True, cwd=path.parent, timeout=10).stdout.strip()
+        return out or date.today().isoformat()
+    except Exception:
+        return date.today().isoformat()
 
 ROOT = Path(__file__).resolve().parent.parent
 REPO_SLUG = os.environ.get("GITHUB_REPOSITORY", "johngraff512/mccombs-ai-skills")
@@ -42,11 +54,28 @@ details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font
 footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
 code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
 h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
+.chips{margin-bottom:16px}
+.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
+.chip.on{background:#BF5700;color:#fff}
+.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
 """
 
 JS = """
-document.getElementById('q').addEventListener('input',e=>{const v=e.target.value.toLowerCase();
-document.querySelectorAll('.card').forEach(c=>{c.style.display=c.textContent.toLowerCase().includes(v)?'':'none'})});
+let activeCat = null;
+function applyFilters(){
+  const v = document.getElementById('q').value.toLowerCase();
+  document.querySelectorAll('.card').forEach(c => {
+    const okText = c.textContent.toLowerCase().includes(v);
+    const okCat = !activeCat || !c.dataset.category || c.dataset.category === activeCat;
+    c.style.display = (okText && okCat) ? '' : 'none';
+  });
+}
+document.getElementById('q').addEventListener('input', applyFilters);
+document.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => {
+  activeCat = (activeCat === b.dataset.cat) ? null : b.dataset.cat;
+  document.querySelectorAll('.chip').forEach(x => x.classList.toggle('on', x.dataset.cat === activeCat));
+  applyFilters();
+}));
 """
 
 
@@ -60,10 +89,12 @@ def card(r):
                if r["classification"] != "claude-only" else
                "<div class='install'><b>ChatGPT</b> Not available — this skill depends on Claude-side features.</div>")
     ver = f" &middot; v{html.escape(str(r['version']))}" if r.get("version") else ""
+    cat = r.get("category", "General")
+    updated = last_updated(ROOT / "plugins" / r["plugin"] / "skills" / r["skill"])
     return f"""
-<div class="card">
-  <span class="plugin">{html.escape(r['plugin'])}{ver}</span>
-  <h2>{html.escape(r['skill'])}<span class="badge" style="background:{label and color}">{label}</span></h2>
+<div class="card" data-category="{html.escape(cat)}">
+  <span class="plugin">{html.escape(r['plugin'])}{ver} &middot; updated {updated}</span>
+  <h2>{html.escape(r['skill'])}<span class="badge" style="background:{label and color}">{label}</span><span class="cat">{html.escape(cat)}</span></h2>
   <p class="desc">{html.escape(r['description'])}</p>
   <div class="install"><b>Claude (UT Claude EDU)</b>
     <a href="{zip_link}">Download {r['skill']}.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
@@ -84,9 +115,11 @@ def plugin_cards(report):
         if not skills:
             continue
         zip_link = ZIP_URL.format(skill=f"{p['name']}-plugin")
+        pj = json.loads((ROOT / "plugins" / p["name"] / ".claude-plugin" / "plugin.json").read_text())
+        updated = last_updated(ROOT / "plugins" / p["name"])
         out.append(f"""
 <div class="card">
-  <span class="plugin">Toolkit &middot; {len(skills)} skills</span>
+  <span class="plugin">Toolkit &middot; {len(skills)} skills &middot; v{html.escape(pj.get('version', '?'))} &middot; updated {updated}</span>
   <h2>{html.escape(p['name'])}</h2>
   <p class="desc">{html.escape(p['description'])}<br><small>Includes: {html.escape(', '.join(sorted(skills)))}</small></p>
   <div class="install"><b>Claude Code / Cowork (installs and auto-updates — no download needed)</b>
@@ -104,6 +137,8 @@ def main():
     report = json.loads((ROOT / "docs" / "compat-report.json").read_text())
     cards = "\n".join(card(r) for r in report)
     toolkits = plugin_cards(report)
+    cats = sorted({r.get("category", "General") for r in report})
+    chips = "".join(f'<button class="chip" data-cat="{html.escape(c)}">{html.escape(c)}</button>' for c in cats)
     n = len(report)
     both = sum(1 for r in report if r["classification"] != "claude-only")
     page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
@@ -112,6 +147,7 @@ def main():
 <header><h1>McCombs AI Skills Catalog</h1>
 <p>{n} skills for teaching and learning &middot; {both} work in both Claude EDU and ChatGPT &middot; updated {date.today().isoformat()}</p></header>
 <main><input id="q" placeholder="Search skills (e.g. case, slides, teaching note)&hellip;">
+<div class="chips">{chips}</div>
 <h2 class="section">Toolkits — install a whole set at once</h2>
 {toolkits}
 <h2 class="section">Individual skills</h2>

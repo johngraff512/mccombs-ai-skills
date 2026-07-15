@@ -1,6 +1,9 @@
 ---
 name: case-idea-generator
 description: "Generate curated business case ideas for MBA/EMBA instruction. Use this skill when a faculty member wants to brainstorm case ideas for a course, module, or framework. Triggers on: case ideas, brainstorm cases, what companies could I write a case about, find me a good case topic, case idea generator, suggest cases for my course, case topic ideas."
+metadata:
+  category: Case Writing
+  version: "1.0"
 ---
 
 # Case Idea Generator

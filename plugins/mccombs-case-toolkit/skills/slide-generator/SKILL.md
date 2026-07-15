@@ -1,6 +1,9 @@
 ---
 name: slide-generator
 description: "Generate McCombs-branded PowerPoint slide decks for case discussions and lectures. Use this skill when an instructor needs a slide deck for facilitating a case discussion or delivering a lecture. Triggers on: create slides, make a slide deck, case discussion slides, lecture slides, presentation for class, slide generator, slides for this case, case slides."
+metadata:
+  category: Slides & Presentations
+  version: "1.0"
 ---
 
 # Slide Generator

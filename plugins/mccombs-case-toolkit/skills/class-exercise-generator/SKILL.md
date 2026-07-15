@@ -1,6 +1,9 @@
 ---
 name: class-exercise-generator
 description: "Generate a menu of interactive class exercises for a case discussion or lecture session. Use this skill when a faculty member or instructor wants activities for a class — poll questions, think-pair-share, small group breakouts, debates, framework applications, or any structured classroom exercises. Triggers on: class exercises, in-class activities, exercises for this case, engagement activities, interactive exercises, what activities should I use, breakout exercises, discussion exercises. Also triggers when an instructor has a case and wants to build engaging activities around it."
+metadata:
+  category: Class Preparation
+  version: "1.0"
 ---
 
 # Class Exercise Generator Skill

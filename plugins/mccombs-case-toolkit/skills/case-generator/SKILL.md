@@ -1,6 +1,9 @@
 ---
 name: case-generator
 description: "Generate professional business cases for classroom teaching. Use this skill when a faculty member or instructor wants to create a business case about a company or topic, write a case study for class, build teaching materials around a strategic dilemma, or produce a case document with McCombs branding. Triggers on: business case, case study, case about [company], write a case, generate a case, teaching case, case for my class, strategic case, company case, topic case, case creation, new case. Also triggers when someone provides a company name and learning objectives and wants classroom-ready materials."
+metadata:
+  category: Case Writing
+  version: "1.0"
 ---
 
 # Case Generator Skill

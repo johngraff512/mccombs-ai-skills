@@ -1,6 +1,9 @@
 ---
 name: case-factcheck
 description: "Systematically verify all factual claims in a business case before downstream materials are built. Use this skill when an instructor wants to fact-check a case, verify case data, or check case accuracy before generating teaching notes, exercises, or slides. Triggers on: fact-check this case, verify the case, check the facts, case fact-check, verify case data, fact check, factcheck, check case accuracy, verify case claims, are the facts right."
+metadata:
+  category: Case Writing
+  version: "1.0"
 ---
 
 # Case Fact-Checker

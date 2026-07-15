@@ -1,6 +1,9 @@
 ---
 name: teaching-note-generator
 description: "Generate comprehensive instructor teaching notes for business cases. Use this skill when a faculty member or instructor wants a teaching note, instructor guide, teaching plan, discussion guide, or class facilitation guide for a business case. Triggers on: teaching note, instructor note, discussion plan, teaching guide, how to teach this case, class plan, board plan, discussion questions, teaching plan, case facilitation, instructor copy. Also triggers immediately after the Case Generator produces a case when the instructor asks for accompanying teaching materials."
+metadata:
+  category: Class Preparation
+  version: "1.0"
 ---
 
 # Teaching Note Generator Skill

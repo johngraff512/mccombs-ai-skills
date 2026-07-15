@@ -2,6 +2,9 @@
 name: summary-general
 description: Summarizer for news articles, blog posts, videos, and podcasts. Structured summaries with citations, thesis, themes, and critical analysis. Not for academic papers; use summary-academic.
 triggers: summarize this, summarize this article, general summary, /general-summary, quick summary, brief summary, /general-summary quick
+metadata:
+  category: Research & Summaries
+  version: "1.0"
 ---
 
 # General Content Summary

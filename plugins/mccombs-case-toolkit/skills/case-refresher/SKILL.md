@@ -1,6 +1,9 @@
 ---
 name: case-refresher
 description: "Update an existing business case with current data and recent developments. Use this skill when an instructor has an existing case and wants it refreshed with current information. Triggers on: refresh this case, update the case, what's changed since this case was written, case refresher, bring this case up to date, current data for this case, update case data."
+metadata:
+  category: Case Writing
+  version: "1.0"
 ---
 
 # Case Refresher
