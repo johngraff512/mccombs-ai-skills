@@ -26,6 +26,15 @@ Not sure your folder is set up right? Ask Claude or ChatGPT: *"Check that this f
 - Within a minute or two, our robot checker validates your skill and labels it *Both platforms*, *Both (see notes)*, or *Claude only*. If something needs fixing, it leaves a plain-English note on your pull request (you'll get an email).
 - A working-group member reviews and approves it. Your skill then appears on the [skill catalog](https://johngraff512.github.io/mccombs-ai-skills/) for all faculty, with you credited as author.
 
+## Updating an existing skill
+
+Same as submitting a new one, with two differences:
+
+1. In step 2 of Path A, navigate **into the existing skill's folder** (e.g. `plugins/community-skills/skills/your-skill/`) before clicking "Add file" → "Upload files". Files you upload replace the old versions with the same names.
+2. Open the `SKILL.md` you're uploading and bump the version number in the frontmatter — e.g. change `version: "1.0"` to `version: "1.1"` — and briefly say what changed in the pull request description. The version number is how faculty know an update is available on the catalog.
+
+You can update any skill, not just your own — improvements are welcome. The original author is notified on the pull request, and a maintainer reviews as usual.
+
 ## Path B: Submit with Git (for the comfortable)
 
 1. Fork/branch, add your skill folder under `plugins/<plugin>/skills/<skill-name>/` (must contain `SKILL.md`; see the [spec](https://agentskills.io/specification)).
