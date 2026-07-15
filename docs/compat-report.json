@@ -34,7 +34,7 @@
       "instructions reference Claude Code specifically \u2014 behavior on other platforms may differ",
       "designed to delegate work to Claude subagents \u2014 on ChatGPT it runs in a simpler single-assistant mode",
       "includes Claude-specific settings (argument-hint, triggers) \u2014 ChatGPT ignores these; the skill still works but may activate less reliably there",
-      "built for Claude Code: it runs command-line software on your computer (e.g. biber, bibtex, brew, fc) \u2014 hosted platforms like claude.ai and ChatGPT don't provide these programs"
+      "runs command-line software (e.g. biber, bibtex, brew, fc) that must be installed where the skill runs \u2014 works best in Claude Code on a computer with that software; hosted platforms (claude.ai chat, ChatGPT) don't preinstall it"
     ],
     "classification": "claude-code-only",
     "description": "Beamer slide generation with citation strategy decision, code-first matplotlib figures, outline checkpoint with content inventory, structure-aware rhetoric, Devil's Advocate slides, code blocks, and transition slides. Two optional axes tune the deck: `structure=` (mba [default], teaching, faculty, p",

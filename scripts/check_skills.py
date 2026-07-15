@@ -171,9 +171,10 @@ def check_skill(skill_dir: Path):
     if "Bash(" in at:
         claude_code = True
         binaries = sorted(set(re.findall(r"Bash\((\w+)", at)) - {"cd", "ls", "cp", "mv", "rm", "cat", "grep", "head", "tail", "wc", "find", "which", "type", "mkdir", "export", "eval"})
-        soft.append("built for Claude Code: it runs command-line software on your computer"
+        soft.append("runs command-line software"
                     + (f" (e.g. {', '.join(binaries[:4])})" if binaries else "")
-                    + " — hosted platforms like claude.ai and ChatGPT don't provide these programs")
+                    + " that must be installed where the skill runs — works best in Claude Code on a computer "
+                    "with that software; hosted platforms (claude.ai chat, ChatGPT) don't preinstall it")
 
     r["signals"].extend(hard + soft)
     if hard:

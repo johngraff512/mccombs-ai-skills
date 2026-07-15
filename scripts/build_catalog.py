@@ -41,7 +41,7 @@ ZIP_URL = REPO_URL + "/releases/latest/download/{skill}.zip"
 BADGES = {
     "both": ("Both platforms", "#2e7d32"),
     "both-with-caveats": ("Both (see notes)", "#b26a00"),
-    "claude-code-only": ("Claude Code only", "#8b1a1a"),
+    "claude-code-only": ("Needs local software", "#8b1a1a"),
     "claude-only": ("Claude only", "#5f3dc4"),
 }
 
@@ -95,9 +95,11 @@ def card(r):
     notes_html = f"<details><summary>Compatibility notes</summary><ul class='notes'>{notes}</ul></details>" if notes else ""
     cls = r["classification"]
     if cls == "claude-code-only":
-        claude = ("<div class='install'><b>Claude Code (developer tool)</b> This skill needs software on your own computer, "
-                  f"so it only works in Claude Code: <code>/plugin marketplace add {REPO_SLUG}</code></div>")
-        chatgpt = "<div class='install'><b>Claude (web/desktop) and ChatGPT</b> Not available — see the notes below.</div>"
+        claude = ("<div class='install'><b>Claude (works where its software is available)</b> This skill runs extra software "
+                  "(see notes) that isn't preinstalled on hosted platforms. Recommended: <b>Claude Code</b> on a computer with that "
+                  f"software installed — <code>/plugin marketplace add {REPO_SLUG}</code>. It may also work in <b>Claude Cowork</b> "
+                  "if the software can be installed in its environment.</div>")
+        chatgpt = "<div class='install'><b>ChatGPT</b> Not available — ChatGPT can't install the required software.</div>"
     elif cls == "claude-only":
         claude = (f"<div class='install'><b>Claude (UT Claude EDU)</b> <a href='{zip_link}'>Download {r['skill']}.zip</a> "
                   "&rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>")
@@ -146,8 +148,9 @@ def detail_page(r, badge_label, badge_color):
     notes_html = f"<h3>Compatibility notes</h3><ul>{notes}</ul>" if notes else ""
     ver = f"v{html.escape(str(r['version']))} &middot; " if r.get("version") else ""
     if r["classification"] == "claude-code-only":
-        install = ("<div class='install'><b>Install (Claude Code only)</b> This skill runs software on your own computer, "
-                   f"so it works only in Claude Code: <code>/plugin marketplace add {REPO_SLUG}</code></div>")
+        install = ("<div class='install'><b>Install</b> This skill runs extra software (see notes) that hosted platforms don't "
+                   "preinstall. Recommended: <b>Claude Code</b> on a computer with that software — "
+                   f"<code>/plugin marketplace add {REPO_SLUG}</code>. May also work in Claude Cowork. Not available in ChatGPT.</div>")
     elif r["classification"] == "claude-only":
         install = (f"<div class='install'><b>Install (Claude only)</b> <a href='{zip_link}'>Download {r['skill']}.zip</a> "
                    "&mdash; upload in Claude: Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill. Not available for ChatGPT.</div>")
@@ -227,10 +230,11 @@ def plugin_cards(report):
   <h2>{html.escape(p['name'])}</h2>
   <p class="desc">{html.escape(p['description'])}<br><small>Includes: {html.escape(', '.join(sorted(skills)))}</small>
   <a class="more" href="toolkits/{p['name']}.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude plug-in (Claude Code / Cowork only — installs and auto-updates, no download)</b>
-    Type: <code>/plugin marketplace add {REPO_SLUG}</code> then <code>/plugin install {html.escape(p['name'])}</code>.
-    ChatGPT and the Claude website don't support plug-ins — use the downloads below instead.</div>
-  <div class="install"><b>Claude website / desktop app (upload once)</b>
+  <div class="install"><b>Claude plug-in (recommended — installs everything at once and auto-updates)</b>
+    Works on the Claude website, desktop app, Cowork, and Claude Code. On the website/app: Customize &rarr; Plugins &rarr; + &rarr;
+    Add marketplace &rarr; enter <code>{REPO_SLUG}</code>, then install <b>{html.escape(p['name'])}</b>.
+    In Claude Code: <code>/plugin marketplace add {REPO_SLUG}</code>. ChatGPT doesn't support plug-ins — see below.</div>
+  <div class="install"><b>Claude (manual alternative — upload once, no auto-updates)</b>
     <a href="{claude_zip}">Download {p['name']}-v{ver}.zip</a> — unzip and upload the
     skills you want in Claude: Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
   <div class="install"><b>ChatGPT (upload once)</b>
