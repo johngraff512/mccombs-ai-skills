@@ -1,6 +1,6 @@
 # McCombs Case Toolkit
 
-**Version 1.3.0**
+**Version 1.3.1**
 
 A dual-target suite of seven AI-powered skills for case-based teaching at the McCombs School of Business, The University of Texas at Austin.
 
@@ -50,8 +50,8 @@ Generated files:
 
 ```text
 dist/chatgpt/<skill-name>/skill.zip
-dist/chatgpt/mccombs-case-toolkit-chatgpt-v1.3.0.zip
-dist/claude/mccombs-case-toolkit-v1.3.0.zip
+dist/chatgpt/mccombs-case-toolkit-chatgpt-v1.3.1.zip
+dist/claude/mccombs-case-toolkit-v1.3.1.zip
 ```
 
 The ChatGPT distribution bundle is not itself installable. Unzip it and install each enclosed `skill.zip` separately.

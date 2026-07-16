@@ -3,8 +3,9 @@ name: summary-academic
 description: Academic paper summarizer for papers, research articles, and scholarly publications. Structured summaries with citations, thesis, conclusions, methodology, implications, and critical analysis.
 triggers: summarize this paper, summarize this research, academic summary, /academic-summary, quick academic summary, brief paper summary, /academic-summary quick
 metadata:
+  summary: "Structured summaries of academic papers: thesis, methods, findings, and critical analysis."
   category: Research & Summaries
-  version: "1.0"
+  version: "1.0.1"
 ---
 
 # Academic Paper Summary

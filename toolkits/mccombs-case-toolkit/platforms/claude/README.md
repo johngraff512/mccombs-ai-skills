@@ -1,6 +1,6 @@
 # McCombs Case Toolkit for Claude
 
-**Version 1.3.0**
+**Version 1.3.1**
 
 This plugin provides seven skills for the case-teaching lifecycle:
 

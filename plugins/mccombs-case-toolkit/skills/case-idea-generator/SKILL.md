@@ -2,13 +2,14 @@
 name: case-idea-generator
 description: "Generate curated business case ideas for MBA/EMBA instruction. Use this skill when a faculty member wants to brainstorm case ideas for a course, module, or framework. Triggers on: case ideas, brainstorm cases, what companies could I write a case about, find me a good case topic, case idea generator, suggest cases for my course, case topic ideas."
 metadata:
+  summary: "Brainstorm curated business-case ideas matched to your course, module, or framework."
   category: Case Writing
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Case Idea Generator
 
-> McCombs Case Toolkit version 1.3.0
+> McCombs Case Toolkit version 1.3.1
 
 Generate a curated set of 3–5 business case ideas for MBA/EMBA instruction, delivered as a McCombs-branded Word document. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See `references/discipline-guide.md` for department-specific frameworks and dilemma types.
 

@@ -24,3 +24,11 @@ Initial scaffold.
 ## v0.2.1 — 2026-07-15
 
 - Catalog: "Needs local software" skills (currently just `beamer`) now show a download link for their zip alongside the plugin-marketplace instructions, with guidance to unzip into `~/.claude/skills/` for Claude Code and a warning that uploading to claude.ai's hosted Skills won't work (required software isn't preinstalled there). Previously these skills had no download link even though the zip ships in every release.
+
+## v0.3.0 — 2026-07-15
+
+- Catalog redesigned for browsing at scale (app-store-style directory): compact card grid grouped by category, sticky toolbar with live search count, category chips with counts, and sort (by category / A–Z / recently updated). Install instructions moved off the cards — each card shows a one-sentence summary, compatibility badge, and platform marks, with full install steps on the skill's detail page.
+- Skill detail pages redesigned: hero summary card, per-platform expandable install steps, "Good to know" compatibility notes, then the full README/SKILL.md. Toolkit page gets the same treatment.
+- Dark-mode support across all catalog pages (follows the reader's system preference).
+- New frontmatter convention: `metadata.summary` — a one-sentence plain-English summary shown on catalog cards. Added to all 12 skills; the validator now warns when it's missing and the catalog falls back to sentence-boundary truncation of the description.
+- Versions bumped for the frontmatter addition: business-ai-tools and community-skills skills to 1.0.1; McCombs Case Toolkit to 1.3.1.

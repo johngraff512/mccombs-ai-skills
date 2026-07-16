@@ -2,8 +2,9 @@
 name: mccombs-slides
 description: Create branded PowerPoint presentations following McCombs School of Business style guidelines. Use when creating slides, presentations, or decks for UT Austin McCombs faculty, students, or events. Applies official brand colors (Burnt Orange #C05900), typography (Arial, Arial Black, Georgia), and layout standards. Triggers on requests mentioning McCombs, UT Austin business school, or branded presentation needs.
 metadata:
+  summary: "PowerPoint decks in official McCombs branding — colors, fonts, and layout rules applied for you."
   category: Slides & Presentations
-  version: "1.0"
+  version: "1.0.1"
 ---
 
 # McCombs Slides Skill

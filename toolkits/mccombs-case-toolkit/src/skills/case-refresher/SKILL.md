@@ -2,13 +2,14 @@
 name: case-refresher
 description: "Update an existing business case with current data and recent developments. Use this skill when an instructor has an existing case and wants it refreshed with current information. Triggers on: refresh this case, update the case, what's changed since this case was written, case refresher, bring this case up to date, current data for this case, update case data."
 metadata:
+  summary: "Bring an older case up to date with current data and recent developments."
   category: Case Writing
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Case Refresher
 
-> McCombs Case Toolkit version 1.3.0
+> McCombs Case Toolkit version 1.3.1
 
 Update an existing business case with current data, recent developments, and new dynamics relevant to the case's discipline. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See `references/discipline-guide.md` for department-specific materiality thresholds and update categories.
 

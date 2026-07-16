@@ -1,42 +1,109 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>teaching-note-generator — McCombs AI Skills</title><style>
-body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:#faf9f7;color:#333}
-header{background:#BF5700;color:#fff;padding:28px 32px}
-header h1{margin:0 0 4px;font-size:26px} header p{margin:0;opacity:.9}
-main{max-width:960px;margin:24px auto;padding:0 16px}
-input#q{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;margin-bottom:18px;box-sizing:border-box}
-.card{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:18px 20px;margin-bottom:14px}
-.card h2{margin:0 0 2px;font-size:18px} .plugin{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
-.badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;vertical-align:2px}
-.desc{margin:8px 0 10px;font-size:14px;line-height:1.45}
-details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font-weight:600}
-.notes li{margin:2px 0} .install{background:#f5f2ee;border-radius:8px;padding:10px 14px;margin-top:8px}
-.install b{display:block;margin-bottom:2px}
-footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
-code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
-h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
-.chips{margin-bottom:16px}
-.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
-.chip.on{background:#BF5700;color:#fff}
-.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
-a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
-.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
-
-.doc{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
-.doc h1,.doc h2,.doc h3{color:#333} .doc pre{background:#f5f2ee;padding:10px;border-radius:6px;overflow-x:auto}
-a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
-<header><h1>teaching-note-generator</h1>
-<p>mccombs-case-toolkit &middot; v1.3.0 &middot; Class Preparation &middot;
-<span class="badge" style="background:#b26a00">Both (see notes)</span></p></header>
-<main><p><a class="back" href="../index.html">&larr; Back to catalog</a></p>
-<div class='install'><b>Install</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip'>Download teaching-note-generator.zip</a> &mdash; then upload in <b>Claude</b> (Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill) or <b>ChatGPT</b> (Skills &rarr; Create &rarr; Upload from your computer).</div>
-<h3>Compatibility notes</h3><ul><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul>
-<h3>About this skill</h3>
-<p><small>The content below is the skill's full instructions (SKILL.md) — exactly what the AI follows when you use it.</small></p>
+:root{
+  --bg:#FAF7F2; --surface:#FFFFFF; --ink:#2B241D; --muted:#75695C; --line:#E8E0D4;
+  --accent:#BF5700; --accent-deep:#993F00; --accent-soft:#F7E8DC;
+  --ok:#3B7A3F; --warn:#A96A00; --flag:#96261B; --claude:#40598C;
+  --shadow:0 1px 3px rgba(43,36,29,.07);
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#211B15; --surface:#2B241D; --ink:#F0E9DF; --muted:#AB9E8E; --line:#3D352B;
+  --accent:#F28C3B; --accent-deep:#F8A867; --accent-soft:#3B2A1C;
+  --ok:#7CBB80; --warn:#E0A44C; --flag:#E58074; --claude:#93A9DB;
+  --shadow:0 1px 3px rgba(0,0,0,.35);
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+h1,h2,h3{font-family:Charter,"Iowan Old Style",Georgia,serif;text-wrap:balance}
+a{color:var(--accent-deep)}
+code,.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:.86em}
+code{background:var(--accent-soft);padding:1px 6px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.site{background:#BF5700;color:#fff;padding:26px 0 22px}
+header.site h1{margin:0;font-size:26px;font-weight:600}
+header.site p{margin:4px 0 0;opacity:.92;font-size:14px}
+header.site a{color:#fff}
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:14px 0 10px}
+.toolrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input#q{flex:1 1 260px;padding:9px 14px;font-size:15px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+input#q:focus{outline:2px solid var(--accent);outline-offset:1px}
+select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font-size:13.5px}
+.count{font-size:13px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:18px;
+  padding:4px 12px;font-size:13px;cursor:pointer}
+.chip .n{color:var(--muted);font-variant-numeric:tabular-nums;margin-left:4px}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip.on .n{color:#fff;opacity:.85}
+.chip:focus-visible,.card:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* toolkit band */
+.band{display:flex;gap:18px;align-items:center;background:linear-gradient(100deg,var(--accent-soft),var(--surface) 70%);
+  border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:18px 0 6px;flex-wrap:wrap}
+.band h2{margin:0 0 3px;font-size:19px}
+.band p{margin:0;font-size:13.5px;color:var(--muted);max-width:62ch}
+.band .cta{margin-left:auto}
+.btn{display:inline-block;background:var(--accent);color:#fff;border:none;border-radius:8px;
+  padding:9px 16px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin:16px 0 40px}
+.gsec{grid-column:1/-1;font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-deep);
+  border-bottom:2px solid var(--accent);padding:14px 0 4px;margin:0;font-family:inherit;font-weight:700}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;position:relative}
+.card:hover{border-color:var(--accent)}
+.card h3{margin:0;font-size:16.5px;font-weight:600;font-family:inherit}
+.card h3 a{color:inherit;text-decoration:none}
+.card h3 a::after{content:"";position:absolute;inset:0}
+.card .sum{margin:0;font-size:13.5px;color:var(--muted);line-height:1.45;flex:1}
+.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.badge{font-size:11.5px;font-weight:600;border-radius:5px;padding:1.5px 7px;white-space:nowrap;
+  color:var(--tone);background:color-mix(in srgb,var(--tone) 12%,transparent)}
+.badge.ok{--tone:var(--ok)}.badge.warn{--tone:var(--warn)}.badge.flag{--tone:var(--flag)}.badge.claude{--tone:var(--claude)}
+.plats{display:flex;gap:10px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
+.plats .no{opacity:.45;text-decoration:line-through}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px 0;display:none}
+/* detail pages */
+.detail{max-width:760px;margin:26px auto 60px}
+a.back{display:inline-block;margin-bottom:14px;font-size:14px;text-decoration:none;font-weight:600;color:var(--accent-deep)}
+.dhead{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;box-shadow:var(--shadow)}
+.dhead h2{margin:0 0 4px;font-size:26px}
+.dhead .sum{font-size:15.5px;margin:10px 0 0;max-width:65ch}
+.install{margin:20px 0}
+.acc{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden}
+.acc summary{cursor:pointer;padding:12px 16px;font-weight:600;font-size:14.5px;display:flex;gap:10px;align-items:center}
+.acc summary .tag{margin-left:auto;font-weight:400;font-size:12.5px;color:var(--muted);text-align:right}
+.acc .body{padding:0 16px 14px;font-size:14px}
+.acc ol{margin:6px 0;padding-left:22px}.acc li{margin:4px 0}
+.acc.unavail .head{display:flex;gap:10px;align-items:center;padding:12px 16px;font-weight:600;font-size:14.5px;color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:14px 0}
+.panel h3,.install h3{margin:0 0 8px;font-size:15px;font-family:inherit}
+.panel ul{margin:0;padding-left:20px;font-size:13.5px;color:var(--muted)}
+.doc{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
+.doc pre{background:var(--bg);padding:10px;border-radius:6px;overflow-x:auto}
+.doc table{border-collapse:collapse;display:block;overflow-x:auto}
+.doc td,.doc th{border:1px solid var(--line);padding:4px 10px;font-size:13px}
+footer{color:var(--muted);font-size:12.5px;padding:18px 0 44px;border-top:1px solid var(--line)}
+footer a{color:var(--accent-deep)}
+@media (max-width:640px){.band .cta{margin-left:0}.detail{margin-top:16px}}
+</style></head><body>
+<header class="site"><div class="wrap"><h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning</p></div></header>
+<main class="wrap detail">
+<a class="back" href="../index.html">← All skills</a>
+<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes</span>
+  <span>Class Preparation</span><span>&middot;</span>
+  <span>mccombs-case-toolkit</span><span>&middot;</span>
+  <span class='mono'>v1.3.1</span><span>&middot;</span><span>updated 2026-07-15</span></div>
+  <h2>teaching-note-generator</h2><p class="sum">Generate a full instructor teaching note: board plan, discussion questions, and timing.</p></div>
+<div class="install"><h3>Install</h3><details class='acc' open><summary>🟠 Claude (UT Claude EDU)<span class='tag'>~1 minute</span></summary><div class='body'><ol><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip'>Download teaching-note-generator.zip</a></li><li>In Claude: <b>Settings → Capabilities → Skills → Upload skill</b>.</li></ol></div></details><details class='acc'><summary>🟢 ChatGPT (UT workspace)<span class='tag'>~1 minute</span></summary><div class='body'><ol><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip'>Download teaching-note-generator.zip</a></li><li>In ChatGPT: <b>Skills → Create → Upload from your computer</b>.</li></ol></div></details></div>
+<div class='panel'><h3>Good to know</h3><ul><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></div>
+<div class="panel"><h3>About this skill</h3>
+<p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">The content below is the skill's full instructions (SKILL.md) — exactly what the AI follows when you use it.</p>
 <div class="doc"><h1>Teaching Note Generator Skill</h1>
 <blockquote>
-<p>McCombs Case Toolkit version 1.3.0</p>
+<p>McCombs Case Toolkit version 1.3.1</p>
 </blockquote>
 <p>Create professional, classroom-ready instructor teaching notes as McCombs-branded Word documents. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See <code>references/discipline-guide.md</code> for department-specific guidance on discussion questions, board plans, and teaching points.</p>
 <h2>What This Skill Produces</h2>
@@ -155,8 +222,10 @@ a.back{color:#BF5700;font-weight:600;text-decoration:none}</style></head><body>
 <li>Teaching points are what the instructor should draw out; anticipated responses are what students will actually say (often different)</li>
 <li>The board plan should tell the visual story of the class — what a student photographs at the end of class should capture the key insights</li>
 <li>For McCombs branding specs, see <code>references/docx-branding.md</code></li>
-</ul></div>
-<h3>Files included</h3><ul><li><code>SKILL.md</code></li><li><code>assets/McCombs_Basic.dotx</code></li><li><code>assets/mccombs_logo.png</code></li><li><code>package.json</code></li><li><code>references/discipline-guide.md</code></li><li><code>references/docx-branding.md</code></li><li><code>references/teaching-note-structure.md</code></li><li><code>scripts/generate_teaching_note_docx.js</code></li></ul>
-<p><a class="back" href="../index.html">&larr; Back to catalog</a></p></main>
-<footer>McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</ul></div></div>
+<details class="acc"><summary>Files included<span class="tag">8</span></summary>
+<div class="body"><ul><li><code>SKILL.md</code></li><li><code>assets/McCombs_Basic.dotx</code></li><li><code>assets/mccombs_logo.png</code></li><li><code>package.json</code></li><li><code>references/discipline-guide.md</code></li><li><code>references/docx-branding.md</code></li><li><code>references/teaching-note-structure.md</code></li><li><code>scripts/generate_teaching_note_docx.js</code></li></ul></div></details>
+<a class="back" href="../index.html">← All skills</a>
+<footer style="border:none;padding-top:8px">McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</main>
 </body></html>

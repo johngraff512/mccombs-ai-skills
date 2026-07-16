@@ -2,13 +2,14 @@
 name: teaching-note-generator
 description: "Generate comprehensive instructor teaching notes for business cases. Use this skill when a faculty member or instructor wants a teaching note, instructor guide, teaching plan, discussion guide, or class facilitation guide for a business case. Triggers on: teaching note, instructor note, discussion plan, teaching guide, how to teach this case, class plan, board plan, discussion questions, teaching plan, case facilitation, instructor copy. Also triggers immediately after the Case Generator produces a case when the instructor asks for accompanying teaching materials."
 metadata:
+  summary: "Generate a full instructor teaching note: board plan, discussion questions, and timing."
   category: Class Preparation
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Teaching Note Generator Skill
 
-> McCombs Case Toolkit version 1.3.0
+> McCombs Case Toolkit version 1.3.1
 
 Create professional, classroom-ready instructor teaching notes as McCombs-branded Word documents. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See `references/discipline-guide.md` for department-specific guidance on discussion questions, board plans, and teaching points.
 

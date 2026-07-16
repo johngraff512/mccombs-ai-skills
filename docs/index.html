@@ -1,188 +1,223 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>McCombs AI Skills Catalog</title><style>
-body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:#faf9f7;color:#333}
-header{background:#BF5700;color:#fff;padding:28px 32px}
-header h1{margin:0 0 4px;font-size:26px} header p{margin:0;opacity:.9}
-main{max-width:960px;margin:24px auto;padding:0 16px}
-input#q{width:100%;padding:10px 14px;font-size:15px;border:1px solid #ccc;border-radius:8px;margin-bottom:18px;box-sizing:border-box}
-.card{background:#fff;border:1px solid #e3e0db;border-radius:10px;padding:18px 20px;margin-bottom:14px}
-.card h2{margin:0 0 2px;font-size:18px} .plugin{color:#888;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
-.badge{display:inline-block;color:#fff;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px;vertical-align:2px}
-.desc{margin:8px 0 10px;font-size:14px;line-height:1.45}
-details{font-size:13px;margin-top:6px} summary{cursor:pointer;color:#BF5700;font-weight:600}
-.notes li{margin:2px 0} .install{background:#f5f2ee;border-radius:8px;padding:10px 14px;margin-top:8px}
-.install b{display:block;margin-bottom:2px}
-footer{max-width:960px;margin:30px auto;padding:0 16px 40px;color:#888;font-size:12px}
-code{background:#f0ede8;padding:1px 5px;border-radius:4px;font-size:12px}
-h2.section{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#BF5700;border-bottom:2px solid #BF5700;padding-bottom:4px;margin:26px 0 14px}
-.chips{margin-bottom:16px}
-.chip{border:1px solid #BF5700;background:#fff;color:#BF5700;border-radius:20px;padding:5px 14px;margin:0 6px 6px 0;font-size:13px;cursor:pointer}
-.chip.on{background:#BF5700;color:#fff}
-.cat{display:inline-block;background:#f0ede8;color:#665;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:6px;vertical-align:2px}
-a.more{color:#BF5700;font-weight:600;text-decoration:none;white-space:nowrap}
-.contribute{float:right;font-size:14px}.contribute a{color:#fff;text-decoration:underline}
+<title>Catalog — McCombs AI Skills</title><style>
+:root{
+  --bg:#FAF7F2; --surface:#FFFFFF; --ink:#2B241D; --muted:#75695C; --line:#E8E0D4;
+  --accent:#BF5700; --accent-deep:#993F00; --accent-soft:#F7E8DC;
+  --ok:#3B7A3F; --warn:#A96A00; --flag:#96261B; --claude:#40598C;
+  --shadow:0 1px 3px rgba(43,36,29,.07);
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#211B15; --surface:#2B241D; --ink:#F0E9DF; --muted:#AB9E8E; --line:#3D352B;
+  --accent:#F28C3B; --accent-deep:#F8A867; --accent-soft:#3B2A1C;
+  --ok:#7CBB80; --warn:#E0A44C; --flag:#E58074; --claude:#93A9DB;
+  --shadow:0 1px 3px rgba(0,0,0,.35);
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+h1,h2,h3{font-family:Charter,"Iowan Old Style",Georgia,serif;text-wrap:balance}
+a{color:var(--accent-deep)}
+code,.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:.86em}
+code{background:var(--accent-soft);padding:1px 6px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.site{background:#BF5700;color:#fff;padding:26px 0 22px}
+header.site h1{margin:0;font-size:26px;font-weight:600}
+header.site p{margin:4px 0 0;opacity:.92;font-size:14px}
+header.site a{color:#fff}
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:14px 0 10px}
+.toolrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input#q{flex:1 1 260px;padding:9px 14px;font-size:15px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+input#q:focus{outline:2px solid var(--accent);outline-offset:1px}
+select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font-size:13.5px}
+.count{font-size:13px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:18px;
+  padding:4px 12px;font-size:13px;cursor:pointer}
+.chip .n{color:var(--muted);font-variant-numeric:tabular-nums;margin-left:4px}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip.on .n{color:#fff;opacity:.85}
+.chip:focus-visible,.card:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* toolkit band */
+.band{display:flex;gap:18px;align-items:center;background:linear-gradient(100deg,var(--accent-soft),var(--surface) 70%);
+  border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:18px 0 6px;flex-wrap:wrap}
+.band h2{margin:0 0 3px;font-size:19px}
+.band p{margin:0;font-size:13.5px;color:var(--muted);max-width:62ch}
+.band .cta{margin-left:auto}
+.btn{display:inline-block;background:var(--accent);color:#fff;border:none;border-radius:8px;
+  padding:9px 16px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin:16px 0 40px}
+.gsec{grid-column:1/-1;font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-deep);
+  border-bottom:2px solid var(--accent);padding:14px 0 4px;margin:0;font-family:inherit;font-weight:700}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;position:relative}
+.card:hover{border-color:var(--accent)}
+.card h3{margin:0;font-size:16.5px;font-weight:600;font-family:inherit}
+.card h3 a{color:inherit;text-decoration:none}
+.card h3 a::after{content:"";position:absolute;inset:0}
+.card .sum{margin:0;font-size:13.5px;color:var(--muted);line-height:1.45;flex:1}
+.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.badge{font-size:11.5px;font-weight:600;border-radius:5px;padding:1.5px 7px;white-space:nowrap;
+  color:var(--tone);background:color-mix(in srgb,var(--tone) 12%,transparent)}
+.badge.ok{--tone:var(--ok)}.badge.warn{--tone:var(--warn)}.badge.flag{--tone:var(--flag)}.badge.claude{--tone:var(--claude)}
+.plats{display:flex;gap:10px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
+.plats .no{opacity:.45;text-decoration:line-through}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px 0;display:none}
+/* detail pages */
+.detail{max-width:760px;margin:26px auto 60px}
+a.back{display:inline-block;margin-bottom:14px;font-size:14px;text-decoration:none;font-weight:600;color:var(--accent-deep)}
+.dhead{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;box-shadow:var(--shadow)}
+.dhead h2{margin:0 0 4px;font-size:26px}
+.dhead .sum{font-size:15.5px;margin:10px 0 0;max-width:65ch}
+.install{margin:20px 0}
+.acc{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden}
+.acc summary{cursor:pointer;padding:12px 16px;font-weight:600;font-size:14.5px;display:flex;gap:10px;align-items:center}
+.acc summary .tag{margin-left:auto;font-weight:400;font-size:12.5px;color:var(--muted);text-align:right}
+.acc .body{padding:0 16px 14px;font-size:14px}
+.acc ol{margin:6px 0;padding-left:22px}.acc li{margin:4px 0}
+.acc.unavail .head{display:flex;gap:10px;align-items:center;padding:12px 16px;font-weight:600;font-size:14.5px;color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:14px 0}
+.panel h3,.install h3{margin:0 0 8px;font-size:15px;font-family:inherit}
+.panel ul{margin:0;padding-left:20px;font-size:13.5px;color:var(--muted)}
+.doc{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 24px;line-height:1.55;font-size:14px}
+.doc pre{background:var(--bg);padding:10px;border-radius:6px;overflow-x:auto}
+.doc table{border-collapse:collapse;display:block;overflow-x:auto}
+.doc td,.doc th{border:1px solid var(--line);padding:4px 10px;font-size:13px}
+footer{color:var(--muted);font-size:12.5px;padding:18px 0 44px;border-top:1px solid var(--line)}
+footer a{color:var(--accent-deep)}
+@media (max-width:640px){.band .cta{margin-left:0}.detail{margin-top:16px}}
 </style></head><body>
-<header><span class="contribute"><a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">Contribute a skill (no coding needed)</a></span>
-<h1>McCombs AI Skills Catalog</h1>
-<p>12 skills for teaching and learning &middot; 12 work in both Claude EDU and ChatGPT &middot; updated 2026-07-15</p></header>
-<main><input id="q" placeholder="Search skills (e.g. case, slides, teaching note)&hellip;">
-<div class="chips"><button class="chip" data-cat="Case Writing">Case Writing</button><button class="chip" data-cat="Class Preparation">Class Preparation</button><button class="chip" data-cat="Decision Support">Decision Support</button><button class="chip" data-cat="Research &amp; Summaries">Research &amp; Summaries</button><button class="chip" data-cat="Slides &amp; Presentations">Slides &amp; Presentations</button></div>
-<h2 class="section">Plug-ins — install a whole skill set at once</h2>
+<header class="site"><div class="wrap"><span style="float:right;font-size:14px"><a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">Contribute a skill (no coding needed)</a></span>
+<h1>McCombs AI Skills</h1>
+<p>12 ready-to-use AI skills for teaching and learning &middot; 11 work in both Claude EDU and ChatGPT &middot; updated 2026-07-15</p></div></header>
+<div class="toolbar"><div class="wrap">
+<div class="toolrow">
+  <input id="q" type="search" placeholder="Search 12 skills — try “case”, “slides”, “teaching note”…">
+  <select id="sort" aria-label="Sort">
+    <option value="cat" selected>By category</option>
+    <option value="az">A–Z</option>
+    <option value="new">Recently updated</option></select>
+  <span class="count" id="count">12 of 12</span></div>
+<div class="chips"><button class="chip" data-cat="Case Writing">Case Writing<span class="n">4</span></button><button class="chip" data-cat="Class Preparation">Class Preparation<span class="n">2</span></button><button class="chip" data-cat="Slides &amp; Presentations">Slides &amp; Presentations<span class="n">3</span></button><button class="chip" data-cat="Research &amp; Summaries">Research &amp; Summaries<span class="n">2</span></button><button class="chip" data-cat="Decision Support">Decision Support<span class="n">1</span></button></div>
+</div></div>
+<main class="wrap">
 
-<div class="card">
-  <span class="plugin">Plug-in (for Claude only) &middot; 7 skills &middot; v1.3.0 &middot; updated 2026-07-15</span>
-  <h2>mccombs-case-toolkit</h2>
-  <p class="desc">Case-based teaching lifecycle: ideation, case writing, fact-checking, teaching notes, exercises, slides, and refreshes — all McCombs-branded.<br><small>Includes: case-factcheck, case-generator, case-idea-generator, case-refresher, class-exercise-generator, slide-generator, teaching-note-generator</small>
-  <a class="more" href="toolkits/mccombs-case-toolkit.html">Learn more &rarr;</a></p>
-  <div class="install"><b>Claude plug-in (recommended — installs everything at once and auto-updates)</b>
-    Works on the Claude website, desktop app, Cowork, and Claude Code. On the website/app: Customize &rarr; Plugins &rarr; + &rarr;
-    Add marketplace &rarr; enter <code>johngraff512/mccombs-ai-skills</code>, then install <b>mccombs-case-toolkit</b>.
-    In Claude Code: <code>/plugin marketplace add johngraff512/mccombs-ai-skills</code>. ChatGPT doesn't support plug-ins — see below.</div>
-  <div class="install"><b>Claude (manual alternative — upload once, no auto-updates)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-case-toolkit-v1.3.0.zip">Download mccombs-case-toolkit-v1.3.0.zip</a> — unzip and upload the
-    skills you want in Claude: Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class="install"><b>ChatGPT (upload once)</b>
-    <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-case-toolkit-chatgpt-v1.3.0.zip">Download mccombs-case-toolkit-chatgpt-v1.3.0.zip</a> — unzip it, then upload each enclosed
-    skill.zip in ChatGPT: Skills &rarr; Create &rarr; Upload from your computer.</div>
+<div class="band"><div><h2>📦 mccombs-case-toolkit <span class="mono" style="font-size:12px;color:var(--muted)">v1.3.1</span></h2>
+  <p>Case-based teaching lifecycle: ideation, case writing, fact-checking, teaching notes, exercises, slides, and refreshes — all McCombs-branded. <b>7 skills, one install, auto-updates in Claude.</b></p></div>
+  <span class="cta"><a class="btn" href="toolkits/mccombs-case-toolkit.html">Install the plug-in →</a></span></div>
+<div class="grid" id="grid"><h2 class="gsec" data-cat="Case Writing">Case Writing &middot; 4</h2>
+<div class="card" data-category="Case Writing" data-name="case-factcheck" data-updated="2026-07-15">
+  <h3><a href="skills/case-factcheck.html">case-factcheck</a></h3>
+  <p class="sum">Verify every factual claim in a case before you build teaching materials on top of it.</p>
+  <div class="meta"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes</span><span>v1.3.1</span><span>&middot;</span><span>mccombs-case-toolkit</span></div>
+  <div class='plats'><span>Claude ✓</span><span class="">ChatGPT ✓</span></div>
 </div>
-<h2 class="section">Individual skills</h2>
-
-<div class="card" data-category="Decision Support">
-  <span class="plugin">business-ai-tools &middot; v1.0 &middot; updated 2026-07-15</span>
-  <h2>ai-council<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Decision Support</span></h2>
-  <p class="desc">Run any question, idea, or decision through a council of 5 AI advisors who independently analyze it, peer-review each other anonymously, and synthesize a final verdict. Adapted from Andrej Karpathy&#x27;s LLM Council methodology.
-  <a class="more" href="skills/ai-council.html">Learn more &rarr;</a></p>
-  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/ai-council.zip'>Download ai-council.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/ai-council.zip'>Download ai-council.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>needs companion files that aren&#x27;t included in its download — installed on its own, some features may be missing (the repo bundles these files into the zip as a workaround)</li><li>designed to delegate work to Claude subagents — on ChatGPT it runs in a simpler single-assistant mode</li><li>includes Claude-specific settings (triggers) — ChatGPT ignores these; the skill still works but may activate less reliably there</li></ul></details>
+<div class="card" data-category="Case Writing" data-name="case-generator" data-updated="2026-07-15">
+  <h3><a href="skills/case-generator.html">case-generator</a></h3>
+  <p class="sum">Write a complete, McCombs-branded business case as a polished Word document.</p>
+  <div class="meta"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes</span><span>v1.3.1</span><span>&middot;</span><span>mccombs-case-toolkit</span></div>
+  <div class='plats'><span>Claude ✓</span><span class="">ChatGPT ✓</span></div>
 </div>
-
-<div class="card" data-category="Slides &amp; Presentations">
-  <span class="plugin">business-ai-tools &middot; v1.0 &middot; updated 2026-07-15</span>
-  <h2>beamer<span class="badge" style="background:#8b1a1a">Needs local software</span><span class="cat">Slides &amp; Presentations</span></h2>
-  <p class="desc">Beamer slide generation with citation strategy decision, code-first matplotlib figures, outline checkpoint with content inventory, structure-aware rhetoric, Devil&#x27;s Advocate slides, code blocks, and transition slides. Two optional axes tune the deck: `structure=` (mba [default], teaching, faculty, p
-  <a class="more" href="skills/beamer.html">Learn more &rarr;</a></p>
-  <div class='install'><b>Claude (works where its software is available)</b> This skill runs extra software (see notes) that isn't preinstalled on hosted platforms. Recommended: <b>Claude Code</b> on a computer with that software installed — <code>/plugin marketplace add johngraff512/mccombs-ai-skills</code>, or <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/beamer.zip'>download beamer.zip</a> and unzip into <code>~/.claude/skills/</code>. It may also work in <b>Claude Cowork</b> if the software can be installed in its environment. Uploading the zip to claude.ai's hosted Skills won't work — the required software isn't available there.</div>
-  <div class='install'><b>ChatGPT</b> Not available — ChatGPT can't install the required software.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>needs companion files that aren&#x27;t included in its download — installed on its own, some features may be missing (the repo bundles these files into the zip as a workaround)</li><li>instructions reference Claude Code specifically — behavior on other platforms may differ</li><li>designed to delegate work to Claude subagents — on ChatGPT it runs in a simpler single-assistant mode</li><li>includes Claude-specific settings (argument-hint, triggers) — ChatGPT ignores these; the skill still works but may activate less reliably there</li><li>runs command-line software (e.g. biber, bibtex, brew, fc) that must be installed where the skill runs — works best in Claude Code on a computer with that software; hosted platforms (claude.ai chat, ChatGPT) don&#x27;t preinstall it</li></ul></details>
+<div class="card" data-category="Case Writing" data-name="case-idea-generator" data-updated="2026-07-15">
+  <h3><a href="skills/case-idea-generator.html">case-idea-generator</a></h3>
+  <p class="sum">Brainstorm curated business-case ideas matched to your course, module, or framework.</p>
+  <div class="meta"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes</span><span>v1.3.1</span><span>&middot;</span><span>mccombs-case-toolkit</span></div>
+  <div class='plats'><span>Claude ✓</span><span class="">ChatGPT ✓</span></div>
 </div>
-
-<div class="card" data-category="Research &amp; Summaries">
-  <span class="plugin">business-ai-tools &middot; v1.0 &middot; updated 2026-07-15</span>
-  <h2>summary-academic<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Research &amp; Summaries</span></h2>
-  <p class="desc">Academic paper summarizer for papers, research articles, and scholarly publications. Structured summaries with citations, thesis, conclusions, methodology, implications, and critical analysis.
-  <a class="more" href="skills/summary-academic.html">Learn more &rarr;</a></p>
-  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-academic.zip'>Download summary-academic.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-academic.zip'>Download summary-academic.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>designed to delegate work to Claude subagents — on ChatGPT it runs in a simpler single-assistant mode</li><li>includes Claude-specific settings (triggers) — ChatGPT ignores these; the skill still works but may activate less reliably there</li></ul></details>
+<div class="card" data-category="Case Writing" data-name="case-refresher" data-updated="2026-07-15">
+  <h3><a href="skills/case-refresher.html">case-refresher</a></h3>
+  <p class="sum">Bring an older case up to date with current data and recent developments.</p>
+  <div class="meta"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes</span><span>v1.3.1</span><span>&middot;</span><span>mccombs-case-toolkit</span></div>
+  <div class='plats'><span>Claude ✓</span><span class="">ChatGPT ✓</span></div>
+</div><h2 class="gsec" data-cat="Class Preparation">Class Preparation &middot; 2</h2>
+<div class="card" data-category="Class Preparation" data-name="class-exercise-generator" data-updated="2026-07-15">
+  <h3><a href="skills/class-exercise-generator.html">class-exercise-generator</a></h3>
+  <p class="sum">Build a menu of in-class activities: polls, breakouts, debates, and think-pair-shares.</p>
+  <div class="meta"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes</span><span>v1.3.1</span><span>&middot;</span><span>mccombs-case-toolkit</span></div>
+  <div class='plats'><span>Claude ✓</span><span class="">ChatGPT ✓</span></div>
 </div>
-
-<div class="card" data-category="Research &amp; Summaries">
-  <span class="plugin">business-ai-tools &middot; v1.0 &middot; updated 2026-07-15</span>
-  <h2>summary-general<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Research &amp; Summaries</span></h2>
-  <p class="desc">Summarizer for news articles, blog posts, videos, and podcasts. Structured summaries with citations, thesis, themes, and critical analysis. Not for academic papers; use summary-academic.
-  <a class="more" href="skills/summary-general.html">Learn more &rarr;</a></p>
-  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-general.zip'>Download summary-general.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-general.zip'>Download summary-general.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>designed to delegate work to Claude subagents — on ChatGPT it runs in a simpler single-assistant mode</li><li>includes Claude-specific settings (triggers) — ChatGPT ignores these; the skill still works but may activate less reliably there</li></ul></details>
+<div class="card" data-category="Class Preparation" data-name="teaching-note-generator" data-updated="2026-07-15">
+  <h3><a href="skills/teaching-note-generator.html">teaching-note-generator</a></h3>
+  <p class="sum">Generate a full instructor teaching note: board plan, discussion questions, and timing.</p>
+  <div class="meta"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes</span><span>v1.3.1</span><span>&middot;</span><span>mccombs-case-toolkit</span></div>
+  <div class='plats'><span>Claude ✓</span><span class="">ChatGPT ✓</span></div>
+</div><h2 class="gsec" data-cat="Slides &amp; Presentations">Slides &amp; Presentations &middot; 3</h2>
+<div class="card" data-category="Slides &amp; Presentations" data-name="beamer" data-updated="2026-07-15">
+  <h3><a href="skills/beamer.html">beamer</a></h3>
+  <p class="sum">LaTeX Beamer decks with publication-quality figures, citations, and structured rhetoric.</p>
+  <div class="meta"><span class='badge flag'>Needs local software</span><span>v1.0.1</span><span>&middot;</span><span>business-ai-tools</span></div>
+  <div class='plats'><span>Claude ✓</span><span class="no">ChatGPT</span><span title="Runs software that must be installed locally">⚙ local software</span></div>
 </div>
-
-<div class="card" data-category="Slides &amp; Presentations">
-  <span class="plugin">community-skills &middot; v1.0 &middot; updated 2026-07-15</span>
-  <h2>mccombs-slides<span class="badge" style="background:#2e7d32">Both platforms</span><span class="cat">Slides &amp; Presentations</span></h2>
-  <p class="desc">Create branded PowerPoint presentations following McCombs School of Business style guidelines. Use when creating slides, presentations, or decks for UT Austin McCombs faculty, students, or events. Applies official brand colors (Burnt Orange
-  <a class="more" href="skills/mccombs-slides.html">Learn more &rarr;</a></p>
-  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-slides.zip'>Download mccombs-slides.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-slides.zip'>Download mccombs-slides.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  
+<div class="card" data-category="Slides &amp; Presentations" data-name="mccombs-slides" data-updated="2026-07-15">
+  <h3><a href="skills/mccombs-slides.html">mccombs-slides</a></h3>
+  <p class="sum">PowerPoint decks in official McCombs branding — colors, fonts, and layout rules applied for you.</p>
+  <div class="meta"><span class='badge ok'>Claude &amp; ChatGPT</span><span>v1.0.1</span><span>&middot;</span><span>community-skills</span></div>
+  <div class='plats'><span>Claude ✓</span><span class="">ChatGPT ✓</span></div>
 </div>
-
-<div class="card" data-category="Case Writing">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
-  <h2>case-factcheck<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
-  <p class="desc">Systematically verify all factual claims in a business case before downstream materials are built. Use this skill when an instructor wants to fact-check a case, verify case data, or check case accuracy before generating teaching notes, exercises, or slides. Triggers on: fact-check this case, verify 
-  <a class="more" href="skills/case-factcheck.html">Learn more &rarr;</a></p>
-  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip'>Download case-factcheck.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip'>Download case-factcheck.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
+<div class="card" data-category="Slides &amp; Presentations" data-name="slide-generator" data-updated="2026-07-15">
+  <h3><a href="skills/slide-generator.html">slide-generator</a></h3>
+  <p class="sum">Create a McCombs-branded PowerPoint deck for a case discussion or lecture.</p>
+  <div class="meta"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes</span><span>v1.3.1</span><span>&middot;</span><span>mccombs-case-toolkit</span></div>
+  <div class='plats'><span>Claude ✓</span><span class="">ChatGPT ✓</span></div>
+</div><h2 class="gsec" data-cat="Research &amp; Summaries">Research &amp; Summaries &middot; 2</h2>
+<div class="card" data-category="Research &amp; Summaries" data-name="summary-academic" data-updated="2026-07-15">
+  <h3><a href="skills/summary-academic.html">summary-academic</a></h3>
+  <p class="sum">Structured summaries of academic papers: thesis, methods, findings, and critical analysis.</p>
+  <div class="meta"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes</span><span>v1.0.1</span><span>&middot;</span><span>business-ai-tools</span></div>
+  <div class='plats'><span>Claude ✓</span><span class="">ChatGPT ✓</span></div>
 </div>
-
-<div class="card" data-category="Case Writing">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
-  <h2>case-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
-  <p class="desc">Generate professional business cases for classroom teaching. Use this skill when a faculty member or instructor wants to create a business case about a company or topic, write a case study for class, build teaching materials around a strategic dilemma, or produce a case document with McCombs brandin
-  <a class="more" href="skills/case-generator.html">Learn more &rarr;</a></p>
-  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip'>Download case-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip'>Download case-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
-</div>
-
-<div class="card" data-category="Case Writing">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
-  <h2>case-idea-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
-  <p class="desc">Generate curated business case ideas for MBA/EMBA instruction. Use this skill when a faculty member wants to brainstorm case ideas for a course, module, or framework. Triggers on: case ideas, brainstorm cases, what companies could I write a case about, find me a good case topic, case idea generator,
-  <a class="more" href="skills/case-idea-generator.html">Learn more &rarr;</a></p>
-  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip'>Download case-idea-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip'>Download case-idea-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
-</div>
-
-<div class="card" data-category="Case Writing">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
-  <h2>case-refresher<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Case Writing</span></h2>
-  <p class="desc">Update an existing business case with current data and recent developments. Use this skill when an instructor has an existing case and wants it refreshed with current information. Triggers on: refresh this case, update the case, what&#x27;s changed since this case was written, case refresher, bring this 
-  <a class="more" href="skills/case-refresher.html">Learn more &rarr;</a></p>
-  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-refresher.zip'>Download case-refresher.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-refresher.zip'>Download case-refresher.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
-</div>
-
-<div class="card" data-category="Class Preparation">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
-  <h2>class-exercise-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Class Preparation</span></h2>
-  <p class="desc">Generate a menu of interactive class exercises for a case discussion or lecture session. Use this skill when a faculty member or instructor wants activities for a class — poll questions, think-pair-share, small group breakouts, debates, framework applications, or any structured classroom exercises. 
-  <a class="more" href="skills/class-exercise-generator.html">Learn more &rarr;</a></p>
-  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip'>Download class-exercise-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip'>Download class-exercise-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
-</div>
-
-<div class="card" data-category="Slides &amp; Presentations">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
-  <h2>slide-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Slides &amp; Presentations</span></h2>
-  <p class="desc">Generate McCombs-branded PowerPoint slide decks for case discussions and lectures. Use this skill when an instructor needs a slide deck for facilitating a case discussion or delivering a lecture. Triggers on: create slides, make a slide deck, case discussion slides, lecture slides, presentation for 
-  <a class="more" href="skills/slide-generator.html">Learn more &rarr;</a></p>
-  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/slide-generator.zip'>Download slide-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/slide-generator.zip'>Download slide-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
-</div>
-
-<div class="card" data-category="Class Preparation">
-  <span class="plugin">mccombs-case-toolkit &middot; v1.3.0 &middot; updated 2026-07-15</span>
-  <h2>teaching-note-generator<span class="badge" style="background:#b26a00">Both (see notes)</span><span class="cat">Class Preparation</span></h2>
-  <p class="desc">Generate comprehensive instructor teaching notes for business cases. Use this skill when a faculty member or instructor wants a teaching note, instructor guide, teaching plan, discussion guide, or class facilitation guide for a business case. Triggers on: teaching note, instructor note, discussion p
-  <a class="more" href="skills/teaching-note-generator.html">Learn more &rarr;</a></p>
-  <div class='install'><b>Claude (UT Claude EDU)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip'>Download teaching-note-generator.zip</a> &rarr; Claude &rarr; Settings &rarr; Capabilities &rarr; Skills &rarr; Upload skill.</div>
-  <div class='install'><b>ChatGPT (UT workspace)</b> <a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip'>Download teaching-note-generator.zip</a> &rarr; ChatGPT &rarr; Skills &rarr; Create &rarr; Upload from your computer.</div>
-  <details><summary>Compatibility notes</summary><ul class='notes'><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></details>
-</div></main>
+<div class="card" data-category="Research &amp; Summaries" data-name="summary-general" data-updated="2026-07-15">
+  <h3><a href="skills/summary-general.html">summary-general</a></h3>
+  <p class="sum">Digest news articles, blog posts, videos, and podcasts into structured, cited summaries.</p>
+  <div class="meta"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes</span><span>v1.0.1</span><span>&middot;</span><span>business-ai-tools</span></div>
+  <div class='plats'><span>Claude ✓</span><span class="">ChatGPT ✓</span></div>
+</div><h2 class="gsec" data-cat="Decision Support">Decision Support &middot; 1</h2>
+<div class="card" data-category="Decision Support" data-name="ai-council" data-updated="2026-07-15">
+  <h3><a href="skills/ai-council.html">ai-council</a></h3>
+  <p class="sum">Run a decision past a council of five AI advisors who analyze, peer-review, and deliver a verdict.</p>
+  <div class="meta"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes</span><span>v1.0.1</span><span>&middot;</span><span>business-ai-tools</span></div>
+  <div class='plats'><span>Claude ✓</span><span class="">ChatGPT ✓</span></div>
+</div><div class="empty" id="empty">No skills match — try a broader term.</div></div>
 <footer>Maintained by the McCombs AI Faculty Working Group &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills">Contribute a skill on GitHub</a>
 &middot; Skills follow the <a href="https://agentskills.io/specification">Agent Skills open standard</a>.</footer>
+</main>
 <script>
-let activeCat = null;
-function applyFilters(){
-  const v = document.getElementById('q').value.toLowerCase();
-  document.querySelectorAll('.card').forEach(c => {
-    const okText = c.textContent.toLowerCase().includes(v);
-    const okCat = !activeCat || !c.dataset.category || c.dataset.category === activeCat;
-    c.style.display = (okText && okCat) ? '' : 'none';
+const grid=document.getElementById('grid');
+const cards=[...grid.querySelectorAll('.card')];
+const heads=[...grid.querySelectorAll('.gsec')];
+const original=[...grid.children];
+const q=document.getElementById('q'), sort=document.getElementById('sort');
+const count=document.getElementById('count'), empty=document.getElementById('empty');
+let activeCat=null;
+function apply(){
+  const v=q.value.toLowerCase();
+  let shown=0;
+  cards.forEach(c=>{
+    const ok=(!activeCat||c.dataset.category===activeCat)&&c.textContent.toLowerCase().includes(v);
+    c.style.display=ok?'':'none'; c.dataset.on=ok?'1':''; if(ok)shown++;
   });
+  if(sort.value==='cat'){
+    original.forEach(el=>grid.appendChild(el));
+    heads.forEach(h=>{h.style.display=cards.some(c=>c.dataset.on&&c.dataset.category===h.dataset.cat)?'':'none'});
+  }else{
+    heads.forEach(h=>h.style.display='none');
+    const key=sort.value==='az'
+      ?(a,b)=>a.dataset.name.localeCompare(b.dataset.name)
+      :(a,b)=>b.dataset.updated.localeCompare(a.dataset.updated)||a.dataset.name.localeCompare(b.dataset.name);
+    [...cards].sort(key).forEach(c=>grid.appendChild(c));
+    grid.appendChild(empty);
+  }
+  count.textContent=`${shown} of ${cards.length}`;
+  empty.style.display=shown?'none':'block';
 }
-document.getElementById('q').addEventListener('input', applyFilters);
-document.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => {
-  activeCat = (activeCat === b.dataset.cat) ? null : b.dataset.cat;
-  document.querySelectorAll('.chip').forEach(x => x.classList.toggle('on', x.dataset.cat === activeCat));
-  applyFilters();
+q.addEventListener('input',apply);
+sort.addEventListener('change',apply);
+document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
+  activeCat=(activeCat===b.dataset.cat)?null:b.dataset.cat;
+  document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x.dataset.cat===activeCat));
+  apply();
 }));
-</script></body></html>
+</script>
+</body></html>

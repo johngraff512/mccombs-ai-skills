@@ -2,13 +2,14 @@
 name: case-factcheck
 description: "Systematically verify all factual claims in a business case before downstream materials are built. Use this skill when an instructor wants to fact-check a case, verify case data, or check case accuracy before generating teaching notes, exercises, or slides. Triggers on: fact-check this case, verify the case, check the facts, case fact-check, verify case data, fact check, factcheck, check case accuracy, verify case claims, are the facts right."
 metadata:
+  summary: "Verify every factual claim in a case before you build teaching materials on top of it."
   category: Case Writing
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Case Fact-Checker
 
-> McCombs Case Toolkit version 1.3.0
+> McCombs Case Toolkit version 1.3.1
 
 Systematically verify every factual claim in a business case. Designed to run after the Case Generator and before the Teaching Note Generator, Class Exercise Generator, or Slide Generator, so corrections are made once in the source and never cascade across multiple files. See `references/factcheck-guidelines.md` for the claim taxonomy and verification standards.
 

@@ -3,8 +3,9 @@ name: ai-council
 description: "Run any question, idea, or decision through a council of 5 AI advisors who independently analyze it, peer-review each other anonymously, and synthesize a final verdict. Adapted from Andrej Karpathy's LLM Council methodology."
 triggers: council, council this, run the council, war room this, pressure-test this, stress-test this, debate this
 metadata:
+  summary: "Run a decision past a council of five AI advisors who analyze, peer-review, and deliver a verdict."
   category: Decision Support
-  version: "1.0"
+  version: "1.0.1"
 ---
 
 <!-- Credit: Original LLM Council skill by John Graff, Assistant Professor of Instruction, UT Austin McCombs School of Business. Adapted from Andrej Karpathy's LLM Council methodology. -->

@@ -13,7 +13,7 @@ Cross-platform AI skills repository for McCombs faculty. One skill authored once
 
 ## Conventions
 
-- Frontmatter: spec fields only (`name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools`). Every skill should carry `metadata.category` (one of: Case Writing, Class Preparation, Slides & Presentations, Research & Summaries, Decision Support, General) and `metadata.version` — bump version on every content change; the catalog surfaces it to faculty.
+- Frontmatter: spec fields only (`name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools`). Every skill should carry `metadata.category` (one of: Case Writing, Class Preparation, Slides & Presentations, Research & Summaries, Decision Support, General), `metadata.version` — bump version on every content change; the catalog surfaces it to faculty — and `metadata.summary`: one plain-English sentence (<200 chars) shown on catalog cards; without it the catalog falls back to truncating the description, which reads poorly.
 - No `../` references escaping a skill folder (packager bundles them as a workaround, but fix at source; case toolkit solves this via build-time injection).
 - Contributor flow: PR (web upload path documented in CONTRIBUTING.md for non-Git faculty) → CI checks → maintainer merge → tag release. Contact: john.graff@mccombs.utexas.edu.
 - `business-ai-tools` skills are adapted from Ben Bentzin's MIT repo (github.com/AI-Business-Tools/claude-code) — keep attribution; upstream sync is manual. Known upstream issues we fixed locally: beamer YAML quoting + description length.
@@ -22,7 +22,7 @@ Cross-platform AI skills repository for McCombs faculty. One skill authored once
 
 1. `python3 scripts/check_skills.py --strict --json docs/compat-report.json`
 2. If toolkit source changed: rebuild (see above) and verify drift check passes locally: `diff -r toolkits/mccombs-case-toolkit/build/claude/skills plugins/mccombs-case-toolkit/skills`
-3. `python3 scripts/build_catalog.py` and eyeball `docs/index.html`
+3. `python3 scripts/build_catalog.py` and eyeball `docs/index.html` — requires the `markdown` package (CI installs it; without it every detail page silently degrades to `<pre>` rendering)
 4. Update CHANGELOG.md; commit; push; `git tag v0.x.y && git push --tags`
 5. Verify: Actions green, release assets present, catalog live at johngraff512.github.io/mccombs-ai-skills
 

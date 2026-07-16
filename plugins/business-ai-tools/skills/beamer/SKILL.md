@@ -5,8 +5,9 @@ triggers: beamer, beamer slides, deck, edit beamer, revise beamer, fix beamer sl
 allowed-tools: Bash(pdflatex*), Bash(xelatex*), Bash(lualatex*), Bash(latexmk*), Bash(bibtex*), Bash(biber*), Bash(python*), Bash(pip*), Bash(pdftoppm*), Bash(cd*), Bash(mkdir*), Bash(ls*), Bash(cp*), Bash(mv*), Bash(rm*), Bash(which*), Bash(type*), Bash(kpsewhich*), Bash(tlmgr*), Bash(texhash*), Bash(mactex*), Bash(mktexlsr*), Bash(fmtutil*), Bash(updmap*), Bash(brew*), Bash(find*), Bash(system_profiler*), Bash(fc-list*), Bash(eval*), Bash(export*), Bash(cat*), Bash(grep*), Bash(head*), Bash(tail*), Bash(wc*), Read, Write, Edit, Glob, Grep, Agent
 argument-hint: "[content-notes-or-summary] [structure=mba|teaching|faculty|professional|consulting|working] [register=business|technical]"
 metadata:
+  summary: "LaTeX Beamer decks with publication-quality figures, citations, and structured rhetoric."
   category: Slides & Presentations
-  version: "1.0"
+  version: "1.0.1"
 ---
 
 # Beamer Slide Generator

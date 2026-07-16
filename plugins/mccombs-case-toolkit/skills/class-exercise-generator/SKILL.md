@@ -2,13 +2,14 @@
 name: class-exercise-generator
 description: "Generate a menu of interactive class exercises for a case discussion or lecture session. Use this skill when a faculty member or instructor wants activities for a class — poll questions, think-pair-share, small group breakouts, debates, framework applications, or any structured classroom exercises. Triggers on: class exercises, in-class activities, exercises for this case, engagement activities, interactive exercises, what activities should I use, breakout exercises, discussion exercises. Also triggers when an instructor has a case and wants to build engaging activities around it."
 metadata:
+  summary: "Build a menu of in-class activities: polls, breakouts, debates, and think-pair-shares."
   category: Class Preparation
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Class Exercise Generator Skill
 
-> McCombs Case Toolkit version 1.3.0
+> McCombs Case Toolkit version 1.3.1
 
 Generate a curated menu of 5-8 interactive exercises for a single class session, delivered as a McCombs-branded instructor guide. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See `references/discipline-guide.md` for department-specific guidance on exercise framing.
 

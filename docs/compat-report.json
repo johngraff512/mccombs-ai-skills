@@ -13,16 +13,17 @@
     ],
     "classification": "both-with-caveats",
     "description": "Run any question, idea, or decision through a council of 5 AI advisors who independently analyze it, peer-review each other anonymously, and synthesize a final verdict. Adapted from Andrej Karpathy's LLM Council methodology.",
-    "version": "1.0",
+    "version": "1.0.1",
     "license": null,
-    "category": "Decision Support"
+    "category": "Decision Support",
+    "summary": "Run a decision past a council of five AI advisors who analyze, peer-review, and deliver a verdict."
   },
   {
     "skill": "beamer",
     "plugin": "business-ai-tools",
     "errors": [],
     "warnings": [
-      "SKILL.md is 969 lines (spec recommends <500; move detail to references/)",
+      "SKILL.md is 970 lines (spec recommends <500; move detail to references/)",
       "external reference '../../style-guides/beamer/style-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
       "external reference '../../style-guides/pptx/style-guide.md' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
       "external reference '../figures/' escapes the skill folder \u2014 breaks when the skill is packaged standalone (e.g. ChatGPT zip upload); bundle the file inside the skill instead",
@@ -38,9 +39,10 @@
     ],
     "classification": "claude-code-only",
     "description": "Beamer slide generation with citation strategy decision, code-first matplotlib figures, outline checkpoint with content inventory, structure-aware rhetoric, Devil's Advocate slides, code blocks, and transition slides. Two optional axes tune the deck: `structure=` (mba [default], teaching, faculty, p",
-    "version": "1.0",
+    "version": "1.0.1",
     "license": null,
-    "category": "Slides & Presentations"
+    "category": "Slides & Presentations",
+    "summary": "LaTeX Beamer decks with publication-quality figures, citations, and structured rhetoric."
   },
   {
     "skill": "summary-academic",
@@ -53,9 +55,10 @@
     ],
     "classification": "both-with-caveats",
     "description": "Academic paper summarizer for papers, research articles, and scholarly publications. Structured summaries with citations, thesis, conclusions, methodology, implications, and critical analysis.",
-    "version": "1.0",
+    "version": "1.0.1",
     "license": null,
-    "category": "Research & Summaries"
+    "category": "Research & Summaries",
+    "summary": "Structured summaries of academic papers: thesis, methods, findings, and critical analysis."
   },
   {
     "skill": "summary-general",
@@ -68,9 +71,10 @@
     ],
     "classification": "both-with-caveats",
     "description": "Summarizer for news articles, blog posts, videos, and podcasts. Structured summaries with citations, thesis, themes, and critical analysis. Not for academic papers; use summary-academic.",
-    "version": "1.0",
+    "version": "1.0.1",
     "license": null,
-    "category": "Research & Summaries"
+    "category": "Research & Summaries",
+    "summary": "Digest news articles, blog posts, videos, and podcasts into structured, cited summaries."
   },
   {
     "skill": "mccombs-slides",
@@ -80,9 +84,10 @@
     "signals": [],
     "classification": "both",
     "description": "Create branded PowerPoint presentations following McCombs School of Business style guidelines. Use when creating slides, presentations, or decks for UT Austin McCombs faculty, students, or events. Applies official brand colors (Burnt Orange",
-    "version": "1.0",
+    "version": "1.0.1",
     "license": null,
-    "category": "Slides & Presentations"
+    "category": "Slides & Presentations",
+    "summary": "PowerPoint decks in official McCombs branding \u2014 colors, fonts, and layout rules applied for you."
   },
   {
     "skill": "case-factcheck",
@@ -94,9 +99,10 @@
     ],
     "classification": "both-with-caveats",
     "description": "Systematically verify all factual claims in a business case before downstream materials are built. Use this skill when an instructor wants to fact-check a case, verify case data, or check case accuracy before generating teaching notes, exercises, or slides. Triggers on: fact-check this case, verify ",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "license": null,
-    "category": "Case Writing"
+    "category": "Case Writing",
+    "summary": "Verify every factual claim in a case before you build teaching materials on top of it."
   },
   {
     "skill": "case-generator",
@@ -108,9 +114,10 @@
     ],
     "classification": "both-with-caveats",
     "description": "Generate professional business cases for classroom teaching. Use this skill when a faculty member or instructor wants to create a business case about a company or topic, write a case study for class, build teaching materials around a strategic dilemma, or produce a case document with McCombs brandin",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "license": null,
-    "category": "Case Writing"
+    "category": "Case Writing",
+    "summary": "Write a complete, McCombs-branded business case as a polished Word document."
   },
   {
     "skill": "case-idea-generator",
@@ -122,9 +129,10 @@
     ],
     "classification": "both-with-caveats",
     "description": "Generate curated business case ideas for MBA/EMBA instruction. Use this skill when a faculty member wants to brainstorm case ideas for a course, module, or framework. Triggers on: case ideas, brainstorm cases, what companies could I write a case about, find me a good case topic, case idea generator,",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "license": null,
-    "category": "Case Writing"
+    "category": "Case Writing",
+    "summary": "Brainstorm curated business-case ideas matched to your course, module, or framework."
   },
   {
     "skill": "case-refresher",
@@ -136,9 +144,10 @@
     ],
     "classification": "both-with-caveats",
     "description": "Update an existing business case with current data and recent developments. Use this skill when an instructor has an existing case and wants it refreshed with current information. Triggers on: refresh this case, update the case, what's changed since this case was written, case refresher, bring this ",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "license": null,
-    "category": "Case Writing"
+    "category": "Case Writing",
+    "summary": "Bring an older case up to date with current data and recent developments."
   },
   {
     "skill": "class-exercise-generator",
@@ -150,9 +159,10 @@
     ],
     "classification": "both-with-caveats",
     "description": "Generate a menu of interactive class exercises for a case discussion or lecture session. Use this skill when a faculty member or instructor wants activities for a class \u2014 poll questions, think-pair-share, small group breakouts, debates, framework applications, or any structured classroom exercises. ",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "license": null,
-    "category": "Class Preparation"
+    "category": "Class Preparation",
+    "summary": "Build a menu of in-class activities: polls, breakouts, debates, and think-pair-shares."
   },
   {
     "skill": "slide-generator",
@@ -164,9 +174,10 @@
     ],
     "classification": "both-with-caveats",
     "description": "Generate McCombs-branded PowerPoint slide decks for case discussions and lectures. Use this skill when an instructor needs a slide deck for facilitating a case discussion or delivering a lecture. Triggers on: create slides, make a slide deck, case discussion slides, lecture slides, presentation for ",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "license": null,
-    "category": "Slides & Presentations"
+    "category": "Slides & Presentations",
+    "summary": "Create a McCombs-branded PowerPoint deck for a case discussion or lecture."
   },
   {
     "skill": "teaching-note-generator",
@@ -178,8 +189,9 @@
     ],
     "classification": "both-with-caveats",
     "description": "Generate comprehensive instructor teaching notes for business cases. Use this skill when a faculty member or instructor wants a teaching note, instructor guide, teaching plan, discussion guide, or class facilitation guide for a business case. Triggers on: teaching note, instructor note, discussion p",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "license": null,
-    "category": "Class Preparation"
+    "category": "Class Preparation",
+    "summary": "Generate a full instructor teaching note: board plan, discussion questions, and timing."
   }
 ]

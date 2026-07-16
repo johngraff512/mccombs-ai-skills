@@ -78,6 +78,7 @@ def check_skill(skill_dir: Path):
         "errors": [], "warnings": [], "signals": [],
         "classification": "both",
         "description": "", "version": None, "license": None, "category": "General",
+        "summary": None,
     }
     skill_md = skill_dir / "SKILL.md"
     if not skill_md.exists():
@@ -120,6 +121,13 @@ def check_skill(skill_dir: Path):
             r["warnings"].append("no metadata.category — will show as 'General' in the catalog")
         if "version" not in meta:
             r["warnings"].append("no metadata.version — updates won't be visible to faculty; add one")
+        summary = str(meta.get("summary") or "").strip()
+        r["summary"] = summary or None
+        if not summary:
+            r["warnings"].append("no metadata.summary — the catalog will fall back to truncating the description, "
+                                 "which reads poorly; add a one-sentence plain-English summary")
+        elif len(summary) > 200:
+            r["warnings"].append(f"metadata.summary is {len(summary)} chars — keep it under 200 (one sentence)")
     r["license"] = fm.get("license")
 
     body_lines = text.count("\n") + 1
