@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prompt Pal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --paper:#F2EDE2;
+    --card:#FFFDF6;
+    --ink:#241F1C;
+    --ink-soft:#5B5650;
+    --rule:#D8CBB4;
+    --teal:#BF5700;
+    --teal-deep:#F7EFE0;
+    --mustard:#BF5700;
+    --mustard-deep:#8A3F00;
+    --shadow: rgba(28,28,28,0.14);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(43,42,40,0.05) 1px, transparent 0);
+    background-size: 14px 14px;
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:32px 16px 64px;
+  }
+
+  .drawer{
+    width:100%;
+    max-width:720px;
+  }
+
+  /* ---------- Header : catalog drawer label ---------- */
+  .drawer-label{
+    background:var(--teal-deep);
+    color:#5C3D1F;
+    border:1px solid var(--rule);
+    border-bottom:none;
+    border-radius:6px 6px 0 0;
+    padding:18px 28px 16px;
+    position:relative;
+    overflow:hidden;
+  }
+  .drawer-label::after{
+    content:"";
+    position:absolute;
+    top:0; right:0; bottom:0;
+    width:54px;
+    background:repeating-linear-gradient(
+      135deg,
+      rgba(191,87,0,0.06) 0px,
+      rgba(191,87,0,0.06) 2px,
+      transparent 2px,
+      transparent 10px
+    );
+  }
+  .drawer-label .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--mustard-deep);
+    margin:0 0 6px;
+  }
+  .drawer-label h1{
+    font-family:'Spectral', serif;
+    font-weight:600;
+    font-size:30px;
+    margin:0;
+    letter-spacing:0.01em;
+  }
+  .drawer-label p.tagline{
+    font-family:'Spectral', serif;
+    font-style:italic;
+    font-size:14.5px;
+    color:#8A6A45;
+    margin:6px 0 0;
+  }
+
+  /* ---------- card catalog rail ---------- */
+  .rail{
+    height:10px;
+    background:var(--mustard);
+    border-bottom:1px solid var(--mustard-deep);
+  }
+
+  /* ---------- thread ---------- */
+  .thread{
+    background:var(--card);
+    border:1px solid var(--rule);
+    border-top:none;
+    padding:22px 22px 16px;
+    min-height:300px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  /* index card */
+  .card{
+    position:relative;
+    background:var(--card);
+    border:1px solid var(--rule);
+    border-radius:2px;
+    padding:14px 18px 16px 22px;
+    box-shadow: 0 2px 0 var(--shadow);
+  }
+  .card.user{ border-left:4px solid var(--teal); }
+  .card.assistant{ border-left:4px solid var(--mustard); }
+
+  .card .punch{
+    position:absolute;
+    top:12px; left:8px;
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--paper);
+    border:1px solid var(--rule);
+  }
+
+  .card .tab{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    margin:0 0 8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+  }
+  .card.user .tab{ color:var(--teal-deep); }
+  .card.assistant .tab{ color:var(--mustard-deep); }
+  .card .tab .num{ color:var(--ink-soft); font-weight:400; }
+
+  .card .body{
+    font-size:15px;
+    line-height:1.62;
+    color:var(--ink);
+  }
+  .card .body p{ margin:0 0 10px; }
+  .card .body p:last-child{ margin-bottom:0; }
+  .card .body strong{ font-weight:600; }
+  .card .body h3{
+    font-family:'Spectral', serif;
+    font-size:16px;
+    font-weight:600;
+    margin:14px 0 6px;
+    color:var(--mustard-deep);
+  }
+  .card .body h3:first-child{ margin-top:0; }
+  .card .body ul, .card .body ol{ margin:6px 0 10px; padding-left:20px; }
+  .card .body li{ margin-bottom:4px; }
+  .card .body code{
+    font-family:'IBM Plex Mono', monospace;
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:3px;
+    padding:1px 5px;
+    font-size:13px;
+  }
+  .card .body pre{
+    font-family:'IBM Plex Mono', monospace;
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-left:3px solid var(--teal);
+    border-radius:3px;
+    padding:10px 12px;
+    font-size:13px;
+    line-height:1.55;
+    overflow-x:auto;
+    margin:8px 0 12px;
+  }
+  .card .body table{
+    width:100%;
+    border-collapse:collapse;
+    margin:8px 0 14px;
+    font-size:13.5px;
+  }
+  .card .body th, .card .body td{
+    border:1px solid var(--rule);
+    padding:7px 10px;
+    text-align:left;
+    vertical-align:top;
+  }
+  .card .body th{
+    background:var(--paper);
+    color:var(--mustard-deep);
+    font-weight:600;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+  .card .body a, .foot-note a, .credit a {
+    color:var(--mustard-deep);
+    text-decoration:underline;
+    text-underline-offset:2px;
+  }
+  .card .body a:hover, .foot-note a:hover, .credit a:hover {
+    color:var(--teal);
+  }
+
+  .typing{
+    display:flex; gap:4px; align-items:center;
+    padding:4px 0;
+  }
+  .typing span{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--mustard-deep);
+    opacity:0.35;
+    animation: bounce 1.1s infinite ease-in-out;
+  }
+  .typing span:nth-child(2){ animation-delay:0.15s; }
+  .typing span:nth-child(3){ animation-delay:0.3s; }
+  @keyframes bounce{
+    0%,80%,100%{ transform:translateY(0); opacity:0.35; }
+    40%{ transform:translateY(-4px); opacity:0.9; }
+  }
+
+  /* ---------- quick-pull chips ---------- */
+  .chips{
+    padding:4px 22px 16px;
+    background:var(--card);
+    border:1px solid var(--rule);
+    border-top:1px dashed var(--rule);
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chips .chips-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    width:100%;
+    margin:10px 0 2px;
+  }
+  .chip{
+    font-family:'Inter',sans-serif;
+    font-size:12.5px;
+    background:var(--paper);
+    border:1px solid var(--rule);
+    color:var(--ink);
+    border-radius:14px;
+    padding:6px 12px;
+    cursor:pointer;
+    transition:background 0.15s, border-color 0.15s;
+  }
+  .chip:hover{ background:#E4DEC8; border-color:var(--teal); }
+
+  /* ---------- input ---------- */
+  .input-row{
+    background:var(--teal-deep);
+    border:1px solid var(--rule);
+    border-top:none;
+    border-radius:0 0 6px 6px;
+    padding:14px 16px;
+    display:flex;
+    gap:10px;
+    align-items:flex-end;
+  }
+  .input-row textarea{
+    flex:1;
+    resize:none;
+    min-height:42px;
+    max-height:140px;
+    border:none;
+    border-radius:4px;
+    padding:10px 12px;
+    font-family:'Inter',sans-serif;
+    font-size:14.5px;
+    line-height:1.4;
+    background:#FFFFFF;
+    color:var(--ink);
+  }
+  .input-row textarea:focus{ outline:2px solid var(--mustard); }
+  .input-row button{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    background:var(--mustard);
+    color:#FFF8EF;
+    border:none;
+    border-radius:4px;
+    padding:12px 16px;
+    cursor:pointer;
+    transition:background 0.15s;
+    white-space:nowrap;
+  }
+  .input-row button:hover{ background:#D9701A; }
+  .input-row button:disabled{ opacity:0.5; cursor:default; }
+
+  .foot-note{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    letter-spacing:0.06em;
+    margin-top:10px;
+  }
+
+  .credit{
+    text-align:center;
+    font-family:'Spectral', serif;
+    font-style:italic;
+    font-size:13px;
+    color:var(--mustard-deep);
+    margin-top:8px;
+  }
+
+  @media (max-width:480px){
+    .drawer-label{ padding:16px 18px; }
+    .drawer-label h1{ font-size:24px; }
+    .thread, .chips{ padding-left:14px; padding-right:14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="drawer">
+  <div class="drawer-label">
+    <p class="eyebrow">Catalog · Teaching &amp; Course Design / AI Prompts</p>
+    <h1>Prompt Pal</h1>
+    <p class="tagline">A prompt library &amp; coaching partner for everyday course &amp; teaching design work</p>
+  </div>
+  <div class="rail"></div>
+
+  <div class="thread" id="thread"></div>
+
+  <div class="chips" id="chips">
+    <div class="chips-label">Quick pulls — click to load a starter prompt into the box below, then add your own details</div>
+    <button class="chip" data-prompt="I need a prompt for writing learning objectives for a course on ">Learning objectives</button>
+    <button class="chip" data-prompt="I need a prompt for building a grading rubric for an assignment about ">Rubrics</button>
+    <button class="chip" data-prompt="I need a prompt for generating a learning activity for ">Learning activities</button>
+    <button class="chip" data-prompt="I need a prompt for checking a course or activity for accessibility and inclusion. The course/activity is ">Accessibility check</button>
+    <button class="chip" data-prompt="I need a prompt for drafting a student feedback or reflection guide for ">Feedback &amp; reflection</button>
+    <button class="chip" data-prompt="I need a prompt for designing an AI-resistant assignment on the topic of ">AI-resistant assignment</button>
+    <button class="chip" data-prompt="I need a prompt for brainstorming ways to meaningfully incorporate AI use or tools into my course on ">Bring AI into my course</button>
+    <button class="chip" data-prompt="I need a prompt for creating an AI use policy for my course syllabus. The course is about ">AI use policy for syllabus</button>
+    <button class="chip" data-prompt="I need a prompt for creating an AI use policy for a specific assignment. The assignment is about ">AI use policy for an assignment</button>
+    <button class="chip" data-prompt="I need a prompt for designing an activity where students critically evaluate or fact-check AI-generated content in the context of ">Evaluate AI outputs activity</button>
+    <button class="chip" data-prompt="Here is a draft prompt I wrote — can you coach me on improving it? Here's my draft: ">Coach my draft</button>
+  </div>
+
+  <div class="input-row">
+    <textarea id="composer" placeholder="Ask for a prompt, or paste your own draft to refine…" rows="1"></textarea>
+    <button id="sendBtn">Upgrade your prompt ⚡</button>
+  </div>
+  <p class="foot-note">
+    <a href="https://scholarsphere.psu.edu/resources/ddeab979-dad7-4e84-b101-0d38db0b97f2" target="_blank" rel="noopener">PROMPT framework</a> — Persona · Requirements · Organization · Medium · Purpose · Tone &nbsp;(Korzyński et al., 2023)
+    &nbsp;|&nbsp;
+    <a href="https://digitalrepository.unm.edu/cgi/viewcontent.cgi?article=1214&context=ulls_fsp" target="_blank" rel="noopener">CLEAR framework</a> — Concise · Logical · Explicit · Adaptive · Reflective &nbsp;(Lo, 2023)
+  </p>
+  <p class="credit">Prompt Pal was created by the Office of Instructional Innovation at McCombs School of Business to support AI users across UT Austin.</p>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `You are a Prompt Library and Prompt Coach for faculty and learning designers working on courses and teaching materials. Your role is to:
+
+1. Serve as a Prompt Library
+- Provide categorized prompts for common course/teaching design tasks, including: writing learning objectives, designing rubrics and assessments, generating learning activities, ensuring accessibility and inclusion, drafting feedback and reflection guides.
+- For each request, provide: (1) A basic version of the prompt. (2) An enhanced version using the PROMPT framework. (3) A quick CLEAR check showing how the prompt meets Concise, Logical, Explicit, Adaptive, Reflective.
+- Format the CLEAR check as a Markdown table with two columns ("Criterion" and "How this prompt meets it"), one row per CLEAR letter. Always use proper Markdown table syntax (header row, then a row of dashes, then data rows) so it renders correctly.
+
+2. Act as a Prompt Engineering Coach
+- When a user provides their own draft prompt, help them refine it by recasting it using the PROMPT framework, running it through the CLEAR framework for evaluation (as a Markdown table, per above), and suggesting improvements to fit context, audience, or format.
+
+3. Important scope note
+- This tool only helps people WRITE and refine prompts. You are not running, executing, or answering the prompts you generate — you are only producing the prompt text itself for the person to copy and use elsewhere (e.g. in Claude, ChatGPT, or another AI tool). If someone asks you to actually do the task the prompt describes (e.g. "write the rubric" rather than "write a prompt for a rubric"), gently clarify that this space is for building prompts, and offer to write a prompt they could use to generate that output themselves.
+
+Reference: PROMPT Framework (Sarah Hartman-Caverly, Penn State Berks) — Persona, Requirements, Organization, Medium, Purpose, Tone.
+Reference: CLEAR Framework (Leo S. Lo, UNM) — Concise, Logical, Explicit, Adaptive, Reflective.
+
+Style guidelines: Always briefly explain your reasoning (teach, don't just output). Use clear Markdown headings/structure. Keep examples realistic to higher ed, teaching, and course design contexts that would resonate with both faculty and instructional/learning designers. Maintain a professional yet approachable tone. Address sensitive topics with empathy. Encourage critical thinking and verification. If a user expresses dissatisfaction, ask clarifying questions to refine your response. Keep responses focused and not overly long — this is a quick-reference tool, not an essay generator.`;
+
+const thread = document.getElementById('thread');
+const composer = document.getElementById('composer');
+const sendBtn = document.getElementById('sendBtn');
+const chips = document.getElementById('chips');
+
+let history = [];
+let cardCounter = 0;
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Minimal markdown -> HTML (headings, bold, lists, code, links, tables, paragraphs)
+function renderMarkdown(md){
+  // Extract links before escaping so < > in URLs survive
+  const linkStore = [];
+  md = md.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (m, text, url) => {
+    const idx = linkStore.length;
+    linkStore.push(`<a href="${url}" target="_blank" rel="noopener">${text}</a>`);
+    return `\x00LINK${idx}\x00`;
+  });
+
+  let html = escapeHtml(md);
+
+  // Restore links
+  html = html.replace(/\x00LINK(\d+)\x00/g, (m, i) => linkStore[+i]);
+
+  html = html.replace(/```([\s\S]*?)```/g, (m, code) => `<pre>${code.trim()}</pre>`);
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  html = html.replace(/^###\s+(.*)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^##\s+(.*)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^#\s+(.*)$/gm, '<h3>$1</h3>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+  const lines = html.split('\n');
+  let out = [];
+  let inUl = false, inOl = false, para = [];
+
+  function flushPara(){
+    if(para.length){
+      out.push('<p>' + para.join(' ') + '</p>');
+      para = [];
+    }
+  }
+
+  function isTableRow(l){ return /^\s*\|.*\|\s*$/.test(l); }
+  function isTableSep(l){ return /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$/.test(l); }
+  function splitRow(l){
+    return l.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
+  }
+
+  let i = 0;
+  while(i < lines.length){
+    const line = lines[i];
+    if(isTableRow(line) && i + 1 < lines.length && isTableSep(lines[i+1])){
+      flushPara();
+      if(inUl){ out.push('</ul>'); inUl=false; }
+      if(inOl){ out.push('</ol>'); inOl=false; }
+      const headerCells = splitRow(line);
+      let tableHtml = '<table><thead><tr>' + headerCells.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+      i += 2;
+      while(i < lines.length && isTableRow(lines[i])){
+        const cells = splitRow(lines[i]);
+        tableHtml += '<tr>' + cells.map(c => `<td>${c}</td>`).join('') + '</tr>';
+        i++;
+      }
+      tableHtml += '</tbody></table>';
+      out.push(tableHtml);
+      continue;
+    }
+    const ul = line.match(/^[-*]\s+(.*)$/);
+    const ol = line.match(/^\d+\.\s+(.*)$/);
+    if(line.startsWith('<h3') || line.startsWith('<pre')){
+      flushPara();
+      if(inUl){ out.push('</ul>'); inUl=false; }
+      if(inOl){ out.push('</ol>'); inOl=false; }
+      out.push(line);
+    } else if(ul){
+      flushPara();
+      if(inOl){ out.push('</ol>'); inOl=false; }
+      if(!inUl){ out.push('<ul>'); inUl=true; }
+      out.push('<li>' + ul[1] + '</li>');
+    } else if(ol){
+      flushPara();
+      if(inUl){ out.push('</ul>'); inUl=false; }
+      if(!inOl){ out.push('<ol>'); inOl=true; }
+      out.push('<li>' + ol[1] + '</li>');
+    } else if(line.trim() === ''){
+      flushPara();
+    } else {
+      if(inUl){ out.push('</ul>'); inUl=false; }
+      if(inOl){ out.push('</ol>'); inOl=false; }
+      para.push(line);
+    }
+    i++;
+  }
+  flushPara();
+  if(inUl) out.push('</ul>');
+  if(inOl) out.push('</ol>');
+  return out.join('\n');
+}
+
+function addCard(role, content, isMarkdown){
+  cardCounter++;
+  const num = String(cardCounter).padStart(3,'0');
+  const card = document.createElement('div');
+  card.className = 'card ' + (role === 'user' ? 'user' : 'assistant');
+  const label = role === 'user' ? 'Your query' : 'Prompt Pal';
+  card.innerHTML = `
+    <div class="punch"></div>
+    <div class="tab"><span>${label}</span><span class="num">No. ${num}</span></div>
+    <div class="body">${isMarkdown ? renderMarkdown(content) : escapeHtml(content)}</div>
+  `;
+  thread.appendChild(card);
+  thread.scrollTop = thread.scrollHeight;
+  return card;
+}
+
+function addTypingCard(){
+  cardCounter++;
+  const num = String(cardCounter).padStart(3,'0');
+  const card = document.createElement('div');
+  card.className = 'card assistant';
+  card.id = 'typing-card';
+  card.innerHTML = `
+    <div class="punch"></div>
+    <div class="tab"><span>Prompt Pal</span><span class="num">No. ${num}</span></div>
+    <div class="body"><div class="typing"><span></span><span></span><span></span></div></div>
+  `;
+  thread.appendChild(card);
+  thread.scrollTop = thread.scrollHeight;
+  cardCounter--;
+  return card;
+}
+
+const WELCOME = `### Welcome!
+This is your AI-powered prompt library and coaching partner for everyday teaching and course design tasks — built for faculty and learning designers alike. The purpose of this space is to help you generate **leveled-up prompts** using two trusted frameworks. Here's how to use it:
+
+**Browse the library** — Ask for ready-made prompts for common tasks like writing learning objectives, building rubrics, creating activities, or ensuring accessibility.
+
+**Get coached** — Share your own draft prompt and I'll help you refine it using the [PROMPT framework](https://scholarsphere.psu.edu/resources/ddeab979-dad7-4e84-b101-0d38db0b97f2) (Persona, Requirements, Organization, Medium, Purpose, Tone) and the [CLEAR framework](https://digitalrepository.unm.edu/cgi/viewcontent.cgi?article=1214&context=ulls_fsp) (Concise, Logical, Explicit, Adaptive, Reflective).
+
+**Learn by example** — For every request, I'll provide:
+1. A basic version of the prompt.
+2. An enhanced version using PROMPT.
+3. A quick CLEAR check to show how the prompt holds up.
+
+A couple of things worth knowing: this space is only for **building and improving prompts** — I won't actually carry out the task the prompt describes (like writing the rubric itself), just craft the prompt you'd hand off to an AI tool to do that. And since this is an artifact, your chat history won't be saved if you close the window — copy any prompts you want to keep somewhere safe before you go.
+
+Pull a quick-start chip below to load a starter prompt into the box (then add your own topic or details before sending), or type your own request.`;
+
+addCard('assistant', WELCOME, true);
+
+async function sendMessage(text){
+  if(!text || !text.trim()) return;
+  addCard('user', text, false);
+  history.push({ role: 'user', content: text });
+  composer.value = '';
+  composer.style.height = 'auto';
+  sendBtn.disabled = true;
+
+  const typingCard = addTypingCard();
+
+  try{
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: history
+      })
+    });
+    const data = await response.json();
+    let replyText = '';
+    if(data && data.content){
+      replyText = data.content.filter(b => b.type === 'text').map(b => b.text).join('\n');
+    }
+    if(!replyText){
+      replyText = "Hmm — I didn't get a usable response that time. Could you try rephrasing your request?";
+    }
+    typingCard.remove();
+    cardCounter++;
+    addCard('assistant', replyText, true);
+    history.push({ role: 'assistant', content: replyText });
+  } catch(err){
+    typingCard.remove();
+    cardCounter++;
+    addCard('assistant', "Something went wrong reaching the library. Please try again in a moment.", false);
+  } finally {
+    sendBtn.disabled = false;
+  }
+}
+
+sendBtn.addEventListener('click', () => sendMessage(composer.value));
+composer.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    sendMessage(composer.value);
+  }
+});
+composer.addEventListener('input', () => {
+  composer.style.height = 'auto';
+  composer.style.height = Math.min(composer.scrollHeight, 140) + 'px';
+});
+
+chips.addEventListener('click', (e) => {
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  composer.value = chip.dataset.prompt;
+  composer.style.height = 'auto';
+  composer.style.height = Math.min(composer.scrollHeight, 140) + 'px';
+  composer.focus();
+  composer.setSelectionRange(composer.value.length, composer.value.length);
+});
+</script>
+
+</body>
+</html>

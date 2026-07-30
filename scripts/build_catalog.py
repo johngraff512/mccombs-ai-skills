@@ -16,6 +16,7 @@ import html
 import json
 import os
 import re
+import shutil
 import subprocess
 from datetime import date
 from pathlib import Path
@@ -341,6 +342,71 @@ def toolkit_detail_page(name, pj, skills):
     out.write_text(page_shell(name, body, header))
 
 
+def load_artifacts():
+    """Artifacts are interactive HTML tools under artifacts/<name>/, described by artifact.json.
+    Unlike skills they have no SKILL.md or zip — the HTML file itself is the deliverable,
+    and they run only where Claude can publish/host artifacts (Cowork, claude.ai)."""
+    out = []
+    for aj in sorted((ROOT / "artifacts").glob("*/artifact.json")):
+        a = json.loads(aj.read_text())
+        a["dir"] = aj.parent
+        out.append(a)
+    return out
+
+
+def artifact_card(a):
+    updated = last_updated(a["dir"])
+    artifact_detail_page(a, updated)
+    dst = ROOT / "docs" / "artifacts" / "files" / a["file"]
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(a["dir"] / a["file"], dst)
+    ver = f"<span>{html.escape(str(a['version']))}</span><span>&middot;</span>" if a.get("version") else ""
+    return f"""
+<div class="card" data-category="Artifacts" data-name="{html.escape(a['name'])}" data-updated="{updated}">
+  <h3><a href="artifacts/{a['name']}.html">{html.escape(a['title'])}</a></h3>
+  <p class="sum">{html.escape(a['summary'])}</p>
+  <div class="meta"><span class='badge claude'>{html.escape(a.get('platform', 'Claude'))} only</span>{ver}<span>artifact</span></div>
+  <div class='plats'><span>{html.escape(a.get('platform', 'Claude'))} ✓</span><span class="no">ChatGPT</span></div>
+</div>"""
+
+
+def artifact_detail_page(a, updated):
+    """Write docs/artifacts/<name>.html — what it does and how to run it in Claude."""
+    name = html.escape(a["name"])
+    file_link = f"files/{a['file']}"
+    ver = f"<span class='mono'>{html.escape(str(a['version']))}</span><span>&middot;</span>" if a.get("version") else ""
+    open_btn = (f"<p><a class='btn' href='{html.escape(a['link'])}'>Open {html.escape(a['title'])} →</a>"
+                f"<span style='font-size:12.5px;color:var(--muted);margin-left:10px'>opens the shared artifact in Claude</span></p>"
+                if a.get("link") else "")
+    header = "<h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning</p>"
+    body = f"""<main class="wrap detail">
+<a class="back" href="../index.html">← All skills</a>
+<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge claude'>{html.escape(a.get('platform', 'Claude'))} only</span>
+  <span>Artifact</span><span>&middot;</span>{ver}<span>updated {updated}</span></div>
+  <h2>{html.escape(a['title'])}</h2><p class="sum">{html.escape(a['summary'])}</p></div>
+<div class="install"><h3>Use it</h3>
+{open_btn}
+<details class="acc" open><summary>🟠 Run it in Claude Cowork<span class="tag">~2 minutes, once</span></summary>
+<div class="body"><ol>
+<li><a href="{file_link}" download>Download {html.escape(a['file'])}</a>.</li>
+<li>In <b>Claude Cowork</b>, add the file to your session (attach it or drop it in the project folder).</li>
+<li>Ask Claude to <i>“publish this file as an artifact”</i> — it returns a private link you can open, bookmark, and share.</li>
+</ol>
+<p>The built-in chat only connects when the page runs as a Claude artifact —
+<a href="{file_link}">previewing the file directly</a> shows the interface, but messages won't send.</p></div></details>
+<div class="acc unavail"><div class="head">⚪ ChatGPT<span class="tag">Not available — artifacts run on Claude only</span></div></div>
+</div>
+<div class="panel"><h3>About this artifact</h3>
+<p style="font-size:14px;line-height:1.55">{html.escape(a['description'])}</p>
+{f"<p style='font-size:12.5px;color:var(--muted)'>Created by {html.escape(a['author'])}.</p>" if a.get('author') else ""}</div>
+<a class="back" href="../index.html">← All skills</a>
+<footer style="border:none;padding-top:8px">McCombs AI Skills &middot; <a href="{REPO_URL}/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</main>"""
+    out = ROOT / "docs" / "artifacts" / f"{a['name']}.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(page_shell(a["title"], body, header))
+
+
 def toolkit_bands(report):
     """One promoted band per curated toolkit. A plugin qualifies only if it has a source tree
     under toolkits/<name>/ — plain groupings (community-skills, business-ai-tools)
@@ -378,19 +444,26 @@ def main():
     for c in cats:
         grid += f'<h2 class="gsec" data-cat="{html.escape(c)}">{html.escape(c)} &middot; {len(by_cat[c])}</h2>'
         grid += "".join(card(r) for r in by_cat[c])
+    artifacts = load_artifacts()
+    if artifacts:
+        chips += f'<button class="chip" data-cat="Artifacts">Artifacts<span class="n">{len(artifacts)}</span></button>'
+        grid += f'<h2 class="gsec" data-cat="Artifacts">Artifacts — interactive tools &middot; {len(artifacts)}</h2>'
+        grid += "".join(artifact_card(a) for a in artifacts)
     n = len(report)
+    total = n + len(artifacts)
     both = sum(1 for r in report if r["classification"] in ("both", "both-with-caveats"))
+    art_note = f" and {len(artifacts)} interactive artifact{'s' if len(artifacts) != 1 else ''}" if artifacts else ""
     header = f"""<span style="float:right;font-size:14px"><a href="{REPO_URL}/blob/master/CONTRIBUTING.md">Contribute a skill (no coding needed)</a></span>
 <h1>McCombs AI Skills</h1>
-<p>{n} ready-to-use AI skills for teaching and learning &middot; {both} work in both Claude EDU and ChatGPT &middot; updated {date.today().isoformat()}</p>"""
+<p>{n} ready-to-use AI skills{art_note} for teaching and learning &middot; {both} skills work in both Claude EDU and ChatGPT &middot; updated {date.today().isoformat()}</p>"""
     body = f"""<div class="toolbar"><div class="wrap">
 <div class="toolrow">
-  <input id="q" type="search" placeholder="Search {n} skills — try “case”, “slides”, “teaching note”…">
+  <input id="q" type="search" placeholder="Search {total} skills &amp; artifacts — try “case”, “slides”, “prompt”…">
   <select id="sort" aria-label="Sort">
     <option value="cat" selected>By category</option>
     <option value="az">A–Z</option>
     <option value="new">Recently updated</option></select>
-  <span class="count" id="count">{n} of {n}</span></div>
+  <span class="count" id="count">{total} of {total}</span></div>
 <div class="chips">{chips}</div>
 </div></div>
 <main class="wrap">

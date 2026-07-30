@@ -32,3 +32,8 @@ Initial scaffold.
 - Dark-mode support across all catalog pages (follows the reader's system preference).
 - New frontmatter convention: `metadata.summary` — a one-sentence plain-English summary shown on catalog cards. Added to all 12 skills; the validator now warns when it's missing and the catalog falls back to sentence-boundary truncation of the description.
 - Versions bumped for the frontmatter addition: business-ai-tools and community-skills skills to 1.0.1; McCombs Case Toolkit to 1.3.1.
+
+## v0.4.0 — 2026-07-30
+
+- New "Artifacts" catalog category for interactive HTML tools that run as Claude artifacts (Cowork / claude.ai). Artifacts live in `artifacts/<name>/` with an `artifact.json` manifest; the catalog shows them with a "Claude Cowork only" badge, a downloadable .html, and a detail page explaining how to publish the file as an artifact in Claude (plus a one-click "Open" button once a shared artifact link is added to the manifest).
+- First artifact: **Prompt Pal** (beta) — a prompt library and coaching partner for course and teaching design work, built by the Office of Instructional Innovation. Generates basic + PROMPT-framework-enhanced prompts with a CLEAR check, and coaches faculty on their own drafts.
