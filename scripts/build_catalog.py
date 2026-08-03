@@ -183,6 +183,253 @@ document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
 """
 
 
+# --- Option C prototype (docs/option-c.html) -------------------------------
+# A dense, filterable index served alongside the live catalog so faculty can
+# compare layouts. Generated from the same data, so it can never drift.
+
+CSS_C = """
+.protobar{background:var(--accent-soft);border-bottom:1px solid var(--line);font-size:12.5px;padding:7px 0}
+.protobar .wrap{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.protobar a{margin-left:auto}
+.cols{display:flex;gap:22px;align-items:flex-start;margin-top:18px}
+aside{width:218px;flex-shrink:0;position:sticky;top:12px}
+.fgroup{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.fgroup h3{margin:0 0 8px;font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-deep);font-family:inherit}
+.fgroup label{display:flex;gap:7px;align-items:center;font-size:13px;padding:2.5px 0;cursor:pointer}
+.fgroup label .n{margin-left:auto;color:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums}
+.fgroup input{accent-color:var(--accent)}
+.reset{width:100%;background:none;border:1px solid var(--line);border-radius:8px;color:var(--muted);
+  font-size:12.5px;padding:6px;cursor:pointer}
+.reset:hover{border-color:var(--accent);color:var(--accent-deep)}
+section.list{flex:1;min-width:0}
+.listtop{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+thead th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;
+  padding:9px 12px;border-bottom:2px solid var(--line);white-space:nowrap;background:var(--surface)}
+thead th[data-k]{cursor:pointer;user-select:none}
+thead th.on{color:var(--accent-deep)}
+tbody tr.row{border-top:1px solid var(--line);cursor:pointer}
+tbody tr.row:hover{background:var(--accent-soft)}
+td{padding:8px 12px;vertical-align:baseline;font-size:13.5px}
+td.name{font-weight:600;white-space:nowrap;font-size:14px}
+td.date{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px}
+td.cat{color:var(--muted);font-size:12.5px}
+.tp{font-size:11.5px;font-weight:600;border-radius:5px;padding:1.5px 7px;white-space:nowrap;
+  color:var(--tone);background:color-mix(in srgb,var(--tone) 12%,transparent)}
+.tp.skill{--tone:var(--ok)}.tp.plugin{--tone:var(--accent-deep)}.tp.artifact{--tone:var(--claude)}
+.works{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--muted)}
+.works .no{opacity:.45;text-decoration:line-through}
+.works .gear{cursor:help}
+tr.xp td{padding:0}
+.xpbox{background:var(--bg);border-top:1px dashed var(--line);padding:14px 18px;font-size:13.5px}
+.xpbox .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:13px;align-items:baseline}
+.xpbox .meta2{color:var(--muted);font-size:12.5px}
+.empty{text-align:center;color:var(--muted);padding:40px 0}
+@media (max-width:760px){.cols{flex-direction:column}aside{width:100%;position:static}
+  thead .hide-sm,td.hide-sm{display:none}}
+"""
+
+TYPE_ORDER = ["Skill", "Plug-in", "Artifact"]
+
+
+def catalog_entries(report, artifacts):
+    """One flat row model covering all three kinds, for the Option C index."""
+    entries = []
+    for r in report:
+        cls = r["classification"]
+        entries.append({
+            "name": r["skill"], "title": r["skill"], "type": "Skill",
+            "category": r.get("category", "General"), "summary": summary_of(r),
+            "chatgpt": cls in ("both", "both-with-caveats"),
+            "local": cls == "claude-code-only",
+            "updated": last_updated(ROOT / "plugins" / r["plugin"] / "skills" / r["skill"]),
+            "version": str(r["version"]) if r.get("version") else "",
+            "href": f"skills/{r['skill']}.html",
+            "zip": ZIP_URL.format(skill=r["skill"]),
+            "extra": r["plugin"],
+        })
+
+    # Plug-ins: same qualifying rule as toolkit_bands() — needs a toolkits/<name>/ source tree.
+    manifest = json.loads((ROOT / ".claude-plugin" / "marketplace.json").read_text())
+    by_plugin = {}
+    for r in report:
+        by_plugin.setdefault(r["plugin"], []).append(r)
+    for p in manifest["plugins"]:
+        members = by_plugin.get(p["name"])
+        if not members or not (ROOT / "toolkits" / p["name"]).is_dir():
+            continue
+        pj = json.loads((ROOT / "plugins" / p["name"] / ".claude-plugin" / "plugin.json").read_text())
+        ver = pj.get("version", "?")
+        # Category = the most common category among member skills (ties broken by CATEGORY_ORDER).
+        counts = {}
+        for m in members:
+            counts[m.get("category", "General")] = counts.get(m.get("category", "General"), 0) + 1
+        cat = sorted(counts, key=lambda c: (-counts[c], CATEGORY_ORDER.index(c) if c in CATEGORY_ORDER else 99))[0]
+        entries.append({
+            "name": p["name"], "title": p["name"], "type": "Plug-in", "category": cat,
+            "summary": p["description"], "chatgpt": True, "local": False,
+            "updated": last_updated(ROOT / "plugins" / p["name"]),
+            "version": ver, "href": f"toolkits/{p['name']}.html",
+            "zip": ZIP_URL.format(skill=f"{p['name']}-v{ver}"),
+            "chatgpt_zip": ZIP_URL.format(skill=f"{p['name']}-chatgpt-v{ver}"),
+            "extra": f"{len(members)} skills",
+        })
+
+    for a in artifacts:
+        entries.append({
+            "name": a["name"], "title": a["title"], "type": "Artifact",
+            "category": a.get("category", "General"), "summary": a["summary"],
+            "chatgpt": False, "local": False, "updated": last_updated(a["dir"]),
+            "version": str(a.get("version", "")), "href": f"artifacts/{a['name']}.html",
+            "download": f"artifacts/files/{a['file']}",
+            "extra": a.get("platform", "Claude"),
+        })
+    return entries
+
+
+def option_c_row(e):
+    tone = {"Skill": "skill", "Plug-in": "plugin", "Artifact": "artifact"}[e["type"]]
+    gpt = ('<span>ChatGPT</span>' if e["chatgpt"] else '<span class="no">ChatGPT</span>')
+    gear = ('<span class="gear" title="Runs command-line software you install yourself — use Claude Code">⚙</span>'
+            if e["local"] else "")
+    if e["type"] == "Skill":
+        links = (f'<a href="{e["zip"]}">⬇ Claude zip</a>'
+                 + (f'<a href="{e["zip"]}">⬇ ChatGPT zip</a>' if e["chatgpt"]
+                    else '<span class="meta2">ChatGPT: not available</span>'))
+        if e["local"]:
+            links = (f'<span>Claude Code: <code>/plugin marketplace add {REPO_SLUG}</code> '
+                     f'or <a href="{e["zip"]}">zip</a> → <code>~/.claude/skills/</code></span>')
+    elif e["type"] == "Plug-in":
+        links = (f'<span>Claude: <code>/plugin marketplace add {REPO_SLUG}</code></span>'
+                 f'<a href="{e["zip"]}">⬇ Claude zip</a><a href="{e["chatgpt_zip"]}">⬇ ChatGPT zip</a>')
+    else:
+        links = f'<a href="{e["download"]}" download>⬇ Download .html</a><span class="meta2">publish it as an artifact in Claude</span>'
+    ver = f' &middot; v{html.escape(e["version"])}' if e["version"] and e["type"] != "Artifact" else (
+        f' &middot; {html.escape(e["version"])}' if e["version"] else "")
+    return f"""<tr class="row" data-id="{html.escape(e['name'])}" data-type="{e['type']}"
+  data-category="{html.escape(e['category'])}" data-gpt="{'1' if e['chatgpt'] else ''}"
+  data-name="{html.escape(e['name'])}" data-updated="{e['updated']}" tabindex="0">
+  <td class="name">{html.escape(e['title'])}</td>
+  <td><span class="tp {tone}">{e['type']}</span></td>
+  <td class="cat hide-sm">{html.escape(e['category'])}</td>
+  <td><div class="works"><span>Claude</span>{gpt}{gear}</div></td>
+  <td class="date hide-sm">{e['updated']}</td></tr>
+<tr class="xp" data-for="{html.escape(e['name'])}" hidden><td colspan="5"><div class="xpbox">
+  {html.escape(e['summary'])}
+  <div class="actions">{links}<a href="{e['href']}">Full details →</a>
+  <span class="meta2">{html.escape(e['extra'])}{ver}</span></div>
+</div></td></tr>"""
+
+
+def option_c_page(entries):
+    """Write docs/option-c.html — the dense filterable index prototype."""
+    def count(pred):
+        return sum(1 for e in entries if pred(e))
+    types = [t for t in TYPE_ORDER if count(lambda e, t=t: e["type"] == t)]
+    cats = sorted({e["category"] for e in entries},
+                  key=lambda c: (CATEGORY_ORDER.index(c) if c in CATEGORY_ORDER else 99, c))
+    rows = "".join(option_c_row(e) for e in
+                   sorted(entries, key=lambda e: (e["name"].lower())))
+    n = len(entries)
+    type_f = "".join(
+        f'<label><input type="checkbox" data-g="type" value="{t}">{t}s'
+        f'<span class="n">{count(lambda e, t=t: e["type"] == t)}</span></label>' for t in types)
+    cat_f = "".join(
+        f'<label><input type="checkbox" data-g="cat" value="{html.escape(c)}">{html.escape(c)}'
+        f'<span class="n">{count(lambda e, c=c: e["category"] == c)}</span></label>' for c in cats)
+    works_f = (f'<label><input type="checkbox" data-g="works" value="claude">Claude'
+               f'<span class="n">{n}</span></label>'
+               f'<label><input type="checkbox" data-g="works" value="chatgpt">ChatGPT'
+               f'<span class="n">{count(lambda e: e["chatgpt"])}</span></label>')
+    header = ('<h1>McCombs AI Skills</h1>'
+              '<p>The complete index — every skill, plug-in, and artifact in one filterable list</p>')
+    protobar = """<div class="protobar"><div class="wrap"><b>Prototype layout</b>
+<span>A denser alternative to the main catalog — we'd love your feedback on which works better.</span>
+<a href="index.html">← Back to the main catalog</a></div></div>
+"""
+    body = f"""<main class="wrap"><div class="cols">
+<aside>
+  <div class="fgroup"><h3>Type</h3>{type_f}</div>
+  <div class="fgroup"><h3>Category</h3>{cat_f}</div>
+  <div class="fgroup"><h3>Works in</h3>{works_f}</div>
+  <button class="reset" id="reset">Reset filters</button>
+</aside>
+<section class="list">
+  <div class="listtop">
+    <input id="q" type="search" placeholder="Filter {n} skills, plug-ins &amp; artifacts…">
+    <span class="count" id="count">{n} shown &middot; {n} total</span></div>
+  <table><thead><tr>
+    <th data-k="name">Name</th><th data-k="type">Type</th>
+    <th data-k="category" class="hide-sm">Category</th><th>Works in</th>
+    <th data-k="updated" class="hide-sm">Updated</th></tr></thead>
+  <tbody id="tb">{rows}</tbody></table>
+  <div class="empty" id="empty" hidden>Nothing matches those filters. <a href="#" id="reset2">Reset filters</a></div>
+  <footer>Maintained by the McCombs AI Faculty Working Group &middot;
+  <a href="{REPO_URL}">Contribute on GitHub</a> &middot; ⚙ = runs software you install locally</footer>
+</section></div></main>
+<script>{JS_C}</script>"""
+    out = ROOT / "docs" / "option-c.html"
+    out.write_text(page_shell("Index (prototype)", body, header, CSS_C, protobar))
+    print(f"Wrote {out.relative_to(ROOT)} ({n} entries)")
+
+
+JS_C = """
+const tb=document.getElementById('tb'), q=document.getElementById('q');
+const countEl=document.getElementById('count'), empty=document.getElementById('empty');
+const rows=[...tb.querySelectorAll('tr.row')];
+const state={type:new Set(),cat:new Set(),works:new Set(),sort:['',1],open:null};
+function apply(){
+  const v=q.value.toLowerCase();
+  let shown=0;
+  rows.forEach(r=>{
+    const xp=tb.querySelector(`tr.xp[data-for="${CSS.escape(r.dataset.id)}"]`);
+    const ok=(!state.type.size||state.type.has(r.dataset.type))
+      &&(!state.cat.size||state.cat.has(r.dataset.category))
+      &&(!state.works.size||[...state.works].every(w=>w==='claude'||r.dataset.gpt))
+      &&(r.textContent+' '+xp.textContent).toLowerCase().includes(v);
+    r.hidden=!ok; if(ok)shown++;
+    xp.hidden=!ok||state.open!==r.dataset.id;
+  });
+  countEl.textContent=`${shown} shown \\u00b7 ${rows.length} total`;
+  empty.hidden=shown>0;
+}
+function sortBy(k){
+  state.sort=state.sort[0]===k?[k,-state.sort[1]]:[k,1];
+  const [key,dir]=state.sort;
+  const val=r=>(r.dataset[key]||'').toLowerCase();
+  const flip=key==='updated'?-1:1;   // dates open newest-first; text opens A-Z
+  [...rows]
+    .sort((a,b)=>dir*flip*val(a).localeCompare(val(b))||a.dataset.name.localeCompare(b.dataset.name))
+    .forEach(r=>{tb.appendChild(r);tb.appendChild(tb.querySelector(`tr.xp[data-for="${CSS.escape(r.dataset.id)}"]`))});
+  document.querySelectorAll('thead th[data-k]').forEach(th=>{
+    th.classList.toggle('on',th.dataset.k===key);
+    th.textContent=th.textContent.replace(/ [\\u2191\\u2193]$/,'')
+      +(th.dataset.k===key?(dir*flip>0?' \\u2191':' \\u2193'):'');
+  });
+}
+q.addEventListener('input',apply);
+document.querySelectorAll('aside input').forEach(i=>i.addEventListener('change',()=>{
+  const set=state[i.dataset.g]; i.checked?set.add(i.value):set.delete(i.value); apply();
+}));
+document.querySelectorAll('thead th[data-k]').forEach(th=>th.addEventListener('click',()=>sortBy(th.dataset.k)));
+function toggle(r){ state.open=state.open===r.dataset.id?null:r.dataset.id; apply(); }
+rows.forEach(r=>{
+  r.addEventListener('click',()=>toggle(r));
+  r.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();toggle(r);}});
+});
+tb.querySelectorAll('tr.xp a').forEach(a=>a.addEventListener('click',e=>e.stopPropagation()));
+function reset(e){
+  if(e)e.preventDefault();
+  ['type','cat','works'].forEach(g=>state[g].clear());
+  document.querySelectorAll('aside input').forEach(i=>i.checked=false);
+  q.value=''; apply();
+}
+document.getElementById('reset').addEventListener('click',()=>reset());
+document.getElementById('reset2').addEventListener('click',reset);
+sortBy('name');
+"""
+
+
 def summary_of(r) -> str:
     """metadata.summary, or the description truncated at a sentence/word boundary."""
     if r.get("summary"):
@@ -208,11 +455,11 @@ def badge(cls: str) -> str:
     return f"<span class='badge {tone}'>{label}</span>"
 
 
-def page_shell(title: str, body: str, header: str) -> str:
+def page_shell(title: str, body: str, header: str, extra_css: str = "", pre_header: str = "") -> str:
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{html.escape(title)} — McCombs AI Skills</title><style>{CSS}</style></head><body>
-<header class="site"><div class="wrap">{header}</div></header>
+<title>{html.escape(title)} — McCombs AI Skills</title><style>{CSS}{extra_css}</style></head><body>
+{pre_header}<header class="site"><div class="wrap">{header}</div></header>
 {body}
 </body></html>"""
 
@@ -350,6 +597,7 @@ def load_artifacts():
     for aj in sorted((ROOT / "artifacts").glob("*/artifact.json")):
         a = json.loads(aj.read_text())
         a["dir"] = aj.parent
+        a.setdefault("category", "General")
         out.append(a)
     return out
 
@@ -476,6 +724,7 @@ def main():
     out = ROOT / "docs" / "index.html"
     out.write_text(page_shell("Catalog", body, header))
     print(f"Wrote {out.relative_to(ROOT)} ({n} skills)")
+    option_c_page(catalog_entries(report, artifacts))
     if markdown is None:
         print("WARNING: python 'markdown' package not installed — detail pages degraded to <pre> rendering.")
 
