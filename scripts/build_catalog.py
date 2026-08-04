@@ -448,7 +448,7 @@ def option_c_page(entries):
                f'<label><input type="checkbox" data-g="works" value="chatgpt">ChatGPT'
                f'<span class="n">{count(lambda e: e["chatgpt"])}</span></label>')
     header = ('<h1>McCombs AI Skills</h1>'
-              '<p>The complete index — every skill, plug-in, and artifact in one filterable list</p>')
+              '<p>Ready-made AI tools for teaching and learning at McCombs</p>')
     protobar = """<div class="protobar"><div class="wrap"><b>Prototype layout</b>
 <span>A denser alternative to the main catalog — we'd love your feedback on which works better.</span>
 <a href="index.html">← Back to the main catalog</a></div></div>
@@ -477,7 +477,7 @@ def option_c_page(entries):
   <div class="empty" id="empty" hidden>Nothing matches those filters. <a href="#" id="reset2">Reset filters</a></div>
   <footer>Maintained by the McCombs AI Faculty Working Group &middot;
   <a href="start-here.html">Start here guide</a> &middot;
-  <a href="{REPO_URL}">Contribute on GitHub</a> &middot; ⚙ = runs software you install locally</footer>
+  <a href="{REPO_URL}/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a> &middot; ⚙ = runs software you install locally</footer>
 </section></div></main>
 <script>{JS_C}</script>
 <script>{JS_HELP}</script>"""
