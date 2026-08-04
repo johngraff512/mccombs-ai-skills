@@ -4,12 +4,15 @@ description: "Update an existing business case with current data and recent deve
 metadata:
   summary: "Bring an older case up to date with current data and recent developments."
   category: Case Writing
-  version: "1.3.1"
+  version: "1.3.2"
+  examples:
+    - "What's changed since this Netflix case was written in 2023?"
+    - "Refresh the financials in this case with the latest annual report."
 ---
 
 # Case Refresher
 
-> McCombs Case Toolkit version 1.3.1
+> McCombs Case Toolkit version 1.3.2
 
 Update an existing business case with current data, recent developments, and new dynamics relevant to the case's discipline. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See `references/discipline-guide.md` for department-specific materiality thresholds and update categories.
 

@@ -54,6 +54,60 @@ BADGES = {
 CATEGORY_ORDER = ["Case Writing", "Class Preparation", "Slides & Presentations",
                   "Research & Summaries", "Decision Support", "General"]
 
+# --- Faculty-facing help copy (single source of truth) ----------------------
+# Every explanation on the site comes from here, so the catalogs, the tooltips,
+# and start-here.html can never disagree with each other.
+
+GLOSSARY = {
+    "Skill": {
+        "icon": "🧩",
+        "short": "A set of instructions you add to Claude or ChatGPT so it handles one task the McCombs way.",
+        "long": ("A skill is a short instruction file you upload once. After that there is no command to "
+                 "remember — you ask for the task in your own words and the assistant follows the recipe "
+                 "automatically. Most things in this catalog are skills."),
+        "when": "Use a skill when you want help with one specific job, like writing a case or building a rubric.",
+    },
+    "Plug-in": {
+        "icon": "📦",
+        "short": "A bundle of related skills that installs in one step and updates itself in Claude.",
+        "long": ("A plug-in packages several skills that work together. Installing it adds all of them at once, "
+                 "and in Claude it keeps itself up to date, so you don't have to re-download when we improve "
+                 "a skill. ChatGPT doesn't support plug-ins — there you upload the skills individually."),
+        "when": "Use a plug-in when you want the whole set for a workflow rather than picking skills one at a time.",
+    },
+    "Artifact": {
+        "icon": "⚡",
+        "short": "A small interactive tool that runs as its own page in Claude.",
+        "long": ("An artifact isn't installed into the assistant — it's a little web app you open and use, with "
+                 "its own buttons and chat box. You publish the file once in Claude and then just open the link."),
+        "when": "Use an artifact when you want a hands-on tool rather than something that answers inside a chat.",
+    },
+}
+
+# Plain-English gloss for each compatibility badge, keyed by classification.
+BADGE_HELP = {
+    "both": "Works the same in UT Claude EDU and the UT ChatGPT workspace.",
+    "both-with-caveats": ("Works in both, with small differences on ChatGPT. The “Good to know” section on the "
+                          "skill's page explains exactly what changes."),
+    "claude-code-only": ("Runs command-line software (things like LaTeX) that has to be installed on your own "
+                         "computer. Best used in Claude Code — it won't work on the Claude or ChatGPT websites."),
+    "claude-only": "Uses Claude features that ChatGPT doesn't have, so it isn't available for ChatGPT.",
+}
+
+PLATFORM_HELP = ("Where you can use this. “Claude” means UT Claude EDU (the website or desktop app); "
+                 "“ChatGPT” means the UT ChatGPT workspace.")
+
+TIP_ID = [0]
+
+
+def tooltip(text: str, label: str = "?") -> str:
+    """A small accessible help button. Opens on hover, click (touch), or keyboard; Esc closes."""
+    TIP_ID[0] += 1
+    tid = f"tip{TIP_ID[0]}"
+    return (f'<span class="hintwrap"><button type="button" class="hint" aria-describedby="{tid}" '
+            f'aria-label="What does this mean?">{label}</button>'
+            f'<span role="tooltip" id="{tid}" class="tip">{html.escape(text)}</span></span>')
+
 CSS = """
 :root{
   --bg:#FAF7F2; --surface:#FFFFFF; --ink:#2B241D; --muted:#75695C; --line:#E8E0D4;
@@ -142,6 +196,56 @@ a.back{display:inline-block;margin-bottom:14px;font-size:14px;text-decoration:no
 footer{color:var(--muted);font-size:12.5px;padding:18px 0 44px;border-top:1px solid var(--line)}
 footer a{color:var(--accent-deep)}
 @media (max-width:640px){.band .cta{margin-left:0}.detail{margin-top:16px}}
+/* --- help: tooltips --- */
+.hintwrap{position:relative;display:inline-block;line-height:1}
+.hint{width:15px;height:15px;padding:0;border-radius:50%;border:1px solid var(--line);
+  background:var(--surface);color:var(--muted);font-size:10.5px;font-weight:700;cursor:help;
+  vertical-align:1px;margin-left:5px;font-family:inherit}
+.hint:hover,.hint[aria-expanded="true"]{border-color:var(--accent);color:var(--accent-deep)}
+.hint:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tip{position:absolute;z-index:20;left:0;top:calc(100% + 7px);width:max-content;max-width:min(270px,72vw);
+  background:var(--ink);color:var(--bg);border-radius:8px;padding:9px 12px;font-size:12.5px;
+  line-height:1.45;font-weight:400;text-transform:none;letter-spacing:0;display:none;
+  white-space:normal;text-align:left;box-shadow:0 4px 14px rgba(0,0,0,.22)}
+.tip.on{display:block}
+.hintwrap:hover .tip{display:block}
+/* --- help: intro strip --- */
+.intro{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:18px 0 4px;
+  box-shadow:var(--shadow)}
+.intro h2{margin:0 0 3px;font-size:18px}
+.intro .lede{margin:0 0 12px;font-size:13.5px;color:var(--muted);max-width:70ch}
+.intro .kinds{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin-bottom:12px}
+.kind{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
+.kind b{display:block;font-size:14px;margin-bottom:2px}
+.kind span{font-size:12.5px;color:var(--muted);line-height:1.45}
+.intro .more{font-size:13.5px}
+.intro .close{float:right;background:none;border:1px solid var(--line);border-radius:7px;color:var(--muted);
+  font-size:12px;padding:3px 10px;cursor:pointer;margin-left:12px}
+.intro .close:hover{border-color:var(--accent);color:var(--accent-deep)}
+.introbar{display:none;margin:16px 0 0}
+.introbar button{background:var(--surface);border:1px solid var(--line);border-radius:8px;color:var(--accent-deep);
+  font-size:13px;padding:7px 14px;cursor:pointer;font-weight:600;font-family:inherit}
+.introbar button:hover{border-color:var(--accent)}
+body.introhid .intro{display:none} body.introhid .introbar{display:block}
+/* --- help: example prompts --- */
+.ex{display:flex;gap:10px;align-items:center;background:var(--bg);border:1px solid var(--line);
+  border-radius:8px;padding:9px 13px;margin:6px 0;font-size:13.5px}
+.ex button{margin-left:auto;flex-shrink:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  color:var(--accent-deep);font-size:12px;padding:4px 10px;cursor:pointer;font-family:inherit}
+.ex button:hover{border-color:var(--accent)}
+.howto{font-size:13px;color:var(--muted);margin:0 0 8px;max-width:68ch}
+/* --- help: start-here page --- */
+.sh h2{font-size:21px;margin:28px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--accent)}
+.sh h3{font-size:16px;margin:18px 0 5px}
+.sh p,.sh li{font-size:14.5px;line-height:1.6;max-width:70ch}
+.sh table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px;display:block;overflow-x:auto}
+.sh td,.sh th{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+.sh th{background:var(--surface);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent-deep)}
+.sh ol li{margin:5px 0}
+.toc{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.toc a{font-size:13px;border:1px solid var(--line);border-radius:18px;padding:5px 13px;text-decoration:none;
+  background:var(--surface)}
+.toc a:hover{border-color:var(--accent)}
 """
 
 JS = """
@@ -202,6 +306,7 @@ aside{width:218px;flex-shrink:0;position:sticky;top:12px}
   font-size:12.5px;padding:6px;cursor:pointer}
 .reset:hover{border-color:var(--accent);color:var(--accent-deep)}
 section.list{flex:1;min-width:0}
+.tablewrap{overflow-x:auto}
 .listtop{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
 table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 thead th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;
@@ -225,7 +330,9 @@ tr.xp td{padding:0}
 .xpbox .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:13px;align-items:baseline}
 .xpbox .meta2{color:var(--muted);font-size:12.5px}
 .empty{text-align:center;color:var(--muted);padding:40px 0}
-@media (max-width:760px){.cols{flex-direction:column}aside{width:100%;position:static}
+@media (max-width:760px){.cols{flex-direction:column;align-items:stretch}
+  aside{width:100%;position:static}
+  section.list{width:100%}
   thead .hide-sm,td.hide-sm{display:none}}
 """
 
@@ -290,8 +397,7 @@ def catalog_entries(report, artifacts):
 def option_c_row(e):
     tone = {"Skill": "skill", "Plug-in": "plugin", "Artifact": "artifact"}[e["type"]]
     gpt = ('<span>ChatGPT</span>' if e["chatgpt"] else '<span class="no">ChatGPT</span>')
-    gear = ('<span class="gear" title="Runs command-line software you install yourself — use Claude Code">⚙</span>'
-            if e["local"] else "")
+    gear = (f'<span class="gear">⚙{tooltip(BADGE_HELP["claude-code-only"])}</span>' if e["local"] else "")
     if e["type"] == "Skill":
         links = (f'<a href="{e["zip"]}">⬇ Claude zip</a>'
                  + (f'<a href="{e["zip"]}">⬇ ChatGPT zip</a>' if e["chatgpt"]
@@ -347,27 +453,34 @@ def option_c_page(entries):
 <span>A denser alternative to the main catalog — we'd love your feedback on which works better.</span>
 <a href="index.html">← Back to the main catalog</a></div></div>
 """
-    body = f"""<main class="wrap"><div class="cols">
+    body = f"""<main class="wrap">
+{help_strip()}
+<div class="cols">
 <aside>
-  <div class="fgroup"><h3>Type</h3>{type_f}</div>
-  <div class="fgroup"><h3>Category</h3>{cat_f}</div>
-  <div class="fgroup"><h3>Works in</h3>{works_f}</div>
+  <div class="fgroup"><h3>Type{tooltip("Skills and plug-ins are added to Claude or ChatGPT; artifacts are interactive tools you open in Claude.")}</h3>{type_f}</div>
+  <div class="fgroup"><h3>Category{tooltip("The kind of teaching work each item helps with.")}</h3>{cat_f}</div>
+  <div class="fgroup"><h3>Works in{tooltip(PLATFORM_HELP)}</h3>{works_f}</div>
   <button class="reset" id="reset">Reset filters</button>
 </aside>
 <section class="list">
   <div class="listtop">
     <input id="q" type="search" placeholder="Filter {n} skills, plug-ins &amp; artifacts…">
     <span class="count" id="count">{n} shown &middot; {n} total</span></div>
-  <table><thead><tr>
-    <th data-k="name">Name</th><th data-k="type">Type</th>
-    <th data-k="category" class="hide-sm">Category</th><th>Works in</th>
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 8px">Click any row to see what it does and how to install it.</p>
+  <div class="tablewrap"><table><thead><tr>
+    <th data-k="name">Name</th>
+    <th data-k="type">Type</th>
+    <th data-k="category" class="hide-sm">Category</th>
+    <th>Works in</th>
     <th data-k="updated" class="hide-sm">Updated</th></tr></thead>
-  <tbody id="tb">{rows}</tbody></table>
+  <tbody id="tb">{rows}</tbody></table></div>
   <div class="empty" id="empty" hidden>Nothing matches those filters. <a href="#" id="reset2">Reset filters</a></div>
   <footer>Maintained by the McCombs AI Faculty Working Group &middot;
+  <a href="start-here.html">Start here guide</a> &middot;
   <a href="{REPO_URL}">Contribute on GitHub</a> &middot; ⚙ = runs software you install locally</footer>
 </section></div></main>
-<script>{JS_C}</script>"""
+<script>{JS_C}</script>
+<script>{JS_HELP}</script>"""
     out = ROOT / "docs" / "option-c.html"
     out.write_text(page_shell("Index (prototype)", body, header, CSS_C, protobar))
     print(f"Wrote {out.relative_to(ROOT)} ({n} entries)")
@@ -430,6 +543,90 @@ sortBy('name');
 """
 
 
+# Shared behavior for every page: tooltips, copy-to-clipboard, intro strip.
+JS_HELP = """
+// Keep a tooltip inside the viewport regardless of where its trigger sits.
+function placeTip(tip){
+  tip.style.transform='';
+  // clientWidth = layout viewport (excludes scrollbar); innerWidth would let tips slide off-screen.
+  const vw=document.documentElement.clientWidth, r=tip.getBoundingClientRect(), pad=8;
+  let dx=0;
+  if(r.right>vw-pad)dx=vw-pad-r.right;
+  if(r.left+dx<pad)dx=pad-r.left;
+  if(dx)tip.style.transform='translateX('+Math.round(dx)+'px)';
+}
+document.querySelectorAll('.hint').forEach(b=>{
+  const tip=document.getElementById(b.getAttribute('aria-describedby'));
+  const close=()=>{tip.classList.remove('on');b.setAttribute('aria-expanded','false');};
+  b.setAttribute('aria-expanded','false');
+  b.addEventListener('mouseenter',()=>placeTip(tip));
+  b.addEventListener('click',e=>{
+    e.preventDefault();e.stopPropagation();
+    const open=tip.classList.contains('on');
+    document.querySelectorAll('.tip.on').forEach(t=>t.classList.remove('on'));
+    document.querySelectorAll('.hint').forEach(h=>h.setAttribute('aria-expanded','false'));
+    if(!open){tip.classList.add('on');b.setAttribute('aria-expanded','true');placeTip(tip);}
+  });
+  b.addEventListener('focus',()=>{tip.classList.add('on');placeTip(tip);});
+  b.addEventListener('blur',close);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){
+  document.querySelectorAll('.tip.on').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.hint').forEach(h=>h.setAttribute('aria-expanded','false'));}});
+document.addEventListener('click',()=>{
+  document.querySelectorAll('.tip.on').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.hint').forEach(h=>h.setAttribute('aria-expanded','false'));});
+document.querySelectorAll('.ex button').forEach(b=>b.addEventListener('click',e=>{
+  e.preventDefault();e.stopPropagation();
+  const txt=b.parentElement.querySelector('span').textContent.replace(/^[\\u201c"]|[\\u201d"]$/g,'');
+  if(navigator.clipboard)navigator.clipboard.writeText(txt);
+  const was=b.textContent;b.textContent='Copied \\u2713';setTimeout(()=>b.textContent=was,1300);
+}));
+(function(){
+  const KEY='mccombs-intro-seen';
+  const intro=document.querySelector('.intro');
+  if(!intro)return;
+  try{if(localStorage.getItem(KEY))document.body.classList.add('introhid');}catch(e){}
+  const hide=()=>{document.body.classList.add('introhid');try{localStorage.setItem(KEY,'1');}catch(e){}};
+  const show=()=>{document.body.classList.remove('introhid');try{localStorage.removeItem(KEY);}catch(e){}};
+  const c=intro.querySelector('.close'); if(c)c.addEventListener('click',hide);
+  const o=document.querySelector('.introbar button'); if(o)o.addEventListener('click',show);
+})();
+"""
+
+
+def help_strip() -> str:
+    """The dismissible 'New to AI skills?' explainer shown on both catalog pages."""
+    kinds = "".join(
+        f'<div class="kind"><b>{g["icon"]} {name}</b><span>{html.escape(g["short"])}</span></div>'
+        for name, g in GLOSSARY.items())
+    return f"""<div class="intro">
+  <button class="close" type="button">Hide this</button>
+  <h2>New to AI skills?</h2>
+  <p class="lede">Everything below is something you add to the AI you already use — UT Claude EDU or the
+  UT ChatGPT workspace. Installing takes about a minute, and afterwards you just ask for what you want
+  in your own words.</p>
+  <div class="kinds">{kinds}</div>
+  <p class="more"><a href="start-here.html">Read the full 5-minute guide &rarr;</a></p>
+</div>
+<div class="introbar"><button type="button">New to AI skills? Read the 1-minute intro</button></div>"""
+
+
+def examples_panel(examples, kind="skill") -> str:
+    """'Try saying…' prompts — the answer to 'I installed it, now what?'"""
+    if not examples:
+        return ""
+    if kind == "artifact":
+        howto = "Once the artifact is open, try asking it something like:"
+    else:
+        howto = ("Once it's installed there's no command to remember — just ask for what you want. "
+                 "These are the kinds of requests that put this skill to work:")
+    rows = "".join(
+        f'<div class="ex"><span>“{html.escape(x)}”</span><button type="button">Copy</button></div>'
+        for x in examples)
+    return f'<div class="panel"><h3>Try saying…</h3><p class="howto">{howto}</p>{rows}</div>'
+
+
 def summary_of(r) -> str:
     """metadata.summary, or the description truncated at a sentence/word boundary."""
     if r.get("summary"):
@@ -441,18 +638,21 @@ def summary_of(r) -> str:
     return first[:157].rsplit(" ", 1)[0] + "…"
 
 
-def platform_marks(cls: str) -> str:
+def platform_marks(cls: str, with_help: bool = False) -> str:
     gpt_ok = cls in ("both", "both-with-caveats")
     marks = ["<span>Claude ✓</span>",
              f"<span class=\"{'' if gpt_ok else 'no'}\">ChatGPT{' ✓' if gpt_ok else ''}</span>"]
     if cls == "claude-code-only":
-        marks.append('<span title="Runs software that must be installed locally">⚙ local software</span>')
+        marks.append(f'<span>⚙ local software{tooltip(BADGE_HELP["claude-code-only"])}</span>')
+    elif with_help:
+        marks.append(tooltip(PLATFORM_HELP))
     return f"<div class='plats'>{''.join(marks)}</div>"
 
 
-def badge(cls: str) -> str:
+def badge(cls: str, with_help: bool = False) -> str:
     label, tone = BADGES[cls]
-    return f"<span class='badge {tone}'>{label}</span>"
+    tip = tooltip(BADGE_HELP[cls]) if with_help else ""
+    return f"<span class='badge {tone}'>{label}{tip}</span>"
 
 
 def page_shell(title: str, body: str, header: str, extra_css: str = "", pre_header: str = "") -> str:
@@ -474,7 +674,7 @@ def card(r):
 <div class="card" data-category="{html.escape(cat)}" data-name="{html.escape(r['skill'])}" data-updated="{updated}">
   <h3><a href="skills/{r['skill']}.html">{html.escape(r['skill'])}</a></h3>
   <p class="sum">{html.escape(summary_of(r))}</p>
-  <div class="meta">{badge(cls)}{ver}<span>&middot;</span><span>{html.escape(r['plugin'])}</span></div>
+  <div class="meta">{badge(cls, with_help=True)}{ver}<span>&middot;</span><span>{html.escape(r['plugin'])}</span></div>
   {platform_marks(cls)}
 </div>"""
 
@@ -531,15 +731,17 @@ def detail_page(r, updated):
     notes = "".join(f"<li>{html.escape(s)}</li>" for s in r["signals"])
     notes_html = f"<div class='panel'><h3>Good to know</h3><ul>{notes}</ul></div>" if notes else ""
     ver = f"<span class='mono'>v{html.escape(str(r['version']))}</span><span>&middot;</span>" if r.get("version") else ""
-    header = f"<h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning</p>"
+    header = ("<h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning &middot; "
+              "<a href=\"../start-here.html\">New here? Start with the guide</a></p>")
     body = f"""<main class="wrap detail">
 <a class="back" href="../index.html">← All skills</a>
-<div class="dhead"><div class="meta" style="margin-bottom:6px">{badge(r['classification'])}
+<div class="dhead"><div class="meta" style="margin-bottom:6px">{badge(r['classification'], with_help=True)}
   <span>{html.escape(r.get('category', 'General'))}</span><span>&middot;</span>
   <span>{html.escape(r['plugin'])}</span><span>&middot;</span>
   {ver}<span>updated {updated}</span></div>
   <h2>{html.escape(r['skill'])}</h2><p class="sum">{html.escape(summary_of(r))}</p></div>
-<div class="install"><h3>Install</h3>{install_accordions(r)}</div>
+<div class="install"><h3>Install{tooltip("Not sure which platform is which? The Start here guide walks through each one.")}</h3>{install_accordions(r)}</div>
+{examples_panel(r.get("examples") or [])}
 {notes_html}
 <div class="panel"><h3>About this skill</h3>
 <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">The content below is {source_note}.</p>
@@ -547,8 +749,11 @@ def detail_page(r, updated):
 <details class="acc"><summary>Files included<span class="tag">{len(files)}</span></summary>
 <div class="body"><ul>{file_list}</ul></div></details>
 <a class="back" href="../index.html">← All skills</a>
-<footer style="border:none;padding-top:8px">McCombs AI Skills &middot; <a href="{REPO_URL}/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
-</main>"""
+<footer style="border:none;padding-top:8px">McCombs AI Skills &middot;
+<a href="../start-here.html">Start here guide</a> &middot;
+<a href="{REPO_URL}/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</main>
+<script>{JS_HELP}</script>"""
     out = ROOT / "docs" / "skills" / f"{r['skill']}.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page_shell(r["skill"], body, header))
@@ -561,10 +766,11 @@ def toolkit_detail_page(name, pj, skills):
     ver = pj.get("version", "?")
     claude_zip = ZIP_URL.format(skill=f"{name}-v{ver}")
     chatgpt_zip = ZIP_URL.format(skill=f"{name}-chatgpt-v{ver}")
-    header = f"<h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning</p>"
+    header = ("<h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning &middot; "
+              "<a href=\"../start-here.html\">New here? Start with the guide</a></p>")
     body = f"""<main class="wrap detail">
 <a class="back" href="../index.html">← All skills</a>
-<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge ok'>Plug-in</span>
+<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge ok'>Plug-in{tooltip(GLOSSARY['Plug-in']['long'])}</span>
   <span>{len(skills)} skills</span><span>&middot;</span><span class="mono">v{html.escape(ver)}</span></div>
   <h2>{html.escape(name)}</h2><p class="sum">{html.escape(pj.get('description', ''))}</p></div>
 <div class="install"><h3>Install</h3>
@@ -582,8 +788,10 @@ def toolkit_detail_page(name, pj, skills):
 </div>
 <div class="panel"><h3>About this plug-in</h3><div class="doc">{render_md(src)}</div></div>
 <a class="back" href="../index.html">← All skills</a>
-<footer style="border:none;padding-top:8px">McCombs AI Skills &middot; <a href="{REPO_URL}">GitHub repository</a></footer>
-</main>"""
+<footer style="border:none;padding-top:8px">McCombs AI Skills &middot;
+<a href="../start-here.html">Start here guide</a> &middot; <a href="{REPO_URL}">GitHub repository</a></footer>
+</main>
+<script>{JS_HELP}</script>"""
     out = ROOT / "docs" / "toolkits" / f"{name}.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page_shell(name, body, header))
@@ -626,10 +834,11 @@ def artifact_detail_page(a, updated):
     open_btn = (f"<p><a class='btn' href='{html.escape(a['link'])}'>Open {html.escape(a['title'])} →</a>"
                 f"<span style='font-size:12.5px;color:var(--muted);margin-left:10px'>opens the shared artifact in Claude</span></p>"
                 if a.get("link") else "")
-    header = "<h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning</p>"
+    header = ("<h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning &middot; "
+              "<a href=\"../start-here.html\">New here? Start with the guide</a></p>")
     body = f"""<main class="wrap detail">
 <a class="back" href="../index.html">← All skills</a>
-<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge claude'>{html.escape(a.get('platform', 'Claude'))} only</span>
+<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge claude'>{html.escape(a.get('platform', 'Claude'))} only{tooltip(GLOSSARY['Artifact']['long'])}</span>
   <span>Artifact</span><span>&middot;</span>{ver}<span>updated {updated}</span></div>
   <h2>{html.escape(a['title'])}</h2><p class="sum">{html.escape(a['summary'])}</p></div>
 <div class="install"><h3>Use it</h3>
@@ -644,15 +853,111 @@ def artifact_detail_page(a, updated):
 <a href="{file_link}">previewing the file directly</a> shows the interface, but messages won't send.</p></div></details>
 <div class="acc unavail"><div class="head">⚪ ChatGPT<span class="tag">Not available — artifacts run on Claude only</span></div></div>
 </div>
+{examples_panel(a.get("examples") or [], kind="artifact")}
 <div class="panel"><h3>About this artifact</h3>
 <p style="font-size:14px;line-height:1.55">{html.escape(a['description'])}</p>
 {f"<p style='font-size:12.5px;color:var(--muted)'>Created by {html.escape(a['author'])}.</p>" if a.get('author') else ""}</div>
 <a class="back" href="../index.html">← All skills</a>
-<footer style="border:none;padding-top:8px">McCombs AI Skills &middot; <a href="{REPO_URL}/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
-</main>"""
+<footer style="border:none;padding-top:8px">McCombs AI Skills &middot;
+<a href="../start-here.html">Start here guide</a> &middot;
+<a href="{REPO_URL}/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+</main>
+<script>{JS_HELP}</script>"""
     out = ROOT / "docs" / "artifacts" / f"{a['name']}.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page_shell(a["title"], body, header))
+
+
+def start_here_page():
+    """Write docs/start-here.html — the plain-English guide for faculty new to all of this."""
+    kinds = "".join(
+        f'<h3>{g["icon"]} {name}</h3><p>{html.escape(g["long"])}</p>'
+        f'<p style="color:var(--muted);font-size:13.5px"><b>When to pick one:</b> {html.escape(g["when"])}</p>'
+        for name, g in GLOSSARY.items())
+    badges = "".join(
+        f'<tr><td><span class="badge {BADGES[k][1]}">{BADGES[k][0]}</span></td><td>{html.escape(v)}</td></tr>'
+        for k, v in BADGE_HELP.items())
+    header = ('<h1>Start here</h1>'
+              '<p>A five-minute guide to using AI skills at McCombs — no technical background needed</p>')
+    body = f"""<main class="wrap detail sh" style="max-width:820px">
+<a class="back" href="index.html">← Back to the catalog</a>
+<div class="toc">
+  <a href="#kinds">What's on this site</a><a href="#where">Where things go</a>
+  <a href="#install">Installing</a><a href="#using">Using it afterwards</a>
+  <a href="#badges">What the badges mean</a><a href="#trouble">If something doesn't work</a></div>
+
+<h2 id="kinds">What's on this site</h2>
+<p>The catalog holds three kinds of thing. They all make the AI better at a specific job — the difference
+is how you get to them.</p>
+{kinds}
+
+<h2 id="where">Where these go</h2>
+<p>You don't need any new software. Everything installs into a tool UT already provides.</p>
+<table><thead><tr><th>Where</th><th>What it is</th><th>What it can use</th></tr></thead><tbody>
+<tr><td><b>Claude (UT Claude EDU)</b></td><td>The Claude website or desktop app you sign in to with your UT account.</td>
+  <td>Skills, plug-ins, and artifacts — everything here.</td></tr>
+<tr><td><b>ChatGPT (UT workspace)</b></td><td>The ChatGPT workspace provided through UT.</td>
+  <td>Most skills. Not plug-ins or artifacts, and not skills marked Claude only.</td></tr>
+<tr><td><b>Claude Code</b></td><td>A version of Claude that runs on your own computer. Only needed for a few
+  skills that use software installed locally.</td><td>Everything, including skills marked “Needs local software”.</td></tr>
+</tbody></table>
+
+<h2 id="install">Installing, step by step</h2>
+<h3>A single skill, in Claude</h3>
+<ol><li>On the skill's page in the catalog, click <b>Download <span class="mono">&lt;name&gt;.zip</span></b>.
+  Leave it zipped — don't unzip it.</li>
+<li>In Claude, open <b>Settings → Capabilities → Skills</b>.</li>
+<li>Click <b>Upload skill</b> and choose the .zip file you just downloaded.</li>
+<li>That's it. The skill is now available in every new conversation.</li></ol>
+<h3>A single skill, in ChatGPT</h3>
+<ol><li>Download the same .zip from the skill's page.</li>
+<li>In ChatGPT, open <b>Skills → Create → Upload from your computer</b> and choose the .zip.</li></ol>
+<h3>A plug-in (Claude only)</h3>
+<ol><li>In Claude, go to <b>Customize → Plugins → + → Add marketplace</b>.</li>
+<li>Enter <code>{REPO_SLUG}</code>.</li>
+<li>Install the plug-in you want. Every skill inside it arrives at once, and it updates itself from then on.</li></ol>
+<h3>An artifact</h3>
+<ol><li>Download the artifact's <span class="mono">.html</span> file from its page.</li>
+<li>In Claude Cowork, add the file to your session and ask Claude to <i>publish this file as an artifact</i>.</li>
+<li>Claude gives you a link — open it, bookmark it, and use the tool from there.</li></ol>
+
+<h2 id="using">Using a skill after you install it</h2>
+<p><b>There is no command to type.</b> This surprises most people. Once a skill is installed, you just
+describe what you want the way you normally would, and the assistant recognizes that the skill applies
+and follows it.</p>
+<p>For example, with the case generator installed, you'd simply write:</p>
+<div class="ex"><span>“Write a case about Buc-ee's expansion strategy for my MBA operations class.”</span></div>
+<p>Every skill's page in the catalog has a <b>“Try saying…”</b> section with a few real examples you can
+copy and paste to see it work the first time.</p>
+
+<h2 id="badges">What the badges mean</h2>
+<p>Each item carries a badge saying where it works.</p>
+<table><thead><tr><th>Badge</th><th>What it means for you</th></tr></thead><tbody>{badges}</tbody></table>
+
+<h2 id="trouble">If something doesn't work</h2>
+<h3>I installed it, but nothing seems to happen</h3>
+<p>Skills activate when your request matches what they're for, so a very short or very general message may
+not trigger one. Copy an example from the skill's “Try saying…” section — if that works, the skill is
+installed correctly and it's just a matter of asking with a bit more detail. Also check you're in a
+<i>new</i> conversation started after you installed it.</p>
+<h3>Which file do I upload?</h3>
+<p>The .zip file exactly as downloaded. Uploading a single file from inside it, or a folder you unzipped
+yourself, won't work.</p>
+<h3>How do I know when there's a newer version?</h3>
+<p>Each catalog entry shows a version number and the date it was last updated. Plug-ins installed in Claude
+update themselves; skills you uploaded by hand don't, so re-download and re-upload when the version changes.</p>
+<h3>A skill says “Needs local software”</h3>
+<p>It relies on programs that have to be installed on your own machine, so it can't run on the Claude or
+ChatGPT websites. Its page explains what's required.</p>
+
+<p style="margin-top:26px"><a class="back" href="index.html">← Back to the catalog</a></p>
+<footer style="border:none">Have a skill of your own to share?
+<a href="{REPO_URL}/blob/master/CONTRIBUTING.md">Submitting one takes about ten minutes</a> — no coding needed.</footer>
+</main>
+<script>{JS_HELP}</script>"""
+    out = ROOT / "docs" / "start-here.html"
+    out.write_text(page_shell("Start here", body, header))
+    print(f"Wrote {out.relative_to(ROOT)}")
 
 
 def toolkit_bands(report):
@@ -703,7 +1008,8 @@ def main():
     art_note = f" and {len(artifacts)} interactive artifact{'s' if len(artifacts) != 1 else ''}" if artifacts else ""
     header = f"""<span style="float:right;font-size:14px"><a href="{REPO_URL}/blob/master/CONTRIBUTING.md">Contribute a skill (no coding needed)</a></span>
 <h1>McCombs AI Skills</h1>
-<p>{n} ready-to-use AI skills{art_note} for teaching and learning &middot; {both} skills work in both Claude EDU and ChatGPT &middot; updated {date.today().isoformat()}</p>"""
+<p>{n} ready-to-use AI skills{art_note} for teaching and learning &middot; {both} skills work in both Claude EDU and ChatGPT
+&middot; <a href="start-here.html">New here? Start with the guide</a></p>"""
     body = f"""<div class="toolbar"><div class="wrap">
 <div class="toolrow">
   <input id="q" type="search" placeholder="Search {total} skills &amp; artifacts — try “case”, “slides”, “prompt”…">
@@ -715,16 +1021,20 @@ def main():
 <div class="chips">{chips}</div>
 </div></div>
 <main class="wrap">
+{help_strip()}
 {bands}
 <div class="grid" id="grid">{grid}<div class="empty" id="empty">No skills match — try a broader term.</div></div>
-<footer>Maintained by the McCombs AI Faculty Working Group &middot; <a href="{REPO_URL}">Contribute a skill on GitHub</a>
+<footer>Maintained by the McCombs AI Faculty Working Group &middot; <a href="start-here.html">Start here guide</a>
+&middot; <a href="{REPO_URL}">Contribute a skill on GitHub</a>
 &middot; Skills follow the <a href="https://agentskills.io/specification">Agent Skills open standard</a>.</footer>
 </main>
-<script>{JS}</script>"""
+<script>{JS}</script>
+<script>{JS_HELP}</script>"""
     out = ROOT / "docs" / "index.html"
     out.write_text(page_shell("Catalog", body, header))
     print(f"Wrote {out.relative_to(ROOT)} ({n} skills)")
     option_c_page(catalog_entries(report, artifacts))
+    start_here_page()
     if markdown is None:
         print("WARNING: python 'markdown' package not installed — detail pages degraded to <pre> rendering.")
 

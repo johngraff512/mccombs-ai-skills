@@ -4,7 +4,10 @@ description: Create branded PowerPoint presentations following McCombs School of
 metadata:
   summary: "PowerPoint decks in official McCombs branding — colors, fonts, and layout rules applied for you."
   category: Slides & Presentations
-  version: "1.0.1"
+  version: "1.0.2"
+  examples:
+    - "Create a McCombs-branded deck introducing our new analytics certificate."
+    - "Turn these bullet points into an on-brand presentation."
 ---
 
 # McCombs Slides Skill

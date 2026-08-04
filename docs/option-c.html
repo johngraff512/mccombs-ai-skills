@@ -88,6 +88,56 @@ a.back{display:inline-block;margin-bottom:14px;font-size:14px;text-decoration:no
 footer{color:var(--muted);font-size:12.5px;padding:18px 0 44px;border-top:1px solid var(--line)}
 footer a{color:var(--accent-deep)}
 @media (max-width:640px){.band .cta{margin-left:0}.detail{margin-top:16px}}
+/* --- help: tooltips --- */
+.hintwrap{position:relative;display:inline-block;line-height:1}
+.hint{width:15px;height:15px;padding:0;border-radius:50%;border:1px solid var(--line);
+  background:var(--surface);color:var(--muted);font-size:10.5px;font-weight:700;cursor:help;
+  vertical-align:1px;margin-left:5px;font-family:inherit}
+.hint:hover,.hint[aria-expanded="true"]{border-color:var(--accent);color:var(--accent-deep)}
+.hint:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tip{position:absolute;z-index:20;left:0;top:calc(100% + 7px);width:max-content;max-width:min(270px,72vw);
+  background:var(--ink);color:var(--bg);border-radius:8px;padding:9px 12px;font-size:12.5px;
+  line-height:1.45;font-weight:400;text-transform:none;letter-spacing:0;display:none;
+  white-space:normal;text-align:left;box-shadow:0 4px 14px rgba(0,0,0,.22)}
+.tip.on{display:block}
+.hintwrap:hover .tip{display:block}
+/* --- help: intro strip --- */
+.intro{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:18px 0 4px;
+  box-shadow:var(--shadow)}
+.intro h2{margin:0 0 3px;font-size:18px}
+.intro .lede{margin:0 0 12px;font-size:13.5px;color:var(--muted);max-width:70ch}
+.intro .kinds{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin-bottom:12px}
+.kind{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
+.kind b{display:block;font-size:14px;margin-bottom:2px}
+.kind span{font-size:12.5px;color:var(--muted);line-height:1.45}
+.intro .more{font-size:13.5px}
+.intro .close{float:right;background:none;border:1px solid var(--line);border-radius:7px;color:var(--muted);
+  font-size:12px;padding:3px 10px;cursor:pointer;margin-left:12px}
+.intro .close:hover{border-color:var(--accent);color:var(--accent-deep)}
+.introbar{display:none;margin:16px 0 0}
+.introbar button{background:var(--surface);border:1px solid var(--line);border-radius:8px;color:var(--accent-deep);
+  font-size:13px;padding:7px 14px;cursor:pointer;font-weight:600;font-family:inherit}
+.introbar button:hover{border-color:var(--accent)}
+body.introhid .intro{display:none} body.introhid .introbar{display:block}
+/* --- help: example prompts --- */
+.ex{display:flex;gap:10px;align-items:center;background:var(--bg);border:1px solid var(--line);
+  border-radius:8px;padding:9px 13px;margin:6px 0;font-size:13.5px}
+.ex button{margin-left:auto;flex-shrink:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  color:var(--accent-deep);font-size:12px;padding:4px 10px;cursor:pointer;font-family:inherit}
+.ex button:hover{border-color:var(--accent)}
+.howto{font-size:13px;color:var(--muted);margin:0 0 8px;max-width:68ch}
+/* --- help: start-here page --- */
+.sh h2{font-size:21px;margin:28px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--accent)}
+.sh h3{font-size:16px;margin:18px 0 5px}
+.sh p,.sh li{font-size:14.5px;line-height:1.6;max-width:70ch}
+.sh table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px;display:block;overflow-x:auto}
+.sh td,.sh th{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+.sh th{background:var(--surface);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent-deep)}
+.sh ol li{margin:5px 0}
+.toc{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.toc a{font-size:13px;border:1px solid var(--line);border-radius:18px;padding:5px 13px;text-decoration:none;
+  background:var(--surface)}
+.toc a:hover{border-color:var(--accent)}
 
 .protobar{background:var(--accent-soft);border-bottom:1px solid var(--line);font-size:12.5px;padding:7px 0}
 .protobar .wrap{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
@@ -103,6 +153,7 @@ aside{width:218px;flex-shrink:0;position:sticky;top:12px}
   font-size:12.5px;padding:6px;cursor:pointer}
 .reset:hover{border-color:var(--accent);color:var(--accent-deep)}
 section.list{flex:1;min-width:0}
+.tablewrap{overflow-x:auto}
 .listtop{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
 table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 thead th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;
@@ -126,199 +177,216 @@ tr.xp td{padding:0}
 .xpbox .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:13px;align-items:baseline}
 .xpbox .meta2{color:var(--muted);font-size:12.5px}
 .empty{text-align:center;color:var(--muted);padding:40px 0}
-@media (max-width:760px){.cols{flex-direction:column}aside{width:100%;position:static}
+@media (max-width:760px){.cols{flex-direction:column;align-items:stretch}
+  aside{width:100%;position:static}
+  section.list{width:100%}
   thead .hide-sm,td.hide-sm{display:none}}
 </style></head><body>
 <div class="protobar"><div class="wrap"><b>Prototype layout</b>
 <span>A denser alternative to the main catalog — we'd love your feedback on which works better.</span>
 <a href="index.html">← Back to the main catalog</a></div></div>
 <header class="site"><div class="wrap"><h1>McCombs AI Skills</h1><p>The complete index — every skill, plug-in, and artifact in one filterable list</p></div></header>
-<main class="wrap"><div class="cols">
+<main class="wrap">
+<div class="intro">
+  <button class="close" type="button">Hide this</button>
+  <h2>New to AI skills?</h2>
+  <p class="lede">Everything below is something you add to the AI you already use — UT Claude EDU or the
+  UT ChatGPT workspace. Installing takes about a minute, and afterwards you just ask for what you want
+  in your own words.</p>
+  <div class="kinds"><div class="kind"><b>🧩 Skill</b><span>A set of instructions you add to Claude or ChatGPT so it handles one task the McCombs way.</span></div><div class="kind"><b>📦 Plug-in</b><span>A bundle of related skills that installs in one step and updates itself in Claude.</span></div><div class="kind"><b>⚡ Artifact</b><span>A small interactive tool that runs as its own page in Claude.</span></div></div>
+  <p class="more"><a href="start-here.html">Read the full 5-minute guide &rarr;</a></p>
+</div>
+<div class="introbar"><button type="button">New to AI skills? Read the 1-minute intro</button></div>
+<div class="cols">
 <aside>
-  <div class="fgroup"><h3>Type</h3><label><input type="checkbox" data-g="type" value="Skill">Skills<span class="n">12</span></label><label><input type="checkbox" data-g="type" value="Plug-in">Plug-ins<span class="n">1</span></label><label><input type="checkbox" data-g="type" value="Artifact">Artifacts<span class="n">1</span></label></div>
-  <div class="fgroup"><h3>Category</h3><label><input type="checkbox" data-g="cat" value="Case Writing">Case Writing<span class="n">5</span></label><label><input type="checkbox" data-g="cat" value="Class Preparation">Class Preparation<span class="n">3</span></label><label><input type="checkbox" data-g="cat" value="Slides &amp; Presentations">Slides &amp; Presentations<span class="n">3</span></label><label><input type="checkbox" data-g="cat" value="Research &amp; Summaries">Research &amp; Summaries<span class="n">2</span></label><label><input type="checkbox" data-g="cat" value="Decision Support">Decision Support<span class="n">1</span></label></div>
-  <div class="fgroup"><h3>Works in</h3><label><input type="checkbox" data-g="works" value="claude">Claude<span class="n">14</span></label><label><input type="checkbox" data-g="works" value="chatgpt">ChatGPT<span class="n">12</span></label></div>
+  <div class="fgroup"><h3>Type<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip41" aria-label="What does this mean?">?</button><span role="tooltip" id="tip41" class="tip">Skills and plug-ins are added to Claude or ChatGPT; artifacts are interactive tools you open in Claude.</span></span></h3><label><input type="checkbox" data-g="type" value="Skill">Skills<span class="n">12</span></label><label><input type="checkbox" data-g="type" value="Plug-in">Plug-ins<span class="n">1</span></label><label><input type="checkbox" data-g="type" value="Artifact">Artifacts<span class="n">1</span></label></div>
+  <div class="fgroup"><h3>Category<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip42" aria-label="What does this mean?">?</button><span role="tooltip" id="tip42" class="tip">The kind of teaching work each item helps with.</span></span></h3><label><input type="checkbox" data-g="cat" value="Case Writing">Case Writing<span class="n">5</span></label><label><input type="checkbox" data-g="cat" value="Class Preparation">Class Preparation<span class="n">3</span></label><label><input type="checkbox" data-g="cat" value="Slides &amp; Presentations">Slides &amp; Presentations<span class="n">3</span></label><label><input type="checkbox" data-g="cat" value="Research &amp; Summaries">Research &amp; Summaries<span class="n">2</span></label><label><input type="checkbox" data-g="cat" value="Decision Support">Decision Support<span class="n">1</span></label></div>
+  <div class="fgroup"><h3>Works in<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip43" aria-label="What does this mean?">?</button><span role="tooltip" id="tip43" class="tip">Where you can use this. “Claude” means UT Claude EDU (the website or desktop app); “ChatGPT” means the UT ChatGPT workspace.</span></span></h3><label><input type="checkbox" data-g="works" value="claude">Claude<span class="n">14</span></label><label><input type="checkbox" data-g="works" value="chatgpt">ChatGPT<span class="n">12</span></label></div>
   <button class="reset" id="reset">Reset filters</button>
 </aside>
 <section class="list">
   <div class="listtop">
     <input id="q" type="search" placeholder="Filter 14 skills, plug-ins &amp; artifacts…">
     <span class="count" id="count">14 shown &middot; 14 total</span></div>
-  <table><thead><tr>
-    <th data-k="name">Name</th><th data-k="type">Type</th>
-    <th data-k="category" class="hide-sm">Category</th><th>Works in</th>
+  <p style="font-size:12.5px;color:var(--muted);margin:0 0 8px">Click any row to see what it does and how to install it.</p>
+  <div class="tablewrap"><table><thead><tr>
+    <th data-k="name">Name</th>
+    <th data-k="type">Type</th>
+    <th data-k="category" class="hide-sm">Category</th>
+    <th>Works in</th>
     <th data-k="updated" class="hide-sm">Updated</th></tr></thead>
   <tbody id="tb"><tr class="row" data-id="ai-council" data-type="Skill"
   data-category="Decision Support" data-gpt="1"
-  data-name="ai-council" data-updated="2026-07-15" tabindex="0">
+  data-name="ai-council" data-updated="2026-08-04" tabindex="0">
   <td class="name">ai-council</td>
   <td><span class="tp skill">Skill</span></td>
   <td class="cat hide-sm">Decision Support</td>
   <td><div class="works"><span>Claude</span><span>ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="ai-council" hidden><td colspan="5"><div class="xpbox">
   Run a decision past a council of five AI advisors who analyze, peer-review, and deliver a verdict.
   <div class="actions"><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/ai-council.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/ai-council.zip">⬇ ChatGPT zip</a><a href="skills/ai-council.html">Full details →</a>
-  <span class="meta2">business-ai-tools &middot; v1.0.1</span></div>
+  <span class="meta2">business-ai-tools &middot; v1.0.2</span></div>
 </div></td></tr><tr class="row" data-id="beamer" data-type="Skill"
   data-category="Slides &amp; Presentations" data-gpt=""
-  data-name="beamer" data-updated="2026-07-15" tabindex="0">
+  data-name="beamer" data-updated="2026-08-04" tabindex="0">
   <td class="name">beamer</td>
   <td><span class="tp skill">Skill</span></td>
   <td class="cat hide-sm">Slides &amp; Presentations</td>
-  <td><div class="works"><span>Claude</span><span class="no">ChatGPT</span><span class="gear" title="Runs command-line software you install yourself — use Claude Code">⚙</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td><div class="works"><span>Claude</span><span class="no">ChatGPT</span><span class="gear">⚙<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip40" aria-label="What does this mean?">?</button><span role="tooltip" id="tip40" class="tip">Runs command-line software (things like LaTeX) that has to be installed on your own computer. Best used in Claude Code — it won&#x27;t work on the Claude or ChatGPT websites.</span></span></span></div></td>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="beamer" hidden><td colspan="5"><div class="xpbox">
   LaTeX Beamer decks with publication-quality figures, citations, and structured rhetoric.
   <div class="actions"><span>Claude Code: <code>/plugin marketplace add johngraff512/mccombs-ai-skills</code> or <a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/beamer.zip">zip</a> → <code>~/.claude/skills/</code></span><a href="skills/beamer.html">Full details →</a>
-  <span class="meta2">business-ai-tools &middot; v1.0.1</span></div>
+  <span class="meta2">business-ai-tools &middot; v1.0.2</span></div>
 </div></td></tr><tr class="row" data-id="case-factcheck" data-type="Skill"
   data-category="Case Writing" data-gpt="1"
-  data-name="case-factcheck" data-updated="2026-07-15" tabindex="0">
+  data-name="case-factcheck" data-updated="2026-08-04" tabindex="0">
   <td class="name">case-factcheck</td>
   <td><span class="tp skill">Skill</span></td>
   <td class="cat hide-sm">Case Writing</td>
   <td><div class="works"><span>Claude</span><span>ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="case-factcheck" hidden><td colspan="5"><div class="xpbox">
   Verify every factual claim in a case before you build teaching materials on top of it.
   <div class="actions"><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-factcheck.zip">⬇ ChatGPT zip</a><a href="skills/case-factcheck.html">Full details →</a>
-  <span class="meta2">mccombs-case-toolkit &middot; v1.3.1</span></div>
+  <span class="meta2">mccombs-case-toolkit &middot; v1.3.2</span></div>
 </div></td></tr><tr class="row" data-id="case-generator" data-type="Skill"
   data-category="Case Writing" data-gpt="1"
-  data-name="case-generator" data-updated="2026-07-15" tabindex="0">
+  data-name="case-generator" data-updated="2026-08-04" tabindex="0">
   <td class="name">case-generator</td>
   <td><span class="tp skill">Skill</span></td>
   <td class="cat hide-sm">Case Writing</td>
   <td><div class="works"><span>Claude</span><span>ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="case-generator" hidden><td colspan="5"><div class="xpbox">
   Write a complete, McCombs-branded business case as a polished Word document.
   <div class="actions"><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-generator.zip">⬇ ChatGPT zip</a><a href="skills/case-generator.html">Full details →</a>
-  <span class="meta2">mccombs-case-toolkit &middot; v1.3.1</span></div>
+  <span class="meta2">mccombs-case-toolkit &middot; v1.3.2</span></div>
 </div></td></tr><tr class="row" data-id="case-idea-generator" data-type="Skill"
   data-category="Case Writing" data-gpt="1"
-  data-name="case-idea-generator" data-updated="2026-07-15" tabindex="0">
+  data-name="case-idea-generator" data-updated="2026-08-04" tabindex="0">
   <td class="name">case-idea-generator</td>
   <td><span class="tp skill">Skill</span></td>
   <td class="cat hide-sm">Case Writing</td>
   <td><div class="works"><span>Claude</span><span>ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="case-idea-generator" hidden><td colspan="5"><div class="xpbox">
   Brainstorm curated business-case ideas matched to your course, module, or framework.
   <div class="actions"><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-idea-generator.zip">⬇ ChatGPT zip</a><a href="skills/case-idea-generator.html">Full details →</a>
-  <span class="meta2">mccombs-case-toolkit &middot; v1.3.1</span></div>
+  <span class="meta2">mccombs-case-toolkit &middot; v1.3.2</span></div>
 </div></td></tr><tr class="row" data-id="case-refresher" data-type="Skill"
   data-category="Case Writing" data-gpt="1"
-  data-name="case-refresher" data-updated="2026-07-15" tabindex="0">
+  data-name="case-refresher" data-updated="2026-08-04" tabindex="0">
   <td class="name">case-refresher</td>
   <td><span class="tp skill">Skill</span></td>
   <td class="cat hide-sm">Case Writing</td>
   <td><div class="works"><span>Claude</span><span>ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="case-refresher" hidden><td colspan="5"><div class="xpbox">
   Bring an older case up to date with current data and recent developments.
   <div class="actions"><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-refresher.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/case-refresher.zip">⬇ ChatGPT zip</a><a href="skills/case-refresher.html">Full details →</a>
-  <span class="meta2">mccombs-case-toolkit &middot; v1.3.1</span></div>
+  <span class="meta2">mccombs-case-toolkit &middot; v1.3.2</span></div>
 </div></td></tr><tr class="row" data-id="class-exercise-generator" data-type="Skill"
   data-category="Class Preparation" data-gpt="1"
-  data-name="class-exercise-generator" data-updated="2026-07-15" tabindex="0">
+  data-name="class-exercise-generator" data-updated="2026-08-04" tabindex="0">
   <td class="name">class-exercise-generator</td>
   <td><span class="tp skill">Skill</span></td>
   <td class="cat hide-sm">Class Preparation</td>
   <td><div class="works"><span>Claude</span><span>ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="class-exercise-generator" hidden><td colspan="5"><div class="xpbox">
   Build a menu of in-class activities: polls, breakouts, debates, and think-pair-shares.
   <div class="actions"><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip">⬇ ChatGPT zip</a><a href="skills/class-exercise-generator.html">Full details →</a>
-  <span class="meta2">mccombs-case-toolkit &middot; v1.3.1</span></div>
+  <span class="meta2">mccombs-case-toolkit &middot; v1.3.2</span></div>
 </div></td></tr><tr class="row" data-id="mccombs-case-toolkit" data-type="Plug-in"
   data-category="Case Writing" data-gpt="1"
-  data-name="mccombs-case-toolkit" data-updated="2026-07-15" tabindex="0">
+  data-name="mccombs-case-toolkit" data-updated="2026-08-04" tabindex="0">
   <td class="name">mccombs-case-toolkit</td>
   <td><span class="tp plugin">Plug-in</span></td>
   <td class="cat hide-sm">Case Writing</td>
   <td><div class="works"><span>Claude</span><span>ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="mccombs-case-toolkit" hidden><td colspan="5"><div class="xpbox">
   Case-based teaching lifecycle: ideation, case writing, fact-checking, teaching notes, exercises, slides, and refreshes — all McCombs-branded.
-  <div class="actions"><span>Claude: <code>/plugin marketplace add johngraff512/mccombs-ai-skills</code></span><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-case-toolkit-v1.3.1.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-case-toolkit-chatgpt-v1.3.1.zip">⬇ ChatGPT zip</a><a href="toolkits/mccombs-case-toolkit.html">Full details →</a>
-  <span class="meta2">7 skills &middot; v1.3.1</span></div>
+  <div class="actions"><span>Claude: <code>/plugin marketplace add johngraff512/mccombs-ai-skills</code></span><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-case-toolkit-v1.3.2.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-case-toolkit-chatgpt-v1.3.2.zip">⬇ ChatGPT zip</a><a href="toolkits/mccombs-case-toolkit.html">Full details →</a>
+  <span class="meta2">7 skills &middot; v1.3.2</span></div>
 </div></td></tr><tr class="row" data-id="mccombs-slides" data-type="Skill"
   data-category="Slides &amp; Presentations" data-gpt="1"
-  data-name="mccombs-slides" data-updated="2026-07-15" tabindex="0">
+  data-name="mccombs-slides" data-updated="2026-08-04" tabindex="0">
   <td class="name">mccombs-slides</td>
   <td><span class="tp skill">Skill</span></td>
   <td class="cat hide-sm">Slides &amp; Presentations</td>
   <td><div class="works"><span>Claude</span><span>ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="mccombs-slides" hidden><td colspan="5"><div class="xpbox">
   PowerPoint decks in official McCombs branding — colors, fonts, and layout rules applied for you.
   <div class="actions"><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-slides.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/mccombs-slides.zip">⬇ ChatGPT zip</a><a href="skills/mccombs-slides.html">Full details →</a>
-  <span class="meta2">community-skills &middot; v1.0.1</span></div>
+  <span class="meta2">community-skills &middot; v1.0.2</span></div>
 </div></td></tr><tr class="row" data-id="prompt-pal" data-type="Artifact"
   data-category="Class Preparation" data-gpt=""
-  data-name="prompt-pal" data-updated="2026-08-03" tabindex="0">
+  data-name="prompt-pal" data-updated="2026-08-04" tabindex="0">
   <td class="name">Prompt Pal</td>
   <td><span class="tp artifact">Artifact</span></td>
   <td class="cat hide-sm">Class Preparation</td>
   <td><div class="works"><span>Claude</span><span class="no">ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-08-03</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="prompt-pal" hidden><td colspan="5"><div class="xpbox">
   A prompt library and coaching partner for everyday course and teaching design work.
   <div class="actions"><a href="artifacts/files/prompt-pal.html" download>⬇ Download .html</a><span class="meta2">publish it as an artifact in Claude</span><a href="artifacts/prompt-pal.html">Full details →</a>
   <span class="meta2">Claude Cowork &middot; beta</span></div>
 </div></td></tr><tr class="row" data-id="slide-generator" data-type="Skill"
   data-category="Slides &amp; Presentations" data-gpt="1"
-  data-name="slide-generator" data-updated="2026-07-15" tabindex="0">
+  data-name="slide-generator" data-updated="2026-08-04" tabindex="0">
   <td class="name">slide-generator</td>
   <td><span class="tp skill">Skill</span></td>
   <td class="cat hide-sm">Slides &amp; Presentations</td>
   <td><div class="works"><span>Claude</span><span>ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="slide-generator" hidden><td colspan="5"><div class="xpbox">
   Create a McCombs-branded PowerPoint deck for a case discussion or lecture.
   <div class="actions"><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/slide-generator.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/slide-generator.zip">⬇ ChatGPT zip</a><a href="skills/slide-generator.html">Full details →</a>
-  <span class="meta2">mccombs-case-toolkit &middot; v1.3.1</span></div>
+  <span class="meta2">mccombs-case-toolkit &middot; v1.3.2</span></div>
 </div></td></tr><tr class="row" data-id="summary-academic" data-type="Skill"
   data-category="Research &amp; Summaries" data-gpt="1"
-  data-name="summary-academic" data-updated="2026-07-15" tabindex="0">
+  data-name="summary-academic" data-updated="2026-08-04" tabindex="0">
   <td class="name">summary-academic</td>
   <td><span class="tp skill">Skill</span></td>
   <td class="cat hide-sm">Research &amp; Summaries</td>
   <td><div class="works"><span>Claude</span><span>ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="summary-academic" hidden><td colspan="5"><div class="xpbox">
   Structured summaries of academic papers: thesis, methods, findings, and critical analysis.
   <div class="actions"><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-academic.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-academic.zip">⬇ ChatGPT zip</a><a href="skills/summary-academic.html">Full details →</a>
-  <span class="meta2">business-ai-tools &middot; v1.0.1</span></div>
+  <span class="meta2">business-ai-tools &middot; v1.0.2</span></div>
 </div></td></tr><tr class="row" data-id="summary-general" data-type="Skill"
   data-category="Research &amp; Summaries" data-gpt="1"
-  data-name="summary-general" data-updated="2026-07-15" tabindex="0">
+  data-name="summary-general" data-updated="2026-08-04" tabindex="0">
   <td class="name">summary-general</td>
   <td><span class="tp skill">Skill</span></td>
   <td class="cat hide-sm">Research &amp; Summaries</td>
   <td><div class="works"><span>Claude</span><span>ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="summary-general" hidden><td colspan="5"><div class="xpbox">
   Digest news articles, blog posts, videos, and podcasts into structured, cited summaries.
   <div class="actions"><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-general.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-general.zip">⬇ ChatGPT zip</a><a href="skills/summary-general.html">Full details →</a>
-  <span class="meta2">business-ai-tools &middot; v1.0.1</span></div>
+  <span class="meta2">business-ai-tools &middot; v1.0.2</span></div>
 </div></td></tr><tr class="row" data-id="teaching-note-generator" data-type="Skill"
   data-category="Class Preparation" data-gpt="1"
-  data-name="teaching-note-generator" data-updated="2026-07-15" tabindex="0">
+  data-name="teaching-note-generator" data-updated="2026-08-04" tabindex="0">
   <td class="name">teaching-note-generator</td>
   <td><span class="tp skill">Skill</span></td>
   <td class="cat hide-sm">Class Preparation</td>
   <td><div class="works"><span>Claude</span><span>ChatGPT</span></div></td>
-  <td class="date hide-sm">2026-07-15</td></tr>
+  <td class="date hide-sm">2026-08-04</td></tr>
 <tr class="xp" data-for="teaching-note-generator" hidden><td colspan="5"><div class="xpbox">
   Generate a full instructor teaching note: board plan, discussion questions, and timing.
   <div class="actions"><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip">⬇ Claude zip</a><a href="https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/teaching-note-generator.zip">⬇ ChatGPT zip</a><a href="skills/teaching-note-generator.html">Full details →</a>
-  <span class="meta2">mccombs-case-toolkit &middot; v1.3.1</span></div>
-</div></td></tr></tbody></table>
+  <span class="meta2">mccombs-case-toolkit &middot; v1.3.2</span></div>
+</div></td></tr></tbody></table></div>
   <div class="empty" id="empty" hidden>Nothing matches those filters. <a href="#" id="reset2">Reset filters</a></div>
   <footer>Maintained by the McCombs AI Faculty Working Group &middot;
+  <a href="start-here.html">Start here guide</a> &middot;
   <a href="https://github.com/johngraff512/mccombs-ai-skills">Contribute on GitHub</a> &middot; ⚙ = runs software you install locally</footer>
 </section></div></main>
 <script>
@@ -375,5 +443,54 @@ function reset(e){
 document.getElementById('reset').addEventListener('click',()=>reset());
 document.getElementById('reset2').addEventListener('click',reset);
 sortBy('name');
+</script>
+<script>
+// Keep a tooltip inside the viewport regardless of where its trigger sits.
+function placeTip(tip){
+  tip.style.transform='';
+  // clientWidth = layout viewport (excludes scrollbar); innerWidth would let tips slide off-screen.
+  const vw=document.documentElement.clientWidth, r=tip.getBoundingClientRect(), pad=8;
+  let dx=0;
+  if(r.right>vw-pad)dx=vw-pad-r.right;
+  if(r.left+dx<pad)dx=pad-r.left;
+  if(dx)tip.style.transform='translateX('+Math.round(dx)+'px)';
+}
+document.querySelectorAll('.hint').forEach(b=>{
+  const tip=document.getElementById(b.getAttribute('aria-describedby'));
+  const close=()=>{tip.classList.remove('on');b.setAttribute('aria-expanded','false');};
+  b.setAttribute('aria-expanded','false');
+  b.addEventListener('mouseenter',()=>placeTip(tip));
+  b.addEventListener('click',e=>{
+    e.preventDefault();e.stopPropagation();
+    const open=tip.classList.contains('on');
+    document.querySelectorAll('.tip.on').forEach(t=>t.classList.remove('on'));
+    document.querySelectorAll('.hint').forEach(h=>h.setAttribute('aria-expanded','false'));
+    if(!open){tip.classList.add('on');b.setAttribute('aria-expanded','true');placeTip(tip);}
+  });
+  b.addEventListener('focus',()=>{tip.classList.add('on');placeTip(tip);});
+  b.addEventListener('blur',close);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){
+  document.querySelectorAll('.tip.on').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.hint').forEach(h=>h.setAttribute('aria-expanded','false'));}});
+document.addEventListener('click',()=>{
+  document.querySelectorAll('.tip.on').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.hint').forEach(h=>h.setAttribute('aria-expanded','false'));});
+document.querySelectorAll('.ex button').forEach(b=>b.addEventListener('click',e=>{
+  e.preventDefault();e.stopPropagation();
+  const txt=b.parentElement.querySelector('span').textContent.replace(/^[\u201c"]|[\u201d"]$/g,'');
+  if(navigator.clipboard)navigator.clipboard.writeText(txt);
+  const was=b.textContent;b.textContent='Copied \u2713';setTimeout(()=>b.textContent=was,1300);
+}));
+(function(){
+  const KEY='mccombs-intro-seen';
+  const intro=document.querySelector('.intro');
+  if(!intro)return;
+  try{if(localStorage.getItem(KEY))document.body.classList.add('introhid');}catch(e){}
+  const hide=()=>{document.body.classList.add('introhid');try{localStorage.setItem(KEY,'1');}catch(e){}};
+  const show=()=>{document.body.classList.remove('introhid');try{localStorage.removeItem(KEY);}catch(e){}};
+  const c=intro.querySelector('.close'); if(c)c.addEventListener('click',hide);
+  const o=document.querySelector('.introbar button'); if(o)o.addEventListener('click',show);
+})();
 </script>
 </body></html>

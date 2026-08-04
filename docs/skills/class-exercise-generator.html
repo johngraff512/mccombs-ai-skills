@@ -88,22 +88,73 @@ a.back{display:inline-block;margin-bottom:14px;font-size:14px;text-decoration:no
 footer{color:var(--muted);font-size:12.5px;padding:18px 0 44px;border-top:1px solid var(--line)}
 footer a{color:var(--accent-deep)}
 @media (max-width:640px){.band .cta{margin-left:0}.detail{margin-top:16px}}
+/* --- help: tooltips --- */
+.hintwrap{position:relative;display:inline-block;line-height:1}
+.hint{width:15px;height:15px;padding:0;border-radius:50%;border:1px solid var(--line);
+  background:var(--surface);color:var(--muted);font-size:10.5px;font-weight:700;cursor:help;
+  vertical-align:1px;margin-left:5px;font-family:inherit}
+.hint:hover,.hint[aria-expanded="true"]{border-color:var(--accent);color:var(--accent-deep)}
+.hint:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tip{position:absolute;z-index:20;left:0;top:calc(100% + 7px);width:max-content;max-width:min(270px,72vw);
+  background:var(--ink);color:var(--bg);border-radius:8px;padding:9px 12px;font-size:12.5px;
+  line-height:1.45;font-weight:400;text-transform:none;letter-spacing:0;display:none;
+  white-space:normal;text-align:left;box-shadow:0 4px 14px rgba(0,0,0,.22)}
+.tip.on{display:block}
+.hintwrap:hover .tip{display:block}
+/* --- help: intro strip --- */
+.intro{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:18px 0 4px;
+  box-shadow:var(--shadow)}
+.intro h2{margin:0 0 3px;font-size:18px}
+.intro .lede{margin:0 0 12px;font-size:13.5px;color:var(--muted);max-width:70ch}
+.intro .kinds{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin-bottom:12px}
+.kind{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
+.kind b{display:block;font-size:14px;margin-bottom:2px}
+.kind span{font-size:12.5px;color:var(--muted);line-height:1.45}
+.intro .more{font-size:13.5px}
+.intro .close{float:right;background:none;border:1px solid var(--line);border-radius:7px;color:var(--muted);
+  font-size:12px;padding:3px 10px;cursor:pointer;margin-left:12px}
+.intro .close:hover{border-color:var(--accent);color:var(--accent-deep)}
+.introbar{display:none;margin:16px 0 0}
+.introbar button{background:var(--surface);border:1px solid var(--line);border-radius:8px;color:var(--accent-deep);
+  font-size:13px;padding:7px 14px;cursor:pointer;font-weight:600;font-family:inherit}
+.introbar button:hover{border-color:var(--accent)}
+body.introhid .intro{display:none} body.introhid .introbar{display:block}
+/* --- help: example prompts --- */
+.ex{display:flex;gap:10px;align-items:center;background:var(--bg);border:1px solid var(--line);
+  border-radius:8px;padding:9px 13px;margin:6px 0;font-size:13.5px}
+.ex button{margin-left:auto;flex-shrink:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  color:var(--accent-deep);font-size:12px;padding:4px 10px;cursor:pointer;font-family:inherit}
+.ex button:hover{border-color:var(--accent)}
+.howto{font-size:13px;color:var(--muted);margin:0 0 8px;max-width:68ch}
+/* --- help: start-here page --- */
+.sh h2{font-size:21px;margin:28px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--accent)}
+.sh h3{font-size:16px;margin:18px 0 5px}
+.sh p,.sh li{font-size:14.5px;line-height:1.6;max-width:70ch}
+.sh table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px;display:block;overflow-x:auto}
+.sh td,.sh th{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+.sh th{background:var(--surface);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent-deep)}
+.sh ol li{margin:5px 0}
+.toc{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.toc a{font-size:13px;border:1px solid var(--line);border-radius:18px;padding:5px 13px;text-decoration:none;
+  background:var(--surface)}
+.toc a:hover{border-color:var(--accent)}
 </style></head><body>
-<header class="site"><div class="wrap"><h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning</p></div></header>
+<header class="site"><div class="wrap"><h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning &middot; <a href="../start-here.html">New here? Start with the guide</a></p></div></header>
 <main class="wrap detail">
 <a class="back" href="../index.html">← All skills</a>
-<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes</span>
+<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip14" aria-label="What does this mean?">?</button><span role="tooltip" id="tip14" class="tip">Works in both, with small differences on ChatGPT. The “Good to know” section on the skill&#x27;s page explains exactly what changes.</span></span></span>
   <span>Class Preparation</span><span>&middot;</span>
   <span>mccombs-case-toolkit</span><span>&middot;</span>
-  <span class='mono'>v1.3.1</span><span>&middot;</span><span>updated 2026-07-15</span></div>
+  <span class='mono'>v1.3.2</span><span>&middot;</span><span>updated 2026-08-04</span></div>
   <h2>class-exercise-generator</h2><p class="sum">Build a menu of in-class activities: polls, breakouts, debates, and think-pair-shares.</p></div>
-<div class="install"><h3>Install</h3><details class='acc' open><summary>🟠 Claude (UT Claude EDU)<span class='tag'>~1 minute</span></summary><div class='body'><ol><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip'>Download class-exercise-generator.zip</a></li><li>In Claude: <b>Settings → Capabilities → Skills → Upload skill</b>.</li></ol></div></details><details class='acc'><summary>🟢 ChatGPT (UT workspace)<span class='tag'>~1 minute</span></summary><div class='body'><ol><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip'>Download class-exercise-generator.zip</a></li><li>In ChatGPT: <b>Skills → Create → Upload from your computer</b>.</li></ol></div></details></div>
+<div class="install"><h3>Install<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip15" aria-label="What does this mean?">?</button><span role="tooltip" id="tip15" class="tip">Not sure which platform is which? The Start here guide walks through each one.</span></span></h3><details class='acc' open><summary>🟠 Claude (UT Claude EDU)<span class='tag'>~1 minute</span></summary><div class='body'><ol><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip'>Download class-exercise-generator.zip</a></li><li>In Claude: <b>Settings → Capabilities → Skills → Upload skill</b>.</li></ol></div></details><details class='acc'><summary>🟢 ChatGPT (UT workspace)<span class='tag'>~1 minute</span></summary><div class='body'><ol><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/class-exercise-generator.zip'>Download class-exercise-generator.zip</a></li><li>In ChatGPT: <b>Skills → Create → Upload from your computer</b>.</li></ol></div></details></div>
+<div class="panel"><h3>Try saying…</h3><p class="howto">Once it's installed there's no command to remember — just ask for what you want. These are the kinds of requests that put this skill to work:</p><div class="ex"><span>“Give me three interactive exercises for this case discussion.”</span><button type="button">Copy</button></div><div class="ex"><span>“Design a 20-minute breakout activity applying Porter&#x27;s Five Forces.”</span><button type="button">Copy</button></div></div>
 <div class='panel'><h3>Good to know</h3><ul><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></div>
 <div class="panel"><h3>About this skill</h3>
 <p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">The content below is the skill's full instructions (SKILL.md) — exactly what the AI follows when you use it.</p>
 <div class="doc"><h1>Class Exercise Generator Skill</h1>
 <blockquote>
-<p>McCombs Case Toolkit version 1.3.1</p>
+<p>McCombs Case Toolkit version 1.3.2</p>
 </blockquote>
 <p>Generate a curated menu of 5-8 interactive exercises for a single class session, delivered as a McCombs-branded instructor guide. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See <code>references/discipline-guide.md</code> for department-specific guidance on exercise framing.</p>
 <h2>What This Skill Produces</h2>
@@ -279,6 +330,57 @@ footer a{color:var(--accent-deep)}
 <details class="acc"><summary>Files included<span class="tag">7</span></summary>
 <div class="body"><ul><li><code>SKILL.md</code></li><li><code>assets/McCombs_Basic.dotx</code></li><li><code>assets/mccombs_logo.png</code></li><li><code>package.json</code></li><li><code>references/discipline-guide.md</code></li><li><code>references/exercise-types.md</code></li><li><code>scripts/generate_exercise_docx.js</code></li></ul></div></details>
 <a class="back" href="../index.html">← All skills</a>
-<footer style="border:none;padding-top:8px">McCombs AI Skills &middot; <a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+<footer style="border:none;padding-top:8px">McCombs AI Skills &middot;
+<a href="../start-here.html">Start here guide</a> &middot;
+<a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
 </main>
+<script>
+// Keep a tooltip inside the viewport regardless of where its trigger sits.
+function placeTip(tip){
+  tip.style.transform='';
+  // clientWidth = layout viewport (excludes scrollbar); innerWidth would let tips slide off-screen.
+  const vw=document.documentElement.clientWidth, r=tip.getBoundingClientRect(), pad=8;
+  let dx=0;
+  if(r.right>vw-pad)dx=vw-pad-r.right;
+  if(r.left+dx<pad)dx=pad-r.left;
+  if(dx)tip.style.transform='translateX('+Math.round(dx)+'px)';
+}
+document.querySelectorAll('.hint').forEach(b=>{
+  const tip=document.getElementById(b.getAttribute('aria-describedby'));
+  const close=()=>{tip.classList.remove('on');b.setAttribute('aria-expanded','false');};
+  b.setAttribute('aria-expanded','false');
+  b.addEventListener('mouseenter',()=>placeTip(tip));
+  b.addEventListener('click',e=>{
+    e.preventDefault();e.stopPropagation();
+    const open=tip.classList.contains('on');
+    document.querySelectorAll('.tip.on').forEach(t=>t.classList.remove('on'));
+    document.querySelectorAll('.hint').forEach(h=>h.setAttribute('aria-expanded','false'));
+    if(!open){tip.classList.add('on');b.setAttribute('aria-expanded','true');placeTip(tip);}
+  });
+  b.addEventListener('focus',()=>{tip.classList.add('on');placeTip(tip);});
+  b.addEventListener('blur',close);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){
+  document.querySelectorAll('.tip.on').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.hint').forEach(h=>h.setAttribute('aria-expanded','false'));}});
+document.addEventListener('click',()=>{
+  document.querySelectorAll('.tip.on').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.hint').forEach(h=>h.setAttribute('aria-expanded','false'));});
+document.querySelectorAll('.ex button').forEach(b=>b.addEventListener('click',e=>{
+  e.preventDefault();e.stopPropagation();
+  const txt=b.parentElement.querySelector('span').textContent.replace(/^[\u201c"]|[\u201d"]$/g,'');
+  if(navigator.clipboard)navigator.clipboard.writeText(txt);
+  const was=b.textContent;b.textContent='Copied \u2713';setTimeout(()=>b.textContent=was,1300);
+}));
+(function(){
+  const KEY='mccombs-intro-seen';
+  const intro=document.querySelector('.intro');
+  if(!intro)return;
+  try{if(localStorage.getItem(KEY))document.body.classList.add('introhid');}catch(e){}
+  const hide=()=>{document.body.classList.add('introhid');try{localStorage.setItem(KEY,'1');}catch(e){}};
+  const show=()=>{document.body.classList.remove('introhid');try{localStorage.removeItem(KEY);}catch(e){}};
+  const c=intro.querySelector('.close'); if(c)c.addEventListener('click',hide);
+  const o=document.querySelector('.introbar button'); if(o)o.addEventListener('click',show);
+})();
+</script>
 </body></html>

@@ -4,12 +4,15 @@ description: "Generate McCombs-branded PowerPoint slide decks for case discussio
 metadata:
   summary: "Create a McCombs-branded PowerPoint deck for a case discussion or lecture."
   category: Slides & Presentations
-  version: "1.3.1"
+  version: "1.3.2"
+  examples:
+    - "Make discussion slides for this case with a cold-open poll."
+    - "Build a 12-slide lecture deck on network effects."
 ---
 
 # Slide Generator
 
-> McCombs Case Toolkit version 1.3.1
+> McCombs Case Toolkit version 1.3.2
 
 Generate McCombs-branded PowerPoint slide decks for case discussions and lectures.
 

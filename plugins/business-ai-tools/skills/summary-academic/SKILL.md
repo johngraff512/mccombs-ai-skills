@@ -5,7 +5,10 @@ triggers: summarize this paper, summarize this research, academic summary, /acad
 metadata:
   summary: "Structured summaries of academic papers: thesis, methods, findings, and critical analysis."
   category: Research & Summaries
-  version: "1.0.1"
+  version: "1.0.2"
+  examples:
+    - "Summarize this journal article and critique the methodology."
+    - "What are the practical implications of this paper for managers?"
 ---
 
 # Academic Paper Summary

@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>summary-academic — McCombs AI Skills</title><style>
+<title>Start here — McCombs AI Skills</title><style>
 :root{
   --bg:#FAF7F2; --surface:#FFFFFF; --ink:#2B241D; --muted:#75695C; --line:#E8E0D4;
   --accent:#BF5700; --accent-deep:#993F00; --accent-soft:#F7E8DC;
@@ -139,71 +139,81 @@ body.introhid .intro{display:none} body.introhid .introbar{display:block}
   background:var(--surface)}
 .toc a:hover{border-color:var(--accent)}
 </style></head><body>
-<header class="site"><div class="wrap"><h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning &middot; <a href="../start-here.html">New here? Start with the guide</a></p></div></header>
-<main class="wrap detail">
-<a class="back" href="../index.html">← All skills</a>
-<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip30" aria-label="What does this mean?">?</button><span role="tooltip" id="tip30" class="tip">Works in both, with small differences on ChatGPT. The “Good to know” section on the skill&#x27;s page explains exactly what changes.</span></span></span>
-  <span>Research &amp; Summaries</span><span>&middot;</span>
-  <span>business-ai-tools</span><span>&middot;</span>
-  <span class='mono'>v1.0.2</span><span>&middot;</span><span>updated 2026-08-04</span></div>
-  <h2>summary-academic</h2><p class="sum">Structured summaries of academic papers: thesis, methods, findings, and critical analysis.</p></div>
-<div class="install"><h3>Install<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip31" aria-label="What does this mean?">?</button><span role="tooltip" id="tip31" class="tip">Not sure which platform is which? The Start here guide walks through each one.</span></span></h3><details class='acc' open><summary>🟠 Claude (UT Claude EDU)<span class='tag'>~1 minute</span></summary><div class='body'><ol><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-academic.zip'>Download summary-academic.zip</a></li><li>In Claude: <b>Settings → Capabilities → Skills → Upload skill</b>.</li></ol></div></details><details class='acc'><summary>🟢 ChatGPT (UT workspace)<span class='tag'>~1 minute</span></summary><div class='body'><ol><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/summary-academic.zip'>Download summary-academic.zip</a></li><li>In ChatGPT: <b>Skills → Create → Upload from your computer</b>.</li></ol></div></details></div>
-<div class="panel"><h3>Try saying…</h3><p class="howto">Once it's installed there's no command to remember — just ask for what you want. These are the kinds of requests that put this skill to work:</p><div class="ex"><span>“Summarize this journal article and critique the methodology.”</span><button type="button">Copy</button></div><div class="ex"><span>“What are the practical implications of this paper for managers?”</span><button type="button">Copy</button></div></div>
-<div class='panel'><h3>Good to know</h3><ul><li>designed to delegate work to Claude subagents — on ChatGPT it runs in a simpler single-assistant mode</li><li>includes Claude-specific settings (triggers) — ChatGPT ignores these; the skill still works but may activate less reliably there</li></ul></div>
-<div class="panel"><h3>About this skill</h3>
-<p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">The content below is the skill's README.</p>
-<div class="doc"><h1>Academic Paper Summary</h1>
-<p>Turn an academic paper into a structured, citation-backed summary with a consistent section layout every time.</p>
-<h2>Problem</h2>
-<p>Research papers are dense, and ad-hoc summaries come out shaped differently every time: sometimes a wall of prose, sometimes a citation with no methodology, sometimes a confident gloss that quietly drops the population studied or the effect sizes. When you summarize many papers, that inconsistency makes them hard to compare and hard to file. You also want the summary to read as direct exposition, not as a book report about "what the authors argue."</p>
-<p>This skill fixes the shape. Every paper comes out with the same nine sections, a correct Chicago Author-Date citation, and an expository voice that states findings as facts rather than narrating the source.</p>
-<h2>Approach</h2>
-<p>The skill enforces a fixed output contract. The structure is the same for every paper, so a stack of summaries is directly comparable, and sections that do not apply (population for a theoretical paper, issues when there are none) are skipped cleanly rather than padded.</p>
-<p>Two design choices carry most of the value. First, the expository-style rule bans "the author," "the paper," and "the study argues," which forces the summary to commit to the content instead of hedging behind attribution. Second, the citation block is format-aware: published articles, preprints, and working papers each get the correct Chicago Author-Date form, so the summary is ready to cite without rework.</p>
-<p>A quick variant trades depth for speed: citation, one-sentence thesis, a handful of key points, and a short summary paragraph.</p>
-<h2>The Flow</h2>
-<ol>
-<li><strong>Read the source.</strong> A PDF of 4 pages or fewer is read directly. A longer PDF is split into 4-page chunks and read in a subagent that writes notes, which keeps the full document out of the main context window and avoids a shallow skim. Text, web links, and pasted content are read in place. If a prior text extract exists, it is read instead of re-processing the PDF.</li>
-<li><strong>Compose the citation.</strong> Chicago Author-Date, with the correct variant for a published article, a preprint, or a working paper.</li>
-<li><strong>State the thesis.</strong> One sentence, with explicit handling for literature reviews, meta-analyses, and exploratory studies that have no single thesis.</li>
-<li><strong>Fill the fixed sections.</strong> Key points, conclusions with quantified effects, population and methodology, implications, undergraduate-level concepts, and any factual errors, fallacies, or strong unaddressed counterarguments. Inapplicable sections are skipped.</li>
-<li><strong>Write the summary paragraph.</strong> 100 to 300 words, neutral, scaled to the complexity of the conclusions.</li>
-<li><strong>Save.</strong> Written to <code>&lt;project_name&gt;_summary.md</code> in the project folder.</li>
-</ol>
-<h2>Usage</h2>
-<p><strong>Trigger phrases:</strong> <code>summarize this paper</code>, <code>summarize this research</code>, <code>academic summary</code>, <code>/academic-summary</code>, <code>quick academic summary</code>, <code>brief paper summary</code>, <code>/academic-summary quick</code></p>
-<p><strong>Good uses:</strong>
-- Building a comparable library of paper summaries you will revisit or cite
-- Getting the methodology, population, and effect sizes pulled out cleanly, not just the headline
-- A fast read on whether a paper is worth a full read (use the quick variant)</p>
-<p><strong>Not good uses:</strong>
-- News, blog posts, videos, or podcasts (use the summary-general skill)
-- A reading you intend to quote at length (read the source; a summary is not a substitute)</p>
-<p><strong>Tips:</strong>
-- Pass a file path rather than pasting a long paper.
-- If you have already extracted the text once, keep the <code>&lt;basename&gt;_text.md</code> file next to the PDF; the skill reads it instead of re-splitting.
-- Use the quick variant for triage, the full variant for papers you will actually use.</p>
-<h2>Installation</h2>
-<ol>
-<li>Copy <code>SKILL.md</code> to <code>~/.claude/skills/summary-academic/SKILL.md</code>.</li>
-<li>Restart Claude Code (or start a new session).</li>
-<li>The skill activates on any trigger phrase above.</li>
-</ol>
-<p>This skill pairs with the <a href="../split-pdf/">split-pdf</a> skill for long PDFs and with the <a href="../summary-general/">summary-general</a> skill for non-academic content. Install those too if you want the full set.</p>
-<h2>Output</h2>
-<p>A single markdown file, <code>&lt;project_name&gt;_summary.md</code>, written to the project folder. <code>&lt;project_name&gt;</code> resolves to a name you specified, otherwise the source filename without its extension, otherwise the folder name.</p>
-<h2>Design Rationale</h2>
-<p><strong>A fixed nine-section contract.</strong> Comparability is the point. When every paper has the same sections in the same order, a folder of summaries becomes a dataset you can scan, not a pile of differently-shaped notes.</p>
-<p><strong>Expository voice, no source references.</strong> Banning "the author argues" forces the summary to assert the content. A summary that hides behind attribution on every line is harder to use and quietly less accountable for whether the claim is right.</p>
-<p><strong>Format-aware citations.</strong> A preprint is not a published article and a working paper is not either. Encoding the three Chicago Author-Date variants means the citation is correct on the first pass.</p>
-<p><strong>Skip, do not pad.</strong> Theoretical papers have no population; many papers have no factual errors. The skill omits those sections entirely rather than writing "not applicable," which keeps the summary honest about what it actually contains.</p>
-<p><strong>A quick variant for triage.</strong> Deciding whether to read a paper is a different task from summarizing one you have committed to. The quick variant serves the first without pretending to do the second.</p></div></div>
-<details class="acc"><summary>Files included<span class="tag">2</span></summary>
-<div class="body"><ul><li><code>README.md</code></li><li><code>SKILL.md</code></li></ul></div></details>
-<a class="back" href="../index.html">← All skills</a>
-<footer style="border:none;padding-top:8px">McCombs AI Skills &middot;
-<a href="../start-here.html">Start here guide</a> &middot;
-<a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a></footer>
+<header class="site"><div class="wrap"><h1>Start here</h1><p>A five-minute guide to using AI skills at McCombs — no technical background needed</p></div></header>
+<main class="wrap detail sh" style="max-width:820px">
+<a class="back" href="index.html">← Back to the catalog</a>
+<div class="toc">
+  <a href="#kinds">What's on this site</a><a href="#where">Where things go</a>
+  <a href="#install">Installing</a><a href="#using">Using it afterwards</a>
+  <a href="#badges">What the badges mean</a><a href="#trouble">If something doesn't work</a></div>
+
+<h2 id="kinds">What's on this site</h2>
+<p>The catalog holds three kinds of thing. They all make the AI better at a specific job — the difference
+is how you get to them.</p>
+<h3>🧩 Skill</h3><p>A skill is a short instruction file you upload once. After that there is no command to remember — you ask for the task in your own words and the assistant follows the recipe automatically. Most things in this catalog are skills.</p><p style="color:var(--muted);font-size:13.5px"><b>When to pick one:</b> Use a skill when you want help with one specific job, like writing a case or building a rubric.</p><h3>📦 Plug-in</h3><p>A plug-in packages several skills that work together. Installing it adds all of them at once, and in Claude it keeps itself up to date, so you don&#x27;t have to re-download when we improve a skill. ChatGPT doesn&#x27;t support plug-ins — there you upload the skills individually.</p><p style="color:var(--muted);font-size:13.5px"><b>When to pick one:</b> Use a plug-in when you want the whole set for a workflow rather than picking skills one at a time.</p><h3>⚡ Artifact</h3><p>An artifact isn&#x27;t installed into the assistant — it&#x27;s a little web app you open and use, with its own buttons and chat box. You publish the file once in Claude and then just open the link.</p><p style="color:var(--muted);font-size:13.5px"><b>When to pick one:</b> Use an artifact when you want a hands-on tool rather than something that answers inside a chat.</p>
+
+<h2 id="where">Where these go</h2>
+<p>You don't need any new software. Everything installs into a tool UT already provides.</p>
+<table><thead><tr><th>Where</th><th>What it is</th><th>What it can use</th></tr></thead><tbody>
+<tr><td><b>Claude (UT Claude EDU)</b></td><td>The Claude website or desktop app you sign in to with your UT account.</td>
+  <td>Skills, plug-ins, and artifacts — everything here.</td></tr>
+<tr><td><b>ChatGPT (UT workspace)</b></td><td>The ChatGPT workspace provided through UT.</td>
+  <td>Most skills. Not plug-ins or artifacts, and not skills marked Claude only.</td></tr>
+<tr><td><b>Claude Code</b></td><td>A version of Claude that runs on your own computer. Only needed for a few
+  skills that use software installed locally.</td><td>Everything, including skills marked “Needs local software”.</td></tr>
+</tbody></table>
+
+<h2 id="install">Installing, step by step</h2>
+<h3>A single skill, in Claude</h3>
+<ol><li>On the skill's page in the catalog, click <b>Download <span class="mono">&lt;name&gt;.zip</span></b>.
+  Leave it zipped — don't unzip it.</li>
+<li>In Claude, open <b>Settings → Capabilities → Skills</b>.</li>
+<li>Click <b>Upload skill</b> and choose the .zip file you just downloaded.</li>
+<li>That's it. The skill is now available in every new conversation.</li></ol>
+<h3>A single skill, in ChatGPT</h3>
+<ol><li>Download the same .zip from the skill's page.</li>
+<li>In ChatGPT, open <b>Skills → Create → Upload from your computer</b> and choose the .zip.</li></ol>
+<h3>A plug-in (Claude only)</h3>
+<ol><li>In Claude, go to <b>Customize → Plugins → + → Add marketplace</b>.</li>
+<li>Enter <code>johngraff512/mccombs-ai-skills</code>.</li>
+<li>Install the plug-in you want. Every skill inside it arrives at once, and it updates itself from then on.</li></ol>
+<h3>An artifact</h3>
+<ol><li>Download the artifact's <span class="mono">.html</span> file from its page.</li>
+<li>In Claude Cowork, add the file to your session and ask Claude to <i>publish this file as an artifact</i>.</li>
+<li>Claude gives you a link — open it, bookmark it, and use the tool from there.</li></ol>
+
+<h2 id="using">Using a skill after you install it</h2>
+<p><b>There is no command to type.</b> This surprises most people. Once a skill is installed, you just
+describe what you want the way you normally would, and the assistant recognizes that the skill applies
+and follows it.</p>
+<p>For example, with the case generator installed, you'd simply write:</p>
+<div class="ex"><span>“Write a case about Buc-ee's expansion strategy for my MBA operations class.”</span></div>
+<p>Every skill's page in the catalog has a <b>“Try saying…”</b> section with a few real examples you can
+copy and paste to see it work the first time.</p>
+
+<h2 id="badges">What the badges mean</h2>
+<p>Each item carries a badge saying where it works.</p>
+<table><thead><tr><th>Badge</th><th>What it means for you</th></tr></thead><tbody><tr><td><span class="badge ok">Claude &amp; ChatGPT</span></td><td>Works the same in UT Claude EDU and the UT ChatGPT workspace.</td></tr><tr><td><span class="badge warn">Claude &amp; ChatGPT &middot; notes</span></td><td>Works in both, with small differences on ChatGPT. The “Good to know” section on the skill&#x27;s page explains exactly what changes.</td></tr><tr><td><span class="badge flag">Needs local software</span></td><td>Runs command-line software (things like LaTeX) that has to be installed on your own computer. Best used in Claude Code — it won&#x27;t work on the Claude or ChatGPT websites.</td></tr><tr><td><span class="badge claude">Claude only</span></td><td>Uses Claude features that ChatGPT doesn&#x27;t have, so it isn&#x27;t available for ChatGPT.</td></tr></tbody></table>
+
+<h2 id="trouble">If something doesn't work</h2>
+<h3>I installed it, but nothing seems to happen</h3>
+<p>Skills activate when your request matches what they're for, so a very short or very general message may
+not trigger one. Copy an example from the skill's “Try saying…” section — if that works, the skill is
+installed correctly and it's just a matter of asking with a bit more detail. Also check you're in a
+<i>new</i> conversation started after you installed it.</p>
+<h3>Which file do I upload?</h3>
+<p>The .zip file exactly as downloaded. Uploading a single file from inside it, or a folder you unzipped
+yourself, won't work.</p>
+<h3>How do I know when there's a newer version?</h3>
+<p>Each catalog entry shows a version number and the date it was last updated. Plug-ins installed in Claude
+update themselves; skills you uploaded by hand don't, so re-download and re-upload when the version changes.</p>
+<h3>A skill says “Needs local software”</h3>
+<p>It relies on programs that have to be installed on your own machine, so it can't run on the Claude or
+ChatGPT websites. Its page explains what's required.</p>
+
+<p style="margin-top:26px"><a class="back" href="index.html">← Back to the catalog</a></p>
+<footer style="border:none">Have a skill of your own to share?
+<a href="https://github.com/johngraff512/mccombs-ai-skills/blob/master/CONTRIBUTING.md">Submitting one takes about ten minutes</a> — no coding needed.</footer>
 </main>
 <script>
 // Keep a tooltip inside the viewport regardless of where its trigger sits.

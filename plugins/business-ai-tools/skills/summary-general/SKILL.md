@@ -5,7 +5,10 @@ triggers: summarize this, summarize this article, general summary, /general-summ
 metadata:
   summary: "Digest news articles, blog posts, videos, and podcasts into structured, cited summaries."
   category: Research & Summaries
-  version: "1.0.1"
+  version: "1.0.2"
+  examples:
+    - "Summarize this podcast episode with the key themes."
+    - "Give me the thesis and evidence from this news feature."
 ---
 
 # General Content Summary

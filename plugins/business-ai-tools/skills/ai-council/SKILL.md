@@ -5,7 +5,10 @@ triggers: council, council this, run the council, war room this, pressure-test t
 metadata:
   summary: "Run a decision past a council of five AI advisors who analyze, peer-review, and deliver a verdict."
   category: Decision Support
-  version: "1.0.1"
+  version: "1.0.2"
+  examples:
+    - "Council this: should we move the capstone to a two-semester format?"
+    - "Pressure-test my plan to flip the intro finance course."
 ---
 
 <!-- Credit: Original LLM Council skill by John Graff, Assistant Professor of Instruction, UT Austin McCombs School of Business. Adapted from Andrej Karpathy's LLM Council methodology. -->

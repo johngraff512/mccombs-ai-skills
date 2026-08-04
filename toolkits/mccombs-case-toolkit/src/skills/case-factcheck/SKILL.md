@@ -4,12 +4,15 @@ description: "Systematically verify all factual claims in a business case before
 metadata:
   summary: "Verify every factual claim in a case before you build teaching materials on top of it."
   category: Case Writing
-  version: "1.3.1"
+  version: "1.3.2"
+  examples:
+    - "Fact-check this case before I write the teaching note."
+    - "Verify the market-share numbers in my Southwest Airlines case."
 ---
 
 # Case Fact-Checker
 
-> McCombs Case Toolkit version 1.3.1
+> McCombs Case Toolkit version 1.3.2
 
 Systematically verify every factual claim in a business case. Designed to run after the Case Generator and before the Teaching Note Generator, Class Exercise Generator, or Slide Generator, so corrections are made once in the source and never cascade across multiple files. See `references/factcheck-guidelines.md` for the claim taxonomy and verification standards.
 

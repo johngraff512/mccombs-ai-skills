@@ -4,12 +4,15 @@ description: "Generate comprehensive instructor teaching notes for business case
 metadata:
   summary: "Generate a full instructor teaching note: board plan, discussion questions, and timing."
   category: Class Preparation
-  version: "1.3.1"
+  version: "1.3.2"
+  examples:
+    - "Write a teaching note for this case with an 80-minute discussion plan."
+    - "Give me discussion questions and a board plan for tomorrow's session."
 ---
 
 # Teaching Note Generator Skill
 
-> McCombs Case Toolkit version 1.3.1
+> McCombs Case Toolkit version 1.3.2
 
 Create professional, classroom-ready instructor teaching notes as McCombs-branded Word documents. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See `references/discipline-guide.md` for department-specific guidance on discussion questions, board plans, and teaching points.
 

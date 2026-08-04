@@ -7,7 +7,10 @@ argument-hint: "[content-notes-or-summary] [structure=mba|teaching|faculty|profe
 metadata:
   summary: "LaTeX Beamer decks with publication-quality figures, citations, and structured rhetoric."
   category: Slides & Presentations
-  version: "1.0.1"
+  version: "1.0.2"
+  examples:
+    - "Build a Beamer deck from my working paper with matplotlib figures."
+    - "Create teaching slides from this outline using structure=teaching."
 ---
 
 # Beamer Slide Generator

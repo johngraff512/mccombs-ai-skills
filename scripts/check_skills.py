@@ -78,7 +78,7 @@ def check_skill(skill_dir: Path):
         "errors": [], "warnings": [], "signals": [],
         "classification": "both",
         "description": "", "version": None, "license": None, "category": "General",
-        "summary": None,
+        "summary": None, "examples": [],
     }
     skill_md = skill_dir / "SKILL.md"
     if not skill_md.exists():
@@ -128,6 +128,17 @@ def check_skill(skill_dir: Path):
                                  "which reads poorly; add a one-sentence plain-English summary")
         elif len(summary) > 200:
             r["warnings"].append(f"metadata.summary is {len(summary)} chars — keep it under 200 (one sentence)")
+        examples = meta.get("examples") or []
+        if not isinstance(examples, list):
+            r["warnings"].append("metadata.examples must be a list of prompt strings — ignoring it")
+            examples = []
+        examples = [str(x).strip() for x in examples if str(x).strip()]
+        if not examples:
+            r["warnings"].append("no metadata.examples — faculty see no 'Try saying…' prompts on the catalog; "
+                                 "add 2-3 realistic requests that should trigger this skill")
+        r["examples"] = [x for x in examples if len(x) <= 200]
+        if len(r["examples"]) != len(examples):
+            r["warnings"].append("some metadata.examples exceed 200 chars — dropped; keep each to one short request")
     r["license"] = fm.get("license")
 
     body_lines = text.count("\n") + 1

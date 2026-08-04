@@ -4,12 +4,15 @@ description: "Generate professional business cases for classroom teaching. Use t
 metadata:
   summary: "Write a complete, McCombs-branded business case as a polished Word document."
   category: Case Writing
-  version: "1.3.1"
+  version: "1.3.2"
+  examples:
+    - "Write a case about Buc-ee's expansion strategy for my MBA operations class."
+    - "Create a teaching case on Tesla's pricing decisions with three learning objectives."
 ---
 
 # Case Generator Skill
 
-> McCombs Case Toolkit version 1.3.1
+> McCombs Case Toolkit version 1.3.2
 
 Create professional, classroom-ready business cases as McCombs-branded Word documents. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See `references/discipline-guide.md` for department-specific guidance on framing, frameworks, and exhibits.
 

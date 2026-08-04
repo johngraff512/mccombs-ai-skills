@@ -4,12 +4,15 @@ description: "Generate a menu of interactive class exercises for a case discussi
 metadata:
   summary: "Build a menu of in-class activities: polls, breakouts, debates, and think-pair-shares."
   category: Class Preparation
-  version: "1.3.1"
+  version: "1.3.2"
+  examples:
+    - "Give me three interactive exercises for this case discussion."
+    - "Design a 20-minute breakout activity applying Porter's Five Forces."
 ---
 
 # Class Exercise Generator Skill
 
-> McCombs Case Toolkit version 1.3.1
+> McCombs Case Toolkit version 1.3.2
 
 Generate a curated menu of 5-8 interactive exercises for a single class session, delivered as a McCombs-branded instructor guide. This skill works across all McCombs departments — Strategy, Marketing, Finance, Operations, MIS, and Accounting. See `references/discipline-guide.md` for department-specific guidance on exercise framing.
 
