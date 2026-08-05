@@ -12,12 +12,14 @@ The GitHub repo slug is read from $GITHUB_REPOSITORY (set automatically in
 Actions) or falls back to REPO_SLUG below — update it after you create the repo.
 """
 
+import argparse
 import html
 import json
 import os
 import re
 import shutil
 import subprocess
+import sys
 from datetime import date
 from pathlib import Path
 
@@ -26,21 +28,93 @@ try:
 except ImportError:
     markdown = None
 
-
-def last_updated(path: Path) -> str:
-    """Date of the last git commit touching this path (needs full clone: fetch-depth 0 in CI)."""
-    try:
-        out = subprocess.run(
-            ["git", "log", "-1", "--format=%cs", "--", str(path)],
-            capture_output=True, text=True, cwd=path.parent, timeout=10).stdout.strip()
-        return out or date.today().isoformat()
-    except Exception:
-        return date.today().isoformat()
-
 ROOT = Path(__file__).resolve().parent.parent
 REPO_SLUG = os.environ.get("GITHUB_REPOSITORY", "johngraff512/mccombs-ai-skills")
 REPO_URL = f"https://github.com/{REPO_SLUG}"
 ZIP_URL = REPO_URL + "/releases/latest/download/{skill}.zip"
+
+# last_updated() bookkeeping.
+_DATE_CACHE = {}     # path -> resolved date; each path is asked for twice (card + detail page)
+_TRACKED = None      # set of files in the git index (None = not read yet)
+DATE_ERRORS = []     # git failed — any date we print is a guess
+DATE_UNTRACKED = []  # no commits yet — today's date is genuinely right
+_GIT_TIMEOUT = 30    # generous: a cold object store can make even small reads slow
+
+
+def _rel(path: Path) -> str:
+    """Path relative to the repo root, slash-separated, as git reports it."""
+    try:
+        return str(path.relative_to(ROOT)).replace(os.sep, "/")
+    except ValueError:
+        return str(path)
+
+
+def _git(args, what):
+    """Run a git command from ROOT. Returns stdout, or None if git failed.
+
+    A failure is recorded in DATE_ERRORS rather than swallowed, because the
+    caller's only fallback is today's date — a guess that would otherwise be
+    published to the live site with nothing to signal it.
+    """
+    try:
+        proc = subprocess.run(["git", "-c", "core.quotePath=false"] + args,
+                              capture_output=True, text=True, cwd=ROOT, timeout=_GIT_TIMEOUT)
+    except subprocess.TimeoutExpired:
+        DATE_ERRORS.append(f"{what}: git timed out after {_GIT_TIMEOUT}s")
+        return None
+    except OSError as exc:  # git not on PATH, ROOT unreadable
+        DATE_ERRORS.append(f"{what}: git could not run ({exc})")
+        return None
+    if proc.returncode != 0:
+        tail = proc.stderr.strip().splitlines()
+        DATE_ERRORS.append(f"{what}: git exited {proc.returncode}"
+                           + (f" ({tail[-1]})" if tail else ""))
+        return None
+    return proc.stdout
+
+
+def tracked_files():
+    """Every path in the git index. Reads the index only — no object reads, so
+    this stays fast even when the object store is cold."""
+    global _TRACKED
+    if _TRACKED is None:
+        out = _git(["ls-files"], "index scan")
+        _TRACKED = {ln.strip() for ln in (out or "").splitlines() if ln.strip()}
+    return _TRACKED
+
+
+def last_updated(path: Path) -> str:
+    """Date of the last commit touching this path (needs full clone: fetch-depth 0 in CI).
+
+    Falling back to today's date is only correct when the path has no commits
+    yet. When git itself fails, today's date is a guess, so it goes in
+    DATE_ERRORS and main() reports it (and exits non-zero under --strict);
+    silently guessing publishes a wrong "updated" date to the live site, since
+    CI commits the regenerated catalog back to master.
+
+    The index is checked first because `git log -1 -- <path>` walks the *entire*
+    history whenever nothing matches the pathspec — measured at ~27s here
+    against 0.03s for a committed path, which blew the old 10s timeout and was
+    then swallowed by a bare `except`. That was the silent-guess bug. Checking
+    the index costs one cheap call and skips the walk for paths that can't match.
+    """
+    key = str(path)
+    if key in _DATE_CACHE:
+        return _DATE_CACHE[key]
+    rel = _rel(path)
+    today = date.today().isoformat()
+    prefix = rel + "/"
+    result = ""
+    if any(f == rel or f.startswith(prefix) for f in tracked_files()):
+        result = (_git(["log", "-1", "--format=%cs", "--", str(path)],
+                       f"{rel}: last-commit date") or "").strip()
+    if not result:
+        result = today
+        # Only genuinely "no commits" if every git call so far actually worked.
+        if not DATE_ERRORS:
+            DATE_UNTRACKED.append(rel)
+    _DATE_CACHE[key] = result
+    return result
 
 # classification -> (faculty-facing badge label, badge tone class)
 BADGES = {
@@ -983,7 +1057,7 @@ def toolkit_bands(report):
     return "\n".join(out)
 
 
-def main():
+def main(strict=False):
     report = json.loads((ROOT / "docs" / "compat-report.json").read_text())
     bands = toolkit_bands(report)
     cats = sorted({r.get("category", "General") for r in report},
@@ -1035,7 +1109,22 @@ def main():
     start_here_page()
     if markdown is None:
         print("WARNING: python 'markdown' package not installed — detail pages degraded to <pre> rendering.")
+    if DATE_UNTRACKED:
+        print(f"Note: no commits yet for {', '.join(DATE_UNTRACKED)} — showing today's date.")
+    if DATE_ERRORS:
+        print(f"WARNING: could not read the last-commit date for {len(DATE_ERRORS)} path(s); "
+              "today's date was published instead, which is probably wrong:", file=sys.stderr)
+        for err in DATE_ERRORS:
+            print(f"  - {err}", file=sys.stderr)
+        if strict:
+            print("Failing because --strict was given. Re-run the build; this is usually transient.",
+                  file=sys.stderr)
+            return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--strict", action="store_true",
+                    help="exit non-zero if any per-skill 'updated' date had to be guessed")
+    sys.exit(main(**vars(ap.parse_args())))

@@ -23,7 +23,7 @@ Cross-platform AI skills repository for McCombs faculty. One skill authored once
 
 1. `python3 scripts/check_skills.py --strict --json docs/compat-report.json`
 2. If toolkit source changed: rebuild (see above) and verify drift check passes locally: `diff -r toolkits/mccombs-case-toolkit/build/claude/skills plugins/mccombs-case-toolkit/skills`
-3. `python3 scripts/build_catalog.py` and eyeball `docs/index.html` — requires the `markdown` package (CI installs it; without it every detail page silently degrades to `<pre>` rendering)
+3. `python3 scripts/build_catalog.py` and eyeball `docs/index.html` — requires the `markdown` package (CI installs it; without it every detail page silently degrades to `<pre>` rendering). Add `--strict` (as CI does) to fail rather than publish a guessed per-skill "updated" date; a genuinely uncommitted skill prints a "no commits yet" note and is not an error.
 4. Update CHANGELOG.md; commit; push; `git tag v0.x.y && git push --tags`
 5. Verify: Actions green, release assets present, catalog live at johngraff512.github.io/mccombs-ai-skills
 

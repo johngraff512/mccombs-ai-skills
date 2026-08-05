@@ -34,7 +34,9 @@ jobs:
         run: python3 scripts/package_skills.py
 
       - name: Build catalog page
-        run: python3 scripts/build_catalog.py
+        # --strict: fail rather than publish a guessed "updated" date, since the
+        # regenerated catalog is committed back to master below.
+        run: python3 scripts/build_catalog.py --strict
 
       - name: Upload zips as build artifact
         uses: actions/upload-artifact@v4
