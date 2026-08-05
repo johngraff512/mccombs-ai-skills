@@ -1004,12 +1004,9 @@ def main():
         grid += "".join(artifact_card(a) for a in artifacts)
     n = len(report)
     total = n + len(artifacts)
-    both = sum(1 for r in report if r["classification"] in ("both", "both-with-caveats"))
-    art_note = f" and {len(artifacts)} interactive artifact{'s' if len(artifacts) != 1 else ''}" if artifacts else ""
     header = f"""<span style="float:right;font-size:14px"><a href="{REPO_URL}/blob/master/CONTRIBUTING.md">Contribute a skill (no coding needed)</a></span>
 <h1>McCombs AI Skills</h1>
-<p>{n} ready-to-use AI skills{art_note} for teaching and learning &middot; {both} skills work in both Claude EDU and ChatGPT
-&middot; <a href="start-here.html">New here? Start with the guide</a></p>"""
+<p>Ready-made AI tools for teaching and learning at McCombs</p>"""
     body = f"""<div class="toolbar"><div class="wrap">
 <div class="toolrow">
   <input id="q" type="search" placeholder="Search {total} skills &amp; artifacts — try “case”, “slides”, “prompt”…">
@@ -1025,7 +1022,8 @@ def main():
 {bands}
 <div class="grid" id="grid">{grid}<div class="empty" id="empty">No skills match — try a broader term.</div></div>
 <footer>Maintained by the McCombs AI Faculty Working Group &middot; <a href="start-here.html">Start here guide</a>
-&middot; <a href="{REPO_URL}">Contribute a skill on GitHub</a>
+&middot; <a href="option-c.html">Preview a new layout</a>
+&middot; <a href="{REPO_URL}/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a>
 &middot; Skills follow the <a href="https://agentskills.io/specification">Agent Skills open standard</a>.</footer>
 </main>
 <script>{JS}</script>
