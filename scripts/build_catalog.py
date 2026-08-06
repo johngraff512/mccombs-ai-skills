@@ -171,6 +171,12 @@ BADGE_HELP = {
 PLATFORM_HELP = ("Where you can use this. “Claude” means UT Claude EDU (the website or desktop app); "
                  "“ChatGPT” means the UT ChatGPT workspace.")
 
+# Banner shared by every detail page (skills, toolkits, artifacts) — one definition
+# so the three can't drift apart. The Start here guide is reached from each page's
+# footer instead of the banner.
+DETAIL_HEADER = ("<h1>McCombs AI Skills</h1>"
+                 "<p>Ready-to-use AI skills for teaching and learning</p>")
+
 TIP_ID = [0]
 
 
@@ -807,8 +813,7 @@ def detail_page(r, updated):
     notes = "".join(f"<li>{html.escape(s)}</li>" for s in r["signals"])
     notes_html = f"<div class='panel'><h3>Good to know</h3><ul>{notes}</ul></div>" if notes else ""
     ver = f"<span class='mono'>v{html.escape(str(r['version']))}</span><span>&middot;</span>" if r.get("version") else ""
-    header = ("<h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning &middot; "
-              "<a href=\"../start-here.html\">New here? Start with the guide</a></p>")
+    header = DETAIL_HEADER
     body = f"""<main class="wrap detail">
 <a class="back" href="../index.html">← All skills</a>
 <div class="dhead"><div class="meta" style="margin-bottom:6px">{badge(r['classification'], with_help=True)}
@@ -842,8 +847,7 @@ def toolkit_detail_page(name, pj, skills):
     ver = pj.get("version", "?")
     claude_zip = ZIP_URL.format(skill=f"{name}-v{ver}")
     chatgpt_zip = ZIP_URL.format(skill=f"{name}-chatgpt-v{ver}")
-    header = ("<h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning &middot; "
-              "<a href=\"../start-here.html\">New here? Start with the guide</a></p>")
+    header = DETAIL_HEADER
     body = f"""<main class="wrap detail">
 <a class="back" href="../index.html">← All skills</a>
 <div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge ok'>Plug-in{tooltip(GLOSSARY['Plug-in']['long'])}</span>
@@ -927,8 +931,7 @@ persistent copy.</li>
 </ol>
 <p style="color:var(--muted)">{title} doesn't save chat history between sessions — by design, every session
 starts fresh, so copy anything you want to keep before you close it.</p></div></details>"""
-    header = ("<h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning &middot; "
-              "<a href=\"../start-here.html\">New here? Start with the guide</a></p>")
+    header = DETAIL_HEADER
     body = f"""<main class="wrap detail">
 <a class="back" href="../index.html">← All skills</a>
 <div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge claude'>{html.escape(a.get('platform', 'Claude'))} only{tooltip(GLOSSARY['Artifact']['long'])}</span>
