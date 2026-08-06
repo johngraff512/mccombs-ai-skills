@@ -1,0 +1,17 @@
+{
+  "name": "prompt-pal-staff",
+  "title": "Prompt Pal - Staff",
+  "summary": "A prompt library and coaching partner for everyday staff work — email, meeting notes, documents, and project planning.",
+  "description": "Prompt Pal for Staff is an interactive chat tool that helps university staff write better AI prompts for everyday work. Ask for ready-made prompts for common tasks — cleaning up an email, drafting a professional message, summarizing meeting notes or a report, extracting action items, building a project checklist or timeline, organizing spreadsheet data, outlining a presentation — or paste your own draft and get coached on improving it. Every request returns a basic version, an enhanced version built with the PROMPT framework (Persona, Requirements, Organization, Medium, Purpose, Tone), and a CLEAR check (Concise, Logical, Explicit, Adaptive, Reflective). It only writes and refines prompts — you copy the result into Claude, ChatGPT, or another AI tool to actually run it.",
+  "category": "General",
+  "examples": [
+    "I need a prompt for summarizing these meeting notes into key takeaways and action items.",
+    "I need a prompt for rewriting this email so it sounds more professional.",
+    "Here is a draft prompt I wrote — can you coach me on improving it?"
+  ],
+  "version": "beta",
+  "file": "prompt-pal-staff.html",
+  "platform": "Claude",
+  "author": "Office of Instructional Innovation, McCombs School of Business",
+  "link": "https://claude.ai/artifacts/latest/f4f92a3c-d66b-47e1-9b0f-f3f10d1369f8"
+}

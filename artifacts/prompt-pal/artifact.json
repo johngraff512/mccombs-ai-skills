@@ -1,6 +1,6 @@
 {
   "name": "prompt-pal",
-  "title": "Prompt Pal",
+  "title": "Prompt Pal - Teaching/Learning",
   "summary": "A prompt library and coaching partner for everyday course and teaching design work.",
   "description": "Prompt Pal is an interactive chat tool that helps faculty and learning designers write better AI prompts. Ask for ready-made prompts for common tasks — learning objectives, rubrics, learning activities, accessibility checks, AI use policies — or paste your own draft and get coached on improving it. Every request returns a basic version, an enhanced version built with the PROMPT framework (Persona, Requirements, Organization, Medium, Purpose, Tone), and a CLEAR check (Concise, Logical, Explicit, Adaptive, Reflective). It only writes and refines prompts — you copy the result into Claude, ChatGPT, or another AI tool to actually run it.",
   "category": "Class Preparation",
@@ -11,7 +11,7 @@
   ],
   "version": "beta",
   "file": "prompt-pal.html",
-  "platform": "Claude Cowork",
+  "platform": "Claude",
   "author": "Office of Instructional Innovation, McCombs School of Business",
-  "link": ""
+  "link": "https://claude.ai/artifacts/latest/438c8ee8-b9f7-4e3e-945f-5e2f4b9b06bb"
 }

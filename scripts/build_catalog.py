@@ -462,7 +462,7 @@ def catalog_entries(report, artifacts):
             "category": a.get("category", "General"), "summary": a["summary"],
             "chatgpt": False, "local": False, "updated": last_updated(a["dir"]),
             "version": str(a.get("version", "")), "href": f"artifacts/{a['name']}.html",
-            "download": f"artifacts/files/{a['file']}",
+            "download": f"artifacts/files/{a['file']}", "link": a.get("link") or "",
             "extra": a.get("platform", "Claude"),
         })
     return entries
@@ -483,7 +483,9 @@ def option_c_row(e):
         links = (f'<span>Claude: <code>/plugin marketplace add {REPO_SLUG}</code></span>'
                  f'<a href="{e["zip"]}">⬇ Claude zip</a><a href="{e["chatgpt_zip"]}">⬇ ChatGPT zip</a>')
     else:
-        links = f'<a href="{e["download"]}" download>⬇ Download .html</a><span class="meta2">publish it as an artifact in Claude</span>'
+        links = ((f'<a href="{html.escape(e["link"])}">🔗 Open in Claude</a>' if e.get("link") else "")
+                 + f'<a href="{e["download"]}" download>⬇ Download .html</a>'
+                 + '<span class="meta2">open the link to use it, or download to add it to your own AI app</span>')
     ver = f' &middot; v{html.escape(e["version"])}' if e["version"] and e["type"] != "Artifact" else (
         f' &middot; {html.escape(e["version"])}' if e["version"] else "")
     return f"""<tr class="row" data-id="{html.escape(e['name'])}" data-type="{e['type']}"
@@ -902,31 +904,48 @@ def artifact_card(a):
 
 def artifact_detail_page(a, updated):
     """Write docs/artifacts/<name>.html — what it does and how to run it in Claude."""
-    name = html.escape(a["name"])
     file_link = f"files/{a['file']}"
+    title = html.escape(a["title"])
     ver = f"<span class='mono'>{html.escape(str(a['version']))}</span><span>&middot;</span>" if a.get("version") else ""
-    open_btn = (f"<p><a class='btn' href='{html.escape(a['link'])}'>Open {html.escape(a['title'])} →</a>"
-                f"<span style='font-size:12.5px;color:var(--muted);margin-left:10px'>opens the shared artifact in Claude</span></p>"
-                if a.get("link") else "")
+    link = a.get("link") or ""
+    # Two ways in: click the shared link to just use it, or download the .html to
+    # keep your own copy. The link is the easy path, so it opens first when present.
+    open_acc = (f"""<details class="acc" open><summary>🔗 Open it in your browser<span class="tag">nothing to install</span></summary>
+<div class="body"><p><a class='btn' href='{html.escape(link)}'>Open {title} →</a></p>
+<p>Opens the shared artifact on claude.ai. Sign in with your UT Claude EDU account first.
+Use this if you just want to run it — there is nothing to download.</p></div></details>""" if link else "")
+    body_open = "" if link else " open"  # if there is no link, this is the only way in
+    install_acc = f"""<details class="acc"{body_open}><summary>⬇ Add it to your own AI app<span class="tag">~2 minutes, once</span></summary>
+<div class="body"><ol>
+<li>Go to <a href="https://claude.ai">claude.ai</a> (or the Claude app) and start a new conversation.</li>
+<li><a href="{file_link}" download>Download {html.escape(a['file'])}</a>.</li>
+<li>Attach that file to a new message and say: <i>“Create this as an HTML artifact, exactly as-is.”</i></li>
+<li>Claude renders it in the Artifacts panel on the right. From there you can use it live, publish your own
+shareable link from the “…” menu, or save a copy with the copy/download icons.</li>
+<li>To keep it, either bookmark that conversation or use <b>Fork</b> on the artifact to make your own
+persistent copy.</li>
+</ol>
+<p style="color:var(--muted)">{title} doesn't save chat history between sessions — by design, every session
+starts fresh, so copy anything you want to keep before you close it.</p></div></details>"""
     header = ("<h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning &middot; "
               "<a href=\"../start-here.html\">New here? Start with the guide</a></p>")
     body = f"""<main class="wrap detail">
 <a class="back" href="../index.html">← All skills</a>
 <div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge claude'>{html.escape(a.get('platform', 'Claude'))} only{tooltip(GLOSSARY['Artifact']['long'])}</span>
   <span>Artifact</span><span>&middot;</span>{ver}<span>updated {updated}</span></div>
-  <h2>{html.escape(a['title'])}</h2><p class="sum">{html.escape(a['summary'])}</p></div>
+  <h2>{title}</h2><p class="sum">{html.escape(a['summary'])}</p></div>
 <div class="install"><h3>Use it</h3>
-{open_btn}
-<details class="acc" open><summary>🟠 Run it in Claude Cowork<span class="tag">~2 minutes, once</span></summary>
-<div class="body"><ol>
-<li><a href="{file_link}" download>Download {html.escape(a['file'])}</a>.</li>
-<li>In <b>Claude Cowork</b>, add the file to your session (attach it or drop it in the project folder).</li>
-<li>Ask Claude to <i>“publish this file as an artifact”</i> — it returns a private link you can open, bookmark, and share.</li>
-</ol>
-<p>The built-in chat only connects when the page runs as a Claude artifact —
-<a href="{file_link}">previewing the file directly</a> shows the interface, but messages won't send.</p></div></details>
+{open_acc}
+{install_acc}
 <div class="acc unavail"><div class="head">⚪ ChatGPT<span class="tag">Not available — artifacts run on Claude only</span></div></div>
 </div>
+<div class="panel"><h3>Good to know</h3>
+<ul><li>It has to run inside Claude. The chat is powered by Claude's own connection to the Anthropic API,
+which exists only in Claude's artifact runtime (claude.ai or the Claude app) —
+<a href="{file_link}">opening the .html file straight from your computer</a> shows the interface,
+but messages won't send.</li>
+<li>It writes and refines prompts; it doesn't carry out the task the prompt describes. Copy the prompt it
+gives you into Claude, ChatGPT, or whichever tool you use.</li></ul></div>
 {examples_panel(a.get("examples") or [], kind="artifact")}
 <div class="panel"><h3>About this artifact</h3>
 <p style="font-size:14px;line-height:1.55">{html.escape(a['description'])}</p>
