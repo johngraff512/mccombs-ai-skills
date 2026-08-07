@@ -489,7 +489,8 @@ def option_c_row(e):
         links = (f'<span>Claude: <code>/plugin marketplace add {REPO_SLUG}</code></span>'
                  f'<a href="{e["zip"]}">⬇ Claude zip</a><a href="{e["chatgpt_zip"]}">⬇ ChatGPT zip</a>')
     else:
-        links = ((f'<a href="{html.escape(e["link"])}">🔗 Open in Claude</a>' if e.get("link") else "")
+        links = ((f'<a href="{html.escape(e["link"])}" target="_blank" rel="noopener">🔗 Open in Claude</a>'
+                  if e.get("link") else "")
                  + f'<a href="{e["download"]}" download>⬇ Download .html</a>'
                  + '<span class="meta2">open the link to use it, or download to add it to your own AI app</span>')
     ver = f' &middot; v{html.escape(e["version"])}' if e["version"] and e["type"] != "Artifact" else (
@@ -915,8 +916,8 @@ def artifact_detail_page(a, updated):
     # Two ways in: click the shared link to just use it, or download the .html to
     # keep your own copy. The link is the easy path, so it opens first when present.
     open_acc = (f"""<details class="acc" open><summary>🔗 Open it in your browser<span class="tag">nothing to install</span></summary>
-<div class="body"><p><a class='btn' href='{html.escape(link)}'>Open {title} →</a></p>
-<p>Opens the shared artifact on claude.ai. Sign in with your UT Claude EDU account first.
+<div class="body"><p><a class='btn' href='{html.escape(link)}' target="_blank" rel="noopener">Open {title} →</a></p>
+<p>Opens the shared artifact on claude.ai in a new tab. Sign in with your UT Claude EDU account first.
 Use this if you just want to run it — there is nothing to download.</p></div></details>""" if link else "")
     body_open = "" if link else " open"  # if there is no link, this is the only way in
     install_acc = f"""<details class="acc"{body_open}><summary>⬇ Add it to your own AI app<span class="tag">~2 minutes, once</span></summary>
