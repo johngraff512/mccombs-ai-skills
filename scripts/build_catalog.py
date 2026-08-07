@@ -30,7 +30,12 @@ except ImportError:
 
 ROOT = Path(__file__).resolve().parent.parent
 REPO_SLUG = os.environ.get("GITHUB_REPOSITORY", "johngraff512/mccombs-ai-skills")
-REPO_URL = f"https://github.com/{REPO_SLUG}"
+# Host comes from the environment so the catalog builds correctly on both
+# github.com and UT's GitHub Enterprise Server — on GHES every repo, release and
+# CONTRIBUTING link has to point at github.austin.utexas.edu instead. Actions
+# sets GITHUB_SERVER_URL on both; locally it falls back to public GitHub.
+REPO_HOST = os.environ.get("GITHUB_SERVER_URL", "https://github.com").rstrip("/")
+REPO_URL = f"{REPO_HOST}/{REPO_SLUG}"
 ZIP_URL = REPO_URL + "/releases/latest/download/{skill}.zip"
 
 # last_updated() bookkeeping.
