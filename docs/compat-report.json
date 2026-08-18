@@ -98,9 +98,10 @@
     "errors": [],
     "warnings": [],
     "signals": [
+      "drives a live web browser through the Claude for Chrome extension \u2014 ChatGPT has no equivalent, so the skill cannot run there",
       "includes helper code that runs when you use the skill \u2014 your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)"
     ],
-    "classification": "both-with-caveats",
+    "classification": "claude-only",
     "description": "Make repetitive changes across many Canvas items at once \u2014 duplicating a quiz or assignment for every class session, bulk publishing or unpublishing, mass-editing due dates and availability windows, retiring an old series, or auditing a course for problems like duplicate answer keys and broken assig",
     "version": "1.0.0",
     "license": null,
@@ -118,9 +119,10 @@
     "errors": [],
     "warnings": [],
     "signals": [
+      "drives a live web browser through the Claude for Chrome extension \u2014 ChatGPT has no equivalent, so the skill cannot run there",
       "includes helper code that runs when you use the skill \u2014 your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)"
     ],
-    "classification": "both-with-caveats",
+    "classification": "claude-only",
     "description": "Re-date an imported Canvas course shell onto a new term's real meeting pattern \u2014 fixing due dates, availability windows, and session numbering across a whole series of assignments or quizzes at once. Use this skill whenever someone mentions rolling a Canvas course forward to a new semester, copying ",
     "version": "1.0.0",
     "license": null,
