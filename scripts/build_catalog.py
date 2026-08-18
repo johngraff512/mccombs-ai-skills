@@ -219,46 +219,16 @@ header.site{background:#BF5700;color:#fff;padding:26px 0 22px}
 header.site h1{margin:0;font-size:26px;font-weight:600}
 header.site p{margin:4px 0 0;opacity:.92;font-size:14px}
 header.site a{color:#fff}
-/* toolbar */
-.toolbar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:14px 0 10px}
-.toolrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 input#q{flex:1 1 260px;padding:9px 14px;font-size:15px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
 input#q:focus{outline:2px solid var(--accent);outline-offset:1px}
-select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font-size:13.5px}
 .count{font-size:13px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:18px;
-  padding:4px 12px;font-size:13px;cursor:pointer}
-.chip .n{color:var(--muted);font-variant-numeric:tabular-nums;margin-left:4px}
-.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
-.chip.on .n{color:#fff;opacity:.85}
-.chip:focus-visible,.card:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-/* toolkit band */
-.band{display:flex;gap:18px;align-items:center;background:linear-gradient(100deg,var(--accent-soft),var(--surface) 70%);
-  border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:18px 0 6px;flex-wrap:wrap}
-.band h2{margin:0 0 3px;font-size:19px}
-.band p{margin:0;font-size:13.5px;color:var(--muted);max-width:62ch}
-.band .cta{margin-left:auto}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .btn{display:inline-block;background:var(--accent);color:#fff;border:none;border-radius:8px;
   padding:9px 16px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
-/* grid */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin:16px 0 40px}
-.gsec{grid-column:1/-1;font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-deep);
-  border-bottom:2px solid var(--accent);padding:14px 0 4px;margin:0;font-family:inherit;font-weight:700}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
-  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;position:relative}
-.card:hover{border-color:var(--accent)}
-.card h3{margin:0;font-size:16.5px;font-weight:600;font-family:inherit}
-.card h3 a{color:inherit;text-decoration:none}
-.card h3 a::after{content:"";position:absolute;inset:0}
-.card .sum{margin:0;font-size:13.5px;color:var(--muted);line-height:1.45;flex:1}
 .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--muted)}
 .badge{font-size:11.5px;font-weight:600;border-radius:5px;padding:1.5px 7px;white-space:nowrap;
   color:var(--tone);background:color-mix(in srgb,var(--tone) 12%,transparent)}
 .badge.ok{--tone:var(--ok)}.badge.warn{--tone:var(--warn)}.badge.flag{--tone:var(--flag)}.badge.claude{--tone:var(--claude)}
-.plats{display:flex;gap:10px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
-.plats .no{opacity:.45;text-decoration:line-through}
-.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px 0;display:none}
 /* detail pages */
 .detail{max-width:760px;margin:26px auto 60px}
 a.back{display:inline-block;margin-bottom:14px;font-size:14px;text-decoration:none;font-weight:600;color:var(--accent-deep)}
@@ -281,7 +251,7 @@ a.back{display:inline-block;margin-bottom:14px;font-size:14px;text-decoration:no
 .doc td,.doc th{border:1px solid var(--line);padding:4px 10px;font-size:13px}
 footer{color:var(--muted);font-size:12.5px;padding:18px 0 44px;border-top:1px solid var(--line)}
 footer a{color:var(--accent-deep)}
-@media (max-width:640px){.band .cta{margin-left:0}.detail{margin-top:16px}}
+@media (max-width:640px){.detail{margin-top:16px}}
 /* --- help: tooltips --- */
 .hintwrap{position:relative;display:inline-block;line-height:1}
 .hint{width:15px;height:15px;padding:0;border-radius:50%;border:1px solid var(--line);
@@ -334,53 +304,11 @@ body.introhid .intro{display:none} body.introhid .introbar{display:block}
 .toc a:hover{border-color:var(--accent)}
 """
 
-JS = """
-const grid=document.getElementById('grid');
-const cards=[...grid.querySelectorAll('.card')];
-const heads=[...grid.querySelectorAll('.gsec')];
-const original=[...grid.children];
-const q=document.getElementById('q'), sort=document.getElementById('sort');
-const count=document.getElementById('count'), empty=document.getElementById('empty');
-let activeCat=null;
-function apply(){
-  const v=q.value.toLowerCase();
-  let shown=0;
-  cards.forEach(c=>{
-    const ok=(!activeCat||c.dataset.category===activeCat)&&c.textContent.toLowerCase().includes(v);
-    c.style.display=ok?'':'none'; c.dataset.on=ok?'1':''; if(ok)shown++;
-  });
-  if(sort.value==='cat'){
-    original.forEach(el=>grid.appendChild(el));
-    heads.forEach(h=>{h.style.display=cards.some(c=>c.dataset.on&&c.dataset.category===h.dataset.cat)?'':'none'});
-  }else{
-    heads.forEach(h=>h.style.display='none');
-    const key=sort.value==='az'
-      ?(a,b)=>a.dataset.name.localeCompare(b.dataset.name)
-      :(a,b)=>b.dataset.updated.localeCompare(a.dataset.updated)||a.dataset.name.localeCompare(b.dataset.name);
-    [...cards].sort(key).forEach(c=>grid.appendChild(c));
-    grid.appendChild(empty);
-  }
-  count.textContent=`${shown} of ${cards.length}`;
-  empty.style.display=shown?'none':'block';
-}
-q.addEventListener('input',apply);
-sort.addEventListener('change',apply);
-document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
-  activeCat=(activeCat===b.dataset.cat)?null:b.dataset.cat;
-  document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x.dataset.cat===activeCat));
-  apply();
-}));
-"""
 
+# --- Catalog index (docs/index.html) ----------------------------------------
+# A dense, filterable index of every skill, plug-in, and artifact in the repo.
 
-# --- Option C prototype (docs/option-c.html) -------------------------------
-# A dense, filterable index served alongside the live catalog so faculty can
-# compare layouts. Generated from the same data, so it can never drift.
-
-CSS_C = """
-.protobar{background:var(--accent-soft);border-bottom:1px solid var(--line);font-size:12.5px;padding:7px 0}
-.protobar .wrap{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-.protobar a{margin-left:auto}
+CSS_INDEX = """
 .cols{display:flex;gap:22px;align-items:flex-start;margin-top:18px}
 aside{width:218px;flex-shrink:0;position:sticky;top:12px}
 .fgroup{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px}
@@ -426,7 +354,7 @@ TYPE_ORDER = ["Skill", "Plug-in", "Artifact"]
 
 
 def catalog_entries(report, artifacts):
-    """One flat row model covering all three kinds, for the Option C index."""
+    """One flat row model covering all three kinds, for the catalog index."""
     entries = []
     for r in report:
         cls = r["classification"]
@@ -442,7 +370,7 @@ def catalog_entries(report, artifacts):
             "extra": r["plugin"],
         })
 
-    # Plug-ins: same qualifying rule as toolkit_bands() — needs a toolkits/<name>/ source tree.
+    # Plug-ins: same qualifying rule as write_toolkit_detail_pages() — needs a toolkits/<name>/ source tree.
     manifest = json.loads((ROOT / ".claude-plugin" / "marketplace.json").read_text())
     by_plugin = {}
     for r in report:
@@ -480,7 +408,7 @@ def catalog_entries(report, artifacts):
     return entries
 
 
-def option_c_row(e):
+def index_row(e):
     tone = {"Skill": "skill", "Plug-in": "plugin", "Artifact": "artifact"}[e["type"]]
     gpt = ('<span>ChatGPT</span>' if e["chatgpt"] else '<span class="no">ChatGPT</span>')
     gear = (f'<span class="gear">⚙{tooltip(BADGE_HELP["claude-code-only"])}</span>' if e["local"] else "")
@@ -516,14 +444,14 @@ def option_c_row(e):
 </div></td></tr>"""
 
 
-def option_c_page(entries):
-    """Write docs/option-c.html — the dense filterable index prototype."""
+def index_page(entries):
+    """Write docs/index.html — the dense filterable catalog index."""
     def count(pred):
         return sum(1 for e in entries if pred(e))
     types = [t for t in TYPE_ORDER if count(lambda e, t=t: e["type"] == t)]
     cats = sorted({e["category"] for e in entries},
                   key=lambda c: (CATEGORY_ORDER.index(c) if c in CATEGORY_ORDER else 99, c))
-    rows = "".join(option_c_row(e) for e in
+    rows = "".join(index_row(e) for e in
                    sorted(entries, key=lambda e: (e["name"].lower())))
     n = len(entries)
     type_f = "".join(
@@ -538,10 +466,6 @@ def option_c_page(entries):
                f'<span class="n">{count(lambda e: e["chatgpt"])}</span></label>')
     header = ('<h1>McCombs AI Skills</h1>'
               '<p>Ready-made AI tools for teaching and learning at McCombs</p>')
-    protobar = """<div class="protobar"><div class="wrap"><b>Prototype layout</b>
-<span>A denser alternative to the main catalog — we'd love your feedback on which works better.</span>
-<a href="index.html">← Back to the main catalog</a></div></div>
-"""
     body = f"""<main class="wrap">
 {help_strip()}
 <div class="cols">
@@ -568,14 +492,14 @@ def option_c_page(entries):
   <a href="start-here.html">Start here guide</a> &middot;
   <a href="{REPO_URL}/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a> &middot; ⚙ = runs software you install locally</footer>
 </section></div></main>
-<script>{JS_C}</script>
+<script>{JS_INDEX}</script>
 <script>{JS_HELP}</script>"""
-    out = ROOT / "docs" / "option-c.html"
-    out.write_text(page_shell("Index (prototype)", body, header, CSS_C, protobar))
+    out = ROOT / "docs" / "index.html"
+    out.write_text(page_shell("Catalog", body, header, CSS_INDEX))
     print(f"Wrote {out.relative_to(ROOT)} ({n} entries)")
 
 
-JS_C = """
+JS_INDEX = """
 const tb=document.getElementById('tb'), q=document.getElementById('q');
 const countEl=document.getElementById('count'), empty=document.getElementById('empty');
 const rows=[...tb.querySelectorAll('tr.row')];
@@ -727,17 +651,6 @@ def summary_of(r) -> str:
     return first[:157].rsplit(" ", 1)[0] + "…"
 
 
-def platform_marks(cls: str, with_help: bool = False) -> str:
-    gpt_ok = cls in ("both", "both-with-caveats")
-    marks = ["<span>Claude ✓</span>",
-             f"<span class=\"{'' if gpt_ok else 'no'}\">ChatGPT{' ✓' if gpt_ok else ''}</span>"]
-    if cls == "claude-code-only":
-        marks.append(f'<span>⚙ local software{tooltip(BADGE_HELP["claude-code-only"])}</span>')
-    elif with_help:
-        marks.append(tooltip(PLATFORM_HELP))
-    return f"<div class='plats'>{''.join(marks)}</div>"
-
-
 def badge(cls: str, with_help: bool = False) -> str:
     label, tone = BADGES[cls]
     tip = tooltip(BADGE_HELP[cls]) if with_help else ""
@@ -753,19 +666,10 @@ def page_shell(title: str, body: str, header: str, extra_css: str = "", pre_head
 </body></html>"""
 
 
-def card(r):
-    cls = r["classification"]
-    cat = r.get("category", "General")
+def write_skill_detail_page(r):
+    """Write docs/skills/<skill>.html for one report row."""
     updated = last_updated(ROOT / "plugins" / r["plugin"] / "skills" / r["skill"])
     detail_page(r, updated)
-    ver = f"<span>v{html.escape(str(r['version']))}</span>" if r.get("version") else ""
-    return f"""
-<div class="card" data-category="{html.escape(cat)}" data-name="{html.escape(r['skill'])}" data-updated="{updated}">
-  <h3><a href="skills/{r['skill']}.html">{html.escape(r['skill'])}</a></h3>
-  <p class="sum">{html.escape(summary_of(r))}</p>
-  <div class="meta">{badge(cls, with_help=True)}{ver}<span>&middot;</span><span>{html.escape(r['plugin'])}</span></div>
-  {platform_marks(cls)}
-</div>"""
 
 
 def render_md(src: str) -> str:
@@ -897,20 +801,13 @@ def load_artifacts():
     return out
 
 
-def artifact_card(a):
+def write_artifact_detail_page(a):
+    """Write docs/artifacts/<name>.html and copy its .html file into docs/artifacts/files/."""
     updated = last_updated(a["dir"])
     artifact_detail_page(a, updated)
     dst = ROOT / "docs" / "artifacts" / "files" / a["file"]
     dst.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(a["dir"] / a["file"], dst)
-    ver = f"<span>{html.escape(str(a['version']))}</span><span>&middot;</span>" if a.get("version") else ""
-    return f"""
-<div class="card" data-category="Artifacts" data-name="{html.escape(a['name'])}" data-updated="{updated}">
-  <h3><a href="artifacts/{a['name']}.html">{html.escape(a['title'])}</a></h3>
-  <p class="sum">{html.escape(a['summary'])}</p>
-  <div class="meta"><span class='badge claude'>{html.escape(a.get('platform', 'Claude'))} only</span>{ver}<span>artifact</span></div>
-  <div class='plats'><span>{html.escape(a.get('platform', 'Claude'))} ✓</span><span class="no">ChatGPT</span></div>
-</div>"""
 
 
 def artifact_detail_page(a, updated):
@@ -1063,79 +960,82 @@ ChatGPT websites. Its page explains what's required.</p>
     print(f"Wrote {out.relative_to(ROOT)}")
 
 
-def toolkit_bands(report):
-    """One promoted band per curated toolkit. A plugin qualifies only if it has a source tree
-    under toolkits/<name>/ — plain groupings (community-skills, business-ai-tools)
+def write_toolkit_detail_pages(report):
+    """Write docs/toolkits/<name>.html for every curated toolkit. A plugin qualifies only if it
+    has a source tree under toolkits/<name>/ — plain groupings (community-skills, business-ai-tools)
     appear as individual skills only, to avoid presenting them as products."""
     manifest = json.loads((ROOT / ".claude-plugin" / "marketplace.json").read_text())
     by_plugin = {}
     for r in report:
         by_plugin.setdefault(r["plugin"], []).append(r["skill"])
-    out = []
     for p in manifest["plugins"]:
         skills = by_plugin.get(p["name"])
         if not skills or not (ROOT / "toolkits" / p["name"]).is_dir():
             continue
         pj = json.loads((ROOT / "plugins" / p["name"] / ".claude-plugin" / "plugin.json").read_text())
-        ver = pj.get("version", "?")
         toolkit_detail_page(p["name"], pj, skills)
-        out.append(f"""
-<div class="band"><div><h2>📦 {html.escape(p['name'])} <span class="mono" style="font-size:12px;color:var(--muted)">v{html.escape(ver)}</span></h2>
-  <p>{html.escape(p['description'])} <b>{len(skills)} skills, one install, auto-updates in Claude.</b></p></div>
-  <span class="cta"><a class="btn" href="toolkits/{p['name']}.html">Install the plug-in →</a></span></div>""")
-    return "\n".join(out)
+
+
+# Retired page URLs that faculty may still have bookmarked or pasted into email.
+# GitHub Pages is static — there is no server-side redirect — so each retired URL is
+# republished as a stub that forwards to whatever replaced it. Keep a stub until its
+# old links have plausibly aged out; deleting one turns a working bookmark into a 404.
+RETIRED_PAGES = {
+    # retired URL      replacement
+    "option-c.html": "index.html",
+}
+
+
+def write_redirect_pages():
+    """Republish each retired URL in RETIRED_PAGES as a forwarding stub."""
+    for old, target in RETIRED_PAGES.items():
+        out = ROOT / "docs" / old
+        out.write_text(f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moved &mdash; McCombs AI Skills catalog</title>
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url={target}">
+<link rel="canonical" href="{target}">
+<style>
+  :root {{ color-scheme: light dark; }}
+  body {{ margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+         font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         background: #fff; color: #1a1a1a; padding: 2rem; text-align: center; }}
+  @media (prefers-color-scheme: dark) {{ body {{ background: #14161a; color: #e8e8e8; }} }}
+  a {{ color: #bf5700; font-weight: 600; }}
+  @media (prefers-color-scheme: dark) {{ a {{ color: #ff8c42; }} }}
+  p {{ margin: 0.5rem 0; }}
+  .muted {{ opacity: 0.7; font-size: 0.9rem; }}
+</style>
+</head>
+<body>
+<main>
+<h1>This page has moved</h1>
+<p>The catalog layout you bookmarked is now the main catalog.</p>
+<p><a href="{target}">Continue to the McCombs AI Skills catalog &rarr;</a></p>
+<p class="muted">Taking you there automatically&hellip;</p>
+</main>
+<script>location.replace("{target}");</script>
+</body>
+</html>
+""")
+        print(f"Wrote {out.relative_to(ROOT)} (redirect \u2192 {target})")
 
 
 def main(strict=False):
     report = json.loads((ROOT / "docs" / "compat-report.json").read_text())
-    bands = toolkit_bands(report)
-    cats = sorted({r.get("category", "General") for r in report},
-                  key=lambda c: (CATEGORY_ORDER.index(c) if c in CATEGORY_ORDER else len(CATEGORY_ORDER), c))
-    by_cat = {c: sorted((r for r in report if r.get("category", "General") == c),
-                        key=lambda r: r["skill"]) for c in cats}
-    chips = "".join(
-        f'<button class="chip" data-cat="{html.escape(c)}">{html.escape(c)}<span class="n">{len(by_cat[c])}</span></button>'
-        for c in cats)
-    grid = ""
-    for c in cats:
-        grid += f'<h2 class="gsec" data-cat="{html.escape(c)}">{html.escape(c)} &middot; {len(by_cat[c])}</h2>'
-        grid += "".join(card(r) for r in by_cat[c])
+    write_toolkit_detail_pages(report)
+    for r in report:
+        write_skill_detail_page(r)
     artifacts = load_artifacts()
-    if artifacts:
-        chips += f'<button class="chip" data-cat="Artifacts">Artifacts<span class="n">{len(artifacts)}</span></button>'
-        grid += f'<h2 class="gsec" data-cat="Artifacts">Artifacts — interactive tools &middot; {len(artifacts)}</h2>'
-        grid += "".join(artifact_card(a) for a in artifacts)
-    n = len(report)
-    total = n + len(artifacts)
-    header = f"""<span style="float:right;font-size:14px"><a href="{REPO_URL}/blob/master/CONTRIBUTING.md">Contribute a skill (no coding needed)</a></span>
-<h1>McCombs AI Skills</h1>
-<p>Ready-made AI tools for teaching and learning at McCombs</p>"""
-    body = f"""<div class="toolbar"><div class="wrap">
-<div class="toolrow">
-  <input id="q" type="search" placeholder="Search {total} skills &amp; artifacts — try “case”, “slides”, “prompt”…">
-  <select id="sort" aria-label="Sort">
-    <option value="cat" selected>By category</option>
-    <option value="az">A–Z</option>
-    <option value="new">Recently updated</option></select>
-  <span class="count" id="count">{total} of {total}</span></div>
-<div class="chips">{chips}</div>
-</div></div>
-<main class="wrap">
-{help_strip()}
-{bands}
-<div class="grid" id="grid">{grid}<div class="empty" id="empty">No skills match — try a broader term.</div></div>
-<footer>Maintained by the McCombs AI Faculty Working Group &middot; <a href="start-here.html">Start here guide</a>
-&middot; <a href="option-c.html">Preview a new layout</a>
-&middot; <a href="{REPO_URL}/blob/master/CONTRIBUTING.md">How to contribute or update a skill</a>
-&middot; Skills follow the <a href="https://agentskills.io/specification">Agent Skills open standard</a>.</footer>
-</main>
-<script>{JS}</script>
-<script>{JS_HELP}</script>"""
-    out = ROOT / "docs" / "index.html"
-    out.write_text(page_shell("Catalog", body, header))
-    print(f"Wrote {out.relative_to(ROOT)} ({n} skills)")
-    option_c_page(catalog_entries(report, artifacts))
+    for a in artifacts:
+        write_artifact_detail_page(a)
+    index_page(catalog_entries(report, artifacts))
     start_here_page()
+    write_redirect_pages()
     if markdown is None:
         print("WARNING: python 'markdown' package not installed — detail pages degraded to <pre> rendering.")
     if DATE_UNTRACKED:
