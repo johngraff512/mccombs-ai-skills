@@ -93,6 +93,46 @@
     ]
   },
   {
+    "skill": "canvas-bulk-ops",
+    "plugin": "community-skills",
+    "errors": [],
+    "warnings": [],
+    "signals": [
+      "includes helper code that runs when you use the skill \u2014 your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Make repetitive changes across many Canvas items at once \u2014 duplicating a quiz or assignment for every class session, bulk publishing or unpublishing, mass-editing due dates and availability windows, retiring an old series, or auditing a course for problems like duplicate answer keys and broken assig",
+    "version": "1.0.0",
+    "license": null,
+    "category": "Course Administration",
+    "summary": "Make the same edit across dozens of Canvas assignments or quizzes at once, with an audit and verification pass around it.",
+    "examples": [
+      "Copy this participation assignment for all 28 class sessions.",
+      "Unpublish all the quizzes from last semester.",
+      "Check whether my Canvas course is set up right before the term starts."
+    ]
+  },
+  {
+    "skill": "canvas-semester-rollforward",
+    "plugin": "community-skills",
+    "errors": [],
+    "warnings": [],
+    "signals": [
+      "includes helper code that runs when you use the skill \u2014 your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)"
+    ],
+    "classification": "both-with-caveats",
+    "description": "Re-date an imported Canvas course shell onto a new term's real meeting pattern \u2014 fixing due dates, availability windows, and session numbering across a whole series of assignments or quizzes at once. Use this skill whenever someone mentions rolling a Canvas course forward to a new semester, copying ",
+    "version": "1.0.0",
+    "license": null,
+    "category": "Course Administration",
+    "summary": "Re-date a copied Canvas course onto a new term's meeting pattern, fixing due dates, availability windows, and session numbers.",
+    "examples": [
+      "The dates are all wrong after I copied last semester's course.",
+      "My Monday/Wednesday assignments need to be Tuesday/Thursday.",
+      "Roll my fall course forward to the spring calendar."
+    ]
+  },
+  {
     "skill": "mccombs-slides",
     "plugin": "community-skills",
     "errors": [],

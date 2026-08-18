@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Prompt Pal - Teaching/Learning — McCombs AI Skills</title><style>
+<title>canvas-semester-rollforward — McCombs AI Skills</title><style>
 :root{
   --bg:#FAF7F2; --surface:#FFFFFF; --ink:#2B241D; --muted:#75695C; --line:#E8E0D4;
   --accent:#BF5700; --accent-deep:#993F00; --accent-soft:#F7E8DC;
@@ -142,39 +142,97 @@ body.introhid .intro{display:none} body.introhid .introbar{display:block}
 <header class="site"><div class="wrap"><h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning</p></div></header>
 <main class="wrap detail">
 <a class="back" href="../index.html">← All skills</a>
-<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge claude'>Claude only<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip45" aria-label="What does this mean?">?</button><span role="tooltip" id="tip45" class="tip">An artifact isn&#x27;t installed into the assistant — it&#x27;s a little web app you open and use, with its own buttons and chat box. You publish the file once in Claude and then just open the link.</span></span></span>
-  <span>Artifact</span><span>&middot;</span><span class='mono'>beta</span><span>&middot;</span><span>updated 2026-08-06</span></div>
-  <h2>Prompt Pal - Teaching/Learning</h2><p class="sum">A prompt library and coaching partner for everyday course and teaching design work.</p></div>
-<div class="install"><h3>Use it</h3>
-<details class="acc" open><summary>🔗 Open it in your browser<span class="tag">nothing to install</span></summary>
-<div class="body"><p><a class='btn' href='https://claude.ai/artifacts/latest/438c8ee8-b9f7-4e3e-945f-5e2f4b9b06bb' target="_blank" rel="noopener">Open Prompt Pal - Teaching/Learning →</a></p>
-<p>Opens the shared artifact on claude.ai in a new tab. Sign in with your UT Claude EDU account first.
-Use this if you just want to run it — there is nothing to download.</p></div></details>
-<details class="acc"><summary>⬇ Add it to your own AI app<span class="tag">~2 minutes, once</span></summary>
-<div class="body"><ol>
-<li>Go to <a href="https://claude.ai">claude.ai</a> (or the Claude app) and start a new conversation.</li>
-<li><a href="files/prompt-pal.html" download>Download prompt-pal.html</a>.</li>
-<li>Attach that file to a new message and say: <i>“Create this as an HTML artifact, exactly as-is.”</i></li>
-<li>Claude renders it in the Artifacts panel on the right. From there you can use it live, publish your own
-shareable link from the “…” menu, or save a copy with the copy/download icons.</li>
-<li>To keep it, either bookmark that conversation or use <b>Fork</b> on the artifact to make your own
-persistent copy.</li>
-</ol>
-<p style="color:var(--muted)">Prompt Pal - Teaching/Learning doesn't save chat history between sessions — by design, every session
-starts fresh, so copy anything you want to keep before you close it.</p></div></details>
-<div class="acc unavail"><div class="head">⚪ ChatGPT<span class="tag">Not available — artifacts run on Claude only</span></div></div>
-</div>
-<div class="panel"><h3>Good to know</h3>
-<ul><li>It has to run inside Claude. The chat is powered by Claude's own connection to the Anthropic API,
-which exists only in Claude's artifact runtime (claude.ai or the Claude app) —
-<a href="files/prompt-pal.html">opening the .html file straight from your computer</a> shows the interface,
-but messages won't send.</li>
-<li>It writes and refines prompts; it doesn't carry out the task the prompt describes. Copy the prompt it
-gives you into Claude, ChatGPT, or whichever tool you use.</li></ul></div>
-<div class="panel"><h3>Try saying…</h3><p class="howto">Once the artifact is open, try asking it something like:</p><div class="ex"><span>“I need a prompt for writing learning objectives for a course on operations strategy.”</span><button type="button">Copy</button></div><div class="ex"><span>“Here is a draft prompt I wrote — can you coach me on improving it?”</span><button type="button">Copy</button></div><div class="ex"><span>“I need a prompt for creating an AI use policy for my course syllabus.”</span><button type="button">Copy</button></div></div>
-<div class="panel"><h3>About this artifact</h3>
-<p style="font-size:14px;line-height:1.55">Prompt Pal is an interactive chat tool that helps faculty and learning designers write better AI prompts. Ask for ready-made prompts for common tasks — learning objectives, rubrics, learning activities, accessibility checks, AI use policies — or paste your own draft and get coached on improving it. Every request returns a basic version, an enhanced version built with the PROMPT framework (Persona, Requirements, Organization, Medium, Purpose, Tone), and a CLEAR check (Concise, Logical, Explicit, Adaptive, Reflective). It only writes and refines prompts — you copy the result into Claude, ChatGPT, or another AI tool to actually run it.</p>
-<p style='font-size:12.5px;color:var(--muted)'>Created by Office of Instructional Innovation, McCombs School of Business.</p></div>
+<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge warn'>Claude &amp; ChatGPT &middot; notes<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip42" aria-label="What does this mean?">?</button><span role="tooltip" id="tip42" class="tip">Works in both, with small differences on ChatGPT. The “Good to know” section on the skill&#x27;s page explains exactly what changes.</span></span></span>
+  <span>Course Administration</span><span>&middot;</span>
+  <span>community-skills</span><span>&middot;</span>
+  <span class='mono'>v1.0.0</span><span>&middot;</span><span>updated 2026-08-18</span></div>
+  <h2>canvas-semester-rollforward</h2><p class="sum">Re-date a copied Canvas course onto a new term&#x27;s meeting pattern, fixing due dates, availability windows, and session numbers.</p></div>
+<div class="install"><h3>Install<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip43" aria-label="What does this mean?">?</button><span role="tooltip" id="tip43" class="tip">Not sure which platform is which? The Start here guide walks through each one.</span></span></h3><details class='acc' open><summary>🟠 Claude (UT Claude EDU)<span class='tag'>~1 minute</span></summary><div class='body'><ol><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/canvas-semester-rollforward.zip'>Download canvas-semester-rollforward.zip</a></li><li>In Claude: <b>Settings → Capabilities → Skills → Upload skill</b>.</li></ol></div></details><details class='acc'><summary>🟢 ChatGPT (UT workspace)<span class='tag'>~1 minute</span></summary><div class='body'><ol><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/canvas-semester-rollforward.zip'>Download canvas-semester-rollforward.zip</a></li><li>In ChatGPT: <b>Skills → Create → Upload from your computer</b>.</li></ol></div></details></div>
+<div class="panel"><h3>Try saying…</h3><p class="howto">Once it's installed there's no command to remember — just ask for what you want. These are the kinds of requests that put this skill to work:</p><div class="ex"><span>“The dates are all wrong after I copied last semester&#x27;s course.”</span><button type="button">Copy</button></div><div class="ex"><span>“My Monday/Wednesday assignments need to be Tuesday/Thursday.”</span><button type="button">Copy</button></div><div class="ex"><span>“Roll my fall course forward to the spring calendar.”</span><button type="button">Copy</button></div></div>
+<div class='panel'><h3>Good to know</h3><ul><li>includes helper code that runs when you use the skill — your workspace must have code execution enabled (both Claude and ChatGPT support this; UT admins control the setting)</li></ul></div>
+<div class="panel"><h3>About this skill</h3>
+<p style="font-size:12.5px;color:var(--muted);margin:0 0 10px">The content below is the skill's README.</p>
+<div class="doc"><h1>Canvas semester roll-forward</h1>
+<p>Re-date an imported Canvas course onto a new term's real meeting pattern — due dates,
+availability windows, and session numbering across a whole series at once.</p>
+<h2>Before you install</h2>
+<p>This skill requires the <strong>Claude for Chrome</strong> extension and a Chrome tab already signed
+in to Canvas. It drives the Canvas REST API from inside your authenticated browser
+session, which is why there's no API token to create or store — and also why it can't
+run on a platform that has no browser to control. You also need teacher-level access to
+the course.</p>
+<h2>Problem</h2>
+<p>Instructors build a course once and copy it forward. Canvas copies the content but the
+dates come along from the old term — often the old <em>meeting pattern</em> too. A
+Monday/Wednesday course copied into a Tuesday/Thursday section arrives with every
+assignment due on days the class does not meet. Twenty-eight items, each needing a new
+date, an availability window, and a session number that lines up with the syllabus.</p>
+<p>Done by hand it's an hour of clicking and a near-certainty of at least one error. The
+errors are quiet ones: an assignment due during a holiday, a quiz that opens an hour late
+for the last month of term because daylight saving ended, a session number that drifted
+after a break week. They surface later, in the gradebook, when a student complains.</p>
+<h2>Approach</h2>
+<p>Audit what exists → build the correct schedule → propose a mapping and get it approved →
+change one item and stop → verify → do the rest → verify again → leave a record.</p>
+<p>The stop after one item is the part people want to skip. A wrong assumption caught on
+item 1 costs one fix; caught on item 28 it costs 28, plus whatever students already saw.</p>
+<p>Two other safeguards matter as much:</p>
+<p><strong>It makes you confirm the course.</strong> Writing to the wrong course is the only genuinely
+unrecoverable mistake here, and it's easy to make — institutions reuse course names
+across sections, terms, and years. The skill lists your teacher-role courses with ID,
+term, section, and SIS ID and requires an explicit confirmation before any write. If more
+than one course matches what you described, it stops and asks rather than guessing.</p>
+<p><strong>It verifies by reading back.</strong> The Canvas API will accept a write it did not actually
+perform, particularly on quizzes with unpublished changes. Every item is re-read and
+compared field by field, which nobody does by hand.</p>
+<h2>The daylight-saving trap</h2>
+<p>The most common silent failure in bulk Canvas date work. A fall term starting in CDT and
+ending in CST will have its final weeks shifted by an hour if you compute one UTC offset
+and reuse it — a quiz that opens at the wrong time for the last month of the term.</p>
+<p><code>scripts/build_schedule.py</code> resolves the offset per date from the IANA timezone database,
+so each session gets the offset actually in effect that day. It also handles skip dates
+for holidays and break weeks, and emits either a readable table or JSON.</p>
+<pre><code class="language-bash">python3 build_schedule.py --start 2026-08-25 --end 2026-12-03 \
+    --days Tue,Thu --open 10:35 --close 10:55 --tz America/Chicago \
+    --skip 2026-11-26,2026-11-27
+</code></pre>
+<p>The script ships with 26 tests (<code>scripts/test_build_schedule.py</code>). Run
+<code>python3 -m pytest test_build_schedule.py</code> if you modify it.</p>
+<h2>How to use it</h2>
+<p>Don't invoke it by name — describe the job. "The dates are all wrong after I copied last
+semester's course," "my Monday/Wednesday assignments need to be Tuesday/Thursday," or
+"roll my fall course forward to the spring calendar" all reach it.</p>
+<p>For repetitive Canvas edits that aren't a term roll-forward — duplicating an assignment
+for every session, bulk publishing, auditing a course — use <code>canvas-bulk-ops</code> instead.</p>
+<h2>What's included</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SKILL.md</code></td>
+<td>The step-by-step protocol the AI follows</td>
+</tr>
+<tr>
+<td><code>references/canvas-api-notes.md</code></td>
+<td>Authentication, quizzes vs. assignments, the unpublished-changes trap, dates/locks/DST, pagination, idempotency, endpoint reference</td>
+</tr>
+<tr>
+<td><code>scripts/build_schedule.py</code></td>
+<td>Term schedule and DST-correct UTC timestamp generator</td>
+</tr>
+<tr>
+<td><code>scripts/test_build_schedule.py</code></td>
+<td>26 tests for the schedule logic</td>
+</tr>
+</tbody>
+</table></div></div>
+<details class="acc"><summary>Files included<span class="tag">5</span></summary>
+<div class="body"><ul><li><code>README.md</code></li><li><code>SKILL.md</code></li><li><code>references/canvas-api-notes.md</code></li><li><code>scripts/build_schedule.py</code></li><li><code>scripts/test_build_schedule.py</code></li></ul></div></details>
 <a class="back" href="../index.html">← All skills</a>
 <footer style="border:none;padding-top:8px">McCombs AI Skills &middot;
 <a href="../start-here.html">Start here guide</a> &middot;
