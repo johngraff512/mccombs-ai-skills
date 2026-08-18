@@ -20,6 +20,30 @@ VERSION = MANIFEST["version"]
 MAX_SKILL_ZIP_BYTES = 25 * 1024 * 1024
 
 
+def check_version_consistency() -> None:
+    """Fail the build if the version is declared inconsistently.
+
+    toolkit.json is canonical. The same number is mirrored into package.json, the
+    VERSION file shipped inside the Claude bundle, and the Claude plugin manifest —
+    a stale mirror ships the wrong version number to faculty, and nothing else
+    catches it (the drift check only compares skill folders).
+    """
+    mirrors = {
+        "VERSION": (ROOT / "VERSION").read_text(encoding="utf-8").strip(),
+        "package.json": json.loads((ROOT / "package.json").read_text(encoding="utf-8"))["version"],
+        "platforms/claude/.claude-plugin/plugin.json": json.loads(
+            (ROOT / "platforms" / "claude" / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8")
+        )["version"],
+    }
+    stale = {where: found for where, found in mirrors.items() if found != VERSION}
+    if stale:
+        detail = "; ".join(f"{where} says {found}" for where, found in sorted(stale.items()))
+        raise ValueError(
+            f"Version mismatch — toolkit.json says {VERSION} but {detail}. "
+            "Bump every declaration together."
+        )
+
+
 def clean() -> None:
     shutil.rmtree(BUILD, ignore_errors=True)
     shutil.rmtree(DIST, ignore_errors=True)
@@ -122,7 +146,7 @@ def build_chatgpt() -> list[Path]:
         shutil.rmtree(install_root)
     install_root.mkdir(parents=True, exist_ok=True)
     install_lines = [
-        "# McCombs Case Toolkit 1.3.0 — ChatGPT Installation",
+        f"# McCombs Case Toolkit {VERSION} — ChatGPT Installation",
         "",
         "This is a distribution bundle, not a multi-skill upload. Unzip it first, then install each `skill.zip` separately.",
         "",
@@ -172,6 +196,7 @@ def main() -> int:
     parser.add_argument("--target", choices=["all", "chatgpt", "claude"], default="all")
     parser.add_argument("--clean", action="store_true", help="Remove build and dist before building")
     args = parser.parse_args()
+    check_version_consistency()
     if args.clean:
         clean()
     if args.target in {"all", "chatgpt"}:

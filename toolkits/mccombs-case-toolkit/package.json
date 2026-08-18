@@ -1,6 +1,6 @@
 {
   "name": "mccombs-case-toolkit",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "private": true,
   "description": "Local runtime dependencies for testing McCombs Case Toolkit generators.",
   "scripts": {
