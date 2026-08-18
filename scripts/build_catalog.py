@@ -130,8 +130,9 @@ BADGES = {
 }
 
 # Preferred category order for the homepage sections (unknown categories sort after, alphabetically).
-CATEGORY_ORDER = ["Case Writing", "Class Preparation", "Slides & Presentations",
-                  "Research & Summaries", "Decision Support", "General"]
+CATEGORY_ORDER = ["Case Writing", "Class Preparation", "Course Administration",
+                  "Slides & Presentations", "Research & Summaries", "Decision Support",
+                  "General"]
 
 # --- Faculty-facing help copy (single source of truth) ----------------------
 # Every explanation on the site comes from here, so the catalogs, the tooltips,
