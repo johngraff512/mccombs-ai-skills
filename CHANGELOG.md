@@ -54,3 +54,13 @@ Help and guidance for faculty who are new to skills, plug-ins, and artifacts.
 - **“Try saying…” prompts** on every skill and artifact page — the fix for the biggest gap, since nothing previously told faculty that skills trigger from ordinary requests rather than a command. Each prompt has a copy button. Backed by a new `metadata.examples` frontmatter field on all 12 skills; the validator warns when it's missing.
 - All help copy lives in single `GLOSSARY` / `BADGE_HELP` definitions in `build_catalog.py`, so the catalogs, tooltips, and guide can't contradict each other.
 - Versions bumped for the frontmatter addition: business-ai-tools and community-skills skills to 1.0.2; McCombs Case Toolkit to 1.3.2.
+
+## Unreleased
+
+- **ARCHITECTURE.md** — maintainer-facing design document: the constraints behind the repo, a pipeline
+  diagram, the eight design decisions with rationale, and gotchas for anyone adapting this setup.
+- Case toolkit: fixed a version mismatch — `VERSION` and `package.json` still said 1.3.0 while
+  `toolkit.json` and the plugin manifests said 1.3.2, so the released Claude bundle shipped a stale
+  `VERSION` file and the ChatGPT installer README carried a hardcoded 1.3.0 header. All declarations
+  now read 1.3.2, the installer header derives from `toolkit.json`, and `build.py` fails the build if
+  the declarations ever disagree again.
