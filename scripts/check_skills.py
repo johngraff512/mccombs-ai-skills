@@ -47,6 +47,9 @@ CLAUDE_ONLY_PATTERNS = [
     (re.compile(r"\bmcp__\w+"), "uses Claude connectors (MCP tools) that other platforms don't have"),
     (re.compile(r"~/\.claude\b|\.claude/skills"), "reads files from a local Claude installation — won't work on hosted platforms"),
     (re.compile(r"\bsession transcripts?\b", re.I), "reads Claude session history, which only exists in Claude"),
+    (re.compile(r"\bClaude (?:for|in) Chrome\b|\bbrowser extension\b", re.I),
+     "drives a live web browser through the Claude for Chrome extension — ChatGPT has no equivalent, "
+     "so the skill cannot run there"),
 ]
 # Soft Claude-leaning signals (work elsewhere, degraded or ignored)
 CLAUDE_SOFT_PATTERNS = [
