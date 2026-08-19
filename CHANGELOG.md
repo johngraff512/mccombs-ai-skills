@@ -55,7 +55,7 @@ Help and guidance for faculty who are new to skills, plug-ins, and artifacts.
 - All help copy lives in single `GLOSSARY` / `BADGE_HELP` definitions in `build_catalog.py`, so the catalogs, tooltips, and guide can't contradict each other.
 - Versions bumped for the frontmatter addition: business-ai-tools and community-skills skills to 1.0.2; McCombs Case Toolkit to 1.3.2.
 
-## Unreleased
+## v0.6.0 — 2026-08-18
 
 - **ARCHITECTURE.md** — maintainer-facing design document: the constraints behind the repo, a pipeline
   diagram, the eight design decisions with rationale, and gotchas for anyone adapting this setup.
@@ -82,3 +82,5 @@ Help and guidance for faculty who are new to skills, plug-ins, and artifacts.
   Pages works), so this public repo remains master.
 - "Course Administration" added to `CATEGORY_ORDER`; both Canvas skills already used it, so it had been
   falling through to the unknown-category branch and sorting last.
+- `.claude-plugin/marketplace.json` now declares the current version. It had read 0.1.0 since the first
+  release, so anything reading the marketplace metadata saw a repo eight releases out of date.
