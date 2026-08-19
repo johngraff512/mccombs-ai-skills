@@ -25,46 +25,16 @@ header.site{background:#BF5700;color:#fff;padding:26px 0 22px}
 header.site h1{margin:0;font-size:26px;font-weight:600}
 header.site p{margin:4px 0 0;opacity:.92;font-size:14px}
 header.site a{color:#fff}
-/* toolbar */
-.toolbar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:14px 0 10px}
-.toolrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 input#q{flex:1 1 260px;padding:9px 14px;font-size:15px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
 input#q:focus{outline:2px solid var(--accent);outline-offset:1px}
-select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font-size:13.5px}
 .count{font-size:13px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:18px;
-  padding:4px 12px;font-size:13px;cursor:pointer}
-.chip .n{color:var(--muted);font-variant-numeric:tabular-nums;margin-left:4px}
-.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
-.chip.on .n{color:#fff;opacity:.85}
-.chip:focus-visible,.card:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-/* toolkit band */
-.band{display:flex;gap:18px;align-items:center;background:linear-gradient(100deg,var(--accent-soft),var(--surface) 70%);
-  border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:18px 0 6px;flex-wrap:wrap}
-.band h2{margin:0 0 3px;font-size:19px}
-.band p{margin:0;font-size:13.5px;color:var(--muted);max-width:62ch}
-.band .cta{margin-left:auto}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .btn{display:inline-block;background:var(--accent);color:#fff;border:none;border-radius:8px;
   padding:9px 16px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
-/* grid */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin:16px 0 40px}
-.gsec{grid-column:1/-1;font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-deep);
-  border-bottom:2px solid var(--accent);padding:14px 0 4px;margin:0;font-family:inherit;font-weight:700}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
-  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;position:relative}
-.card:hover{border-color:var(--accent)}
-.card h3{margin:0;font-size:16.5px;font-weight:600;font-family:inherit}
-.card h3 a{color:inherit;text-decoration:none}
-.card h3 a::after{content:"";position:absolute;inset:0}
-.card .sum{margin:0;font-size:13.5px;color:var(--muted);line-height:1.45;flex:1}
 .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--muted)}
 .badge{font-size:11.5px;font-weight:600;border-radius:5px;padding:1.5px 7px;white-space:nowrap;
   color:var(--tone);background:color-mix(in srgb,var(--tone) 12%,transparent)}
 .badge.ok{--tone:var(--ok)}.badge.warn{--tone:var(--warn)}.badge.flag{--tone:var(--flag)}.badge.claude{--tone:var(--claude)}
-.plats{display:flex;gap:10px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
-.plats .no{opacity:.45;text-decoration:line-through}
-.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px 0;display:none}
 /* detail pages */
 .detail{max-width:760px;margin:26px auto 60px}
 a.back{display:inline-block;margin-bottom:14px;font-size:14px;text-decoration:none;font-weight:600;color:var(--accent-deep)}
@@ -87,7 +57,7 @@ a.back{display:inline-block;margin-bottom:14px;font-size:14px;text-decoration:no
 .doc td,.doc th{border:1px solid var(--line);padding:4px 10px;font-size:13px}
 footer{color:var(--muted);font-size:12.5px;padding:18px 0 44px;border-top:1px solid var(--line)}
 footer a{color:var(--accent-deep)}
-@media (max-width:640px){.band .cta{margin-left:0}.detail{margin-top:16px}}
+@media (max-width:640px){.detail{margin-top:16px}}
 /* --- help: tooltips --- */
 .hintwrap{position:relative;display:inline-block;line-height:1}
 .hint{width:15px;height:15px;padding:0;border-radius:50%;border:1px solid var(--line);
@@ -142,12 +112,12 @@ body.introhid .intro{display:none} body.introhid .introbar{display:block}
 <header class="site"><div class="wrap"><h1>McCombs AI Skills</h1><p>Ready-to-use AI skills for teaching and learning</p></div></header>
 <main class="wrap detail">
 <a class="back" href="../index.html">← All skills</a>
-<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge flag'>Needs local software<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip26" aria-label="What does this mean?">?</button><span role="tooltip" id="tip26" class="tip">Runs command-line software (things like LaTeX) that has to be installed on your own computer. Best used in Claude Code — it won&#x27;t work on the Claude or ChatGPT websites.</span></span></span>
+<div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge flag'>Needs local software<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip4" aria-label="What does this mean?">?</button><span role="tooltip" id="tip4" class="tip">Runs command-line software (things like LaTeX) that has to be installed on your own computer. Best used in Claude Code — it won&#x27;t work on the Claude or ChatGPT websites.</span></span></span>
   <span>Slides &amp; Presentations</span><span>&middot;</span>
   <span>business-ai-tools</span><span>&middot;</span>
   <span class='mono'>v1.0.2</span><span>&middot;</span><span>updated 2026-08-04</span></div>
   <h2>beamer</h2><p class="sum">LaTeX Beamer decks with publication-quality figures, citations, and structured rhetoric.</p></div>
-<div class="install"><h3>Install<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip27" aria-label="What does this mean?">?</button><span role="tooltip" id="tip27" class="tip">Not sure which platform is which? The Start here guide walks through each one.</span></span></h3><details class='acc' open><summary>🟠 Claude (UT Claude EDU)<span class='tag'>Claude Code recommended</span></summary><div class='body'><p>This skill runs extra software (see notes below) that hosted platforms don't preinstall. Recommended: <b>Claude Code</b> on a computer with that software:</p><ol><li>Run <code>/plugin marketplace add johngraff512/mccombs-ai-skills</code>, or</li><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/beamer.zip'>Download beamer.zip</a> and unzip into <code>~/.claude/skills/</code>.</li></ol><p>It may also work in <b>Claude Cowork</b> if the software can be installed in its environment. Uploading the zip to claude.ai's hosted Skills won't work — the required software isn't available there.</p></div></details><div class='acc unavail'><div class='head'>⚪ ChatGPT<span class='tag'>Not available — can't install the required software</span></div></div></div>
+<div class="install"><h3>Install<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip5" aria-label="What does this mean?">?</button><span role="tooltip" id="tip5" class="tip">Not sure which platform is which? The Start here guide walks through each one.</span></span></h3><details class='acc' open><summary>🟠 Claude (UT Claude EDU)<span class='tag'>Claude Code recommended</span></summary><div class='body'><p>This skill runs extra software (see notes below) that hosted platforms don't preinstall. Recommended: <b>Claude Code</b> on a computer with that software:</p><ol><li>Run <code>/plugin marketplace add johngraff512/mccombs-ai-skills</code>, or</li><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/beamer.zip'>Download beamer.zip</a> and unzip into <code>~/.claude/skills/</code>.</li></ol><p>It may also work in <b>Claude Cowork</b> if the software can be installed in its environment. Uploading the zip to claude.ai's hosted Skills won't work — the required software isn't available there.</p></div></details><div class='acc unavail'><div class='head'>⚪ ChatGPT<span class='tag'>Not available — can't install the required software</span></div></div></div>
 <div class="panel"><h3>Try saying…</h3><p class="howto">Once it's installed there's no command to remember — just ask for what you want. These are the kinds of requests that put this skill to work:</p><div class="ex"><span>“Build a Beamer deck from my working paper with matplotlib figures.”</span><button type="button">Copy</button></div><div class="ex"><span>“Create teaching slides from this outline using structure=teaching.”</span><button type="button">Copy</button></div></div>
 <div class='panel'><h3>Good to know</h3><ul><li>needs companion files that aren&#x27;t included in its download — installed on its own, some features may be missing (the repo bundles these files into the zip as a workaround)</li><li>instructions reference Claude Code specifically — behavior on other platforms may differ</li><li>designed to delegate work to Claude subagents — on ChatGPT it runs in a simpler single-assistant mode</li><li>includes Claude-specific settings (argument-hint, triggers) — ChatGPT ignores these; the skill still works but may activate less reliably there</li><li>runs command-line software (e.g. biber, bibtex, brew, fc) that must be installed where the skill runs — works best in Claude Code on a computer with that software; hosted platforms (claude.ai chat, ChatGPT) don&#x27;t preinstall it</li></ul></div>
 <div class="panel"><h3>About this skill</h3>
