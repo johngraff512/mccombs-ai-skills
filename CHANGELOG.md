@@ -64,3 +64,21 @@ Help and guidance for faculty who are new to skills, plug-ins, and artifacts.
   `VERSION` file and the ChatGPT installer README carried a hardcoded 1.3.0 header. All declarations
   now read 1.3.2, the installer header derives from `toolkit.json`, and `build.py` fails the build if
   the declarations ever disagree again.
+- The `/option-c.html` prototype (v0.4.1) is now the live catalog at `/index.html`. The dense, filterable
+  index — sidebar checkbox filters for Type/Category/Works-in, a sortable table, rows that expand for
+  install links — won the faculty feedback comparison and replaces the card-grid catalog it ran alongside.
+- `/option-c.html` now forwards to the catalog instead of serving the prototype, so links faculty already
+  have keep working; the "← Back to the main catalog" / "Preview a new layout" links between the two pages
+  are gone, since there's only one catalog page now.
+- `build_catalog.py` gained `RETIRED_PAGES`/`write_redirect_pages()`: retired URLs are republished as
+  forwarding stubs. GitHub Pages is static, so a removed page would otherwise 404 for anyone holding the
+  old link.
+- `build_catalog.py`: `option_c_page()` → `index_page()`, writing to `docs/index.html`; the old grid/card
+  catalog and its now-unused CSS/JS were deleted.
+- The two Canvas skills now classify as Claude-only: they drive the Canvas REST API through the Claude for
+  Chrome extension, which ChatGPT has no equivalent of, so the catalog no longer offers a ChatGPT install
+  path that cannot work.
+- `CLAUDE.md` corrected — the repo never moved to a UT GitHub account (deferred: UT needs an org before
+  Pages works), so this public repo remains master.
+- "Course Administration" added to `CATEGORY_ORDER`; both Canvas skills already used it, so it had been
+  falling through to the unknown-category branch and sorting last.
