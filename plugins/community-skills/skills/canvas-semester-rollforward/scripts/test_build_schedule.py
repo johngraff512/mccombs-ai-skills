@@ -177,7 +177,7 @@ class TestCrossSemesterMove(unittest.TestCase):
 
 class TestRealTermRegression(unittest.TestCase):
     """
-    Reproduces MAN 327 Fall 2026 (T/Th, Aug 25 - Dec 3). These expected values were
+    Reproduces a real Fall 2026 T/Th term (Aug 25 - Dec 3). These expected values were
     confirmed against timestamps Canvas itself had already stored for the first
     session, then extended across the term. Treat them as ground truth.
 

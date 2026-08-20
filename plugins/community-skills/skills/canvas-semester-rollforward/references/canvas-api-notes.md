@@ -11,6 +11,7 @@ Hard-won behaviors that cost real debugging time. Read this before writing to Ca
 5. Pagination and search
 6. Interruptions and idempotency
 7. Endpoint quick reference
+8. Keeping responses small
 
 ---
 
@@ -62,8 +63,12 @@ a new quiz and re-post each question. Copy the question objects programmatically
 page rather than transcribing text — question bodies are HTML with markup that is easy
 to corrupt by hand, and rubric tables are long.
 
-New Quizzes (`quiz_lti`) are a different engine entirely and are not covered here; if
-you encounter one, say so rather than guessing.
+New Quizzes (`quiz_lti`) are a different engine and are covered in
+`references/new-quizzes.md` — **read it before touching one.** In short: they never appear
+in the quizzes endpoint, they are addressed as assignments, dates and publish state work
+normally in bulk, and — unlike Classic Quizzes — `duplicate` *does* work on them, though
+asynchronously. Their question content and accommodations live on a separate service that
+may not accept browser session cookies at all; probe before promising it.
 
 ## 3. The unpublished-changes trap
 
@@ -177,3 +182,102 @@ and report duplicates or gaps before touching anything.
 The course's own timezone is on the course object as `time_zone`. The syllabus body
 often states the real meeting pattern and room — useful for confirming a schedule
 rather than assuming one.
+
+---
+
+## 8. Keeping responses small
+
+Everything here is one idea: **there are two hops, and only the second one is expensive.**
+
+Canvas → the page → the model. The full object always makes the first hop; `J()` pulls
+every field into a JavaScript variable and nothing is filtered out. What costs tokens is
+what the page hands *back*. A field you didn't return is still in the page — retrieving it
+later is one line against data already in memory, not another API call. So returning less
+is never a restriction on what you can see; guessing wrong costs a cheap follow-up.
+
+Measured on 28 representative assignment objects: the full dump runs ~13,600 tokens. The
+same 28 items, with all 46 comparable fields checked, reported as anomalies only, runs
+**~86 tokens**.
+
+### Return a projection, not the object
+
+There is no fixed field list — project what the task needs. A core of `id`, `name`,
+`course_id` (the write guard reads it) and `published`, plus:
+
+| Job | Add |
+|---|---|
+| Dates | `due_at`, `unlock_at`, `lock_at`, `only_visible_to_overrides`, `has_overrides` |
+| Grading setup | `points_possible`, `grading_type`, `assignment_group_id`, `omit_from_final_grade`, `grading_standard_id`, `post_manually` |
+| Submission settings | `submission_types`, `allowed_attempts`, `allowed_extensions`, `peer_reviews`, `anonymous_grading`, `moderated_grading` |
+| Quiz config | `quiz_id`, `time_limit`, `shuffle_answers`, `scoring_policy`, `one_question_at_a_time`, `hide_results`, `access_code`, `ip_filter` |
+| Differentiation | `group_category_id`, `grade_group_students_individually`, the overrides list |
+| Modules / ordering | `position`, module membership |
+
+Never return `secure_params`, `lti_context_id`, `submissions_download_url`,
+`max_name_length`, `integration_data`, or the `grader_*` / `anonymous_*` booleans nobody
+set — that is most of the bytes. `description` and `question_text` are HTML and often the
+largest fields in the object: return them only when the job is *about* content.
+
+### For audits, return findings rather than fields
+
+Comparing items against each other inside the page scales to any number of fields, because
+the output tracks the number of *problems*, not the number of fields checked.
+
+```js
+const skip = new Set(['id','name','due_at','unlock_at','lock_at','quiz_id','position',
+                      'html_url','submissions_download_url','secure_params','description']);
+const anomalies = [];
+for (const k of Object.keys(items[0]).filter(k => !skip.has(k))) {
+  const vals = items.map(it => JSON.stringify(it[k]));
+  const mode = [...vals.reduce((m,v) => m.set(v,(m.get(v)||0)+1), new Map())]
+                 .sort((a,b) => b[1]-a[1])[0][0];
+  vals.forEach((v,i) => { if (v !== mode)
+    anomalies.push({item: items[i].name, field: k, value: JSON.parse(v), expected: JSON.parse(mode)}); });
+}
+return {checked_items: items.length, anomalies};
+```
+
+Deviation from the mode is a *candidate*, not a defect — a deliberately double-weighted
+item will surface here. Report them; don't fix them.
+
+### Fetch narrowly
+
+`include[]` parameters multiply the payload: `include[]=items` on a module list pulls every
+nested page, quiz, and assignment link. Over-fetching also **truncates**, and a truncated
+response costs additional paginated calls to recover — so the bloat is paid twice. Ask for
+nested content only when the task touches item-level content.
+
+When you already know which IDs you care about, fetch those rather than re-paginating the
+whole collection.
+
+### Batches report counts, not rows
+
+Per-item GET-then-PUT for idempotency is correct and should stay. Returning all N result
+objects buys no safety. Return the tally, and failures in full:
+
+```js
+return {changed: done.length, skipped: skipped.length, failed};   // not the N objects
+```
+
+### Verification returns a diff
+
+"Check every item" means compare every item — inside the page — and return only what
+disagrees. `{checked: 28, matched: 26, mismatches: [...]}` proves more than 28 dumped
+objects, because it is a mechanical comparison rather than a visual scan.
+
+### Read rendered pages as text
+
+Confirming what Canvas actually serves does **not** mean taking a screenshot. A full-page
+browser capture costs up to ~4,784 visual tokens on a high-resolution model (~1,568 on
+standard); `get_page_text` on the same page is typically 1,000–3,000, and a fetch-plus-regex
+that returns a boolean — as in §3 — costs almost nothing.
+
+Reduce in the page and return the answer, not the markup:
+
+```js
+const html = await (await fetch(`/courses/${CID}/quizzes/${qid}`, {credentials:'same-origin'})).text();
+return {dirty: /changes to the questions in this quiz/.test(html)};   // never return html
+```
+
+Screenshots are for things only pixels can settle: an icon state, a colour, a layout
+problem, something rendering wrong. Not for reading text.

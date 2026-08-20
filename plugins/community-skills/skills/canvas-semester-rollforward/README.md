@@ -11,6 +11,10 @@ session, which is why there's no API token to create or store — and also why i
 run on a platform that has no browser to control. You also need teacher-level access to
 the course.
 
+The trade-off for having no token is that the skill inherits exactly your Canvas
+permissions and every action is logged as you — which is why the first thing it does is
+make you name the one course it is allowed to change.
+
 ## Problem
 
 Instructors build a course once and copy it forward. Canvas copies the content but the
@@ -40,6 +44,19 @@ across sections, terms, and years. The skill lists your teacher-role courses wit
 term, section, and SIS ID and requires an explicit confirmation before any write. If more
 than one course matches what you described, it stops and asks rather than guessing.
 
+**It can only change one course.** Being enrolled as Teacher doesn't mean a course is
+yours — faculty add each other to sections to review a setup or share material, and
+nothing in Canvas distinguishes your section from a colleague's. You name one course as
+the write target at the start; everything else is read-only, and every write is routed
+through a guard that refuses a mismatched course ID.
+
+**It leaves student accommodations alone.** Re-dating a series needs dates, titles, points
+and published state, not a roster, and none is fetched. Where a job genuinely is
+student-scoped it works in Canvas user IDs rather than names and keeps identities out of
+exported records. Sending a partial override list to Canvas silently deletes the overrides
+you left out — including an accommodation someone set last week — so the skill edits
+overrides surgically rather than wholesale.
+
 **It verifies by reading back.** The Canvas API will accept a write it did not actually
 perform, particularly on quizzes with unpublished changes. Every item is re-read and
 compared field by field, which nobody does by hand.
@@ -63,6 +80,17 @@ python3 build_schedule.py --start 2026-08-25 --end 2026-12-03 \
 The script ships with 26 tests (`scripts/test_build_schedule.py`). Run
 `python3 -m pytest test_build_schedule.py` if you modify it.
 
+## New Quizzes
+
+Canvas's newer quiz engine behaves differently in one way that matters here: **New Quizzes
+never appear in the quizzes API at all.** A series counted from that endpoint will be short,
+and a course full of them can look empty. The skill classifies every item first — assignment,
+Classic Quiz, or New Quiz — before counting anything.
+
+Re-dating New Quizzes themselves works normally: they are addressed as assignments, so due
+dates, availability windows, publish state and groups all behave as they do everywhere else.
+`references/new-quizzes.md` has the details, including the override trap above.
+
 ## How to use it
 
 Don't invoke it by name — describe the job. "The dates are all wrong after I copied last
@@ -77,6 +105,7 @@ for every session, bulk publishing, auditing a course — use `canvas-bulk-ops` 
 | File | Purpose |
 |---|---|
 | `SKILL.md` | The step-by-step protocol the AI follows |
+| `references/new-quizzes.md` | Canvas's newer quiz engine: how to spot one, what re-dates normally, the override-replacement trap |
 | `references/canvas-api-notes.md` | Authentication, quizzes vs. assignments, the unpublished-changes trap, dates/locks/DST, pagination, idempotency, endpoint reference |
 | `scripts/build_schedule.py` | Term schedule and DST-correct UTC timestamp generator |
 | `scripts/test_build_schedule.py` | 26 tests for the schedule logic |

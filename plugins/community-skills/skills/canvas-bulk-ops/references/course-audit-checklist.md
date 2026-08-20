@@ -37,7 +37,11 @@ in week three, in the gradebook.
 - **Blueprint status.** A child course may refuse edits; a parent will push everything to
   associated courses on next sync.
 - **Enrollments.** The colleague may still be enrolled as teacher, with access to the new
-  students' grades. Worth raising directly.
+  students' grades. Often deliberate and unremarkable — raise it, don't act on it.
+  The **inverse** matters more for this skill: *you* may be enrolled as teacher in **their**
+  course, from an earlier look at their setup or a content copy. Nothing on the course object
+  distinguishes their section from yours. Confirm the write target before any change — see
+  "Whose course is this? Declare the write scope" in SKILL.md.
 - **Leftover sections** from the source, which break section-specific due dates.
 
 ## 2. Dates
@@ -169,6 +173,11 @@ Sequence matters mainly because it avoids rework:
 **Student View replaces about ten individual checks.** Walk week one as a student: open the
 first module, open the first assignment, start the first quiz, look at Grades. Know its
 limits — it doesn't reflect differentiated assignments or enrollment-date restrictions well.
+
+Walk it **as text** — `get_page_text`, or fetch and test for the strings that matter. A
+screenshot per page turns this into the most expensive step in the audit for no added
+certainty (see canvas-api-notes.md §8). Capture pixels only when the question is visual:
+an icon state, a broken layout, a colour.
 
 ## A note on what an audit is for
 
