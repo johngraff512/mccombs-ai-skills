@@ -1,0 +1,3 @@
+# Catalog downloads are generated binaries committed so GitHub Pages can serve them.
+# Marking them binary keeps diffs readable and stops merge drivers trying to merge zips.
+docs/downloads/*.zip binary linguist-generated=true

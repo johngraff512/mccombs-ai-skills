@@ -119,3 +119,23 @@ Both Canvas skills updated to `metadata.version` 1.1.0.
   reference genericized.
 - Both skills gained `README.md` sections covering New Quizzes, the write-scope guard, the student-data
   stance, and token cost.
+
+## Unreleased
+
+- **Skill downloads no longer wait for a release tag.** The catalog linked every zip at
+  `releases/latest/download/`, which only updates when a maintainer pushes a version tag — so a
+  newly merged skill appeared on the catalog with a download button that 404'd until the next
+  release. `build_catalog.py` now stages the zips into `docs/downloads/` and links them relatively,
+  so merging a contribution publishes the catalog entry and its download in the same Pages deploy.
+- `build_catalog.py --strict` now fails if a page links to a zip that was not built, so that class
+  of silent 404 cannot return. Non-strict runs warn and continue.
+- Only zips the catalog actually links are staged. The `<plugin>-plugin.zip` bundles stay
+  release-only: they are unreachable from the site, and staging them would add ~4.4 MB to git and
+  rewrite `community-skills-plugin.zip` on every community-skill change.
+- `package_skills.py` now produces byte-reproducible zips (entries pinned to the zip epoch). Git
+  does not preserve mtimes, so without this every CI run would commit ~5.7 MB of identical-content
+  archives. A zip now changes only when its skill does.
+- CI builds the toolkit platform bundles in the `validate` job (they are linked from the catalog,
+  and the drift check only built the `claude` target).
+- Version tags are now milestones rather than a publishing step — releases remain the stable
+  snapshot UT-IT provisioning pulls from. Noted in the release checklist.

@@ -41,12 +41,17 @@ You can update any skill, not just your own — improvements are welcome. The or
 2. Run the checks locally before pushing:
 
 ```bash
-pip install pyyaml
+pip install pyyaml markdown
 python3 scripts/check_skills.py                 # validation + compatibility report
 python3 scripts/package_skills.py               # build zips into dist/
+python3 toolkits/mccombs-case-toolkit/scripts/build.py --clean --target all   # toolkit bundles
 python3 scripts/check_skills.py --json docs/compat-report.json && python3 scripts/build_catalog.py
 open docs/index.html                            # preview the catalog
 ```
+
+The catalog build also stages the zips into `docs/downloads/` and warns if any page links
+to one that wasn't built. Skipping the toolkit line above just means that warning names the
+toolkit bundles — harmless if you're only adding a skill.
 
 3. Open a pull request — the template walks you through the checklist, including a manual test on both platforms.
 
