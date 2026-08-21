@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "AI skills for teaching and learning at the McCombs School of Business, UT Austin. Maintained by the AI Faculty Working Group.",
-    "version": "0.6.0"
+    "version": "0.7.0"
   },
   "plugins": [
     {
