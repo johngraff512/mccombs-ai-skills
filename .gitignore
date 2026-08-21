@@ -1,6 +1,8 @@
 dist/
 toolkits/*/build/
 toolkits/*/dist/
+.venv/
+venv/
 __pycache__/
 *.pyc
 .DS_Store
