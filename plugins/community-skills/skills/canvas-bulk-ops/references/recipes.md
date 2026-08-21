@@ -174,3 +174,74 @@ Two things to look at immediately:
   course has content from more than one import. Flag it — it distorts every student's grade.
 - **Do item counts match the syllabus?** A group with 23 items where the syllabus promises
   28 means gaps worth understanding before you add anything.
+
+---
+
+## §7 Bulk accommodations (extra time across a series)
+
+Five students with extra-time accommodations across 28 quizzes is 140 records. Canvas has no
+native way to do it, and doing it by hand is where an accommodation quietly gets missed on
+quiz 14 — which is a compliance problem, not an inconvenience.
+
+**Work in Canvas user IDs.** The instructor supplies them; the skill never queries an
+accommodations roster, never learns a name, and never records why anyone has one. Five integers
+and a number of minutes is the whole input.
+
+### Before writing anything
+
+- **Which engine?** Classic and New Quizzes use completely different endpoints. Classify first
+  (`new-quizzes.md` §1).
+- **Are the quizzes timed?** `extra_time` extends a time limit. On a quiz with no `time_limit`
+  it does nothing — if the accommodation is really about the availability window, that is an
+  assignment override, a different mechanism, and sending 140 no-op writes would look like
+  success while changing nothing.
+- **Minutes, not a multiplier.** This is the most likely error in the job. "Time and a half" on
+  a 20-minute quiz is `extra_time: 10`, not 30. Read the intended value back as *"X minutes on
+  top of the Y-minute limit, so Z minutes total"* and get agreement before the pilot.
+- **Existing extensions.** Fetch what is already there before writing. Whether a repeat write
+  sets or accumulates is worth establishing on the pilot item rather than assuming — check the
+  stored value after one write, then again after a deliberate repeat.
+
+### Classic Quizzes — per quiz
+
+```js
+// USER_IDS supplied by the instructor; EXTRA_MIN agreed in minutes.
+const results = [];
+for (const q of quizzes) {                      // timed classic quizzes only
+  try {
+    await W(`/api/v1/courses/${CID}/quizzes/${q.id}/extensions`, {
+      method: 'POST',
+      body: JSON.stringify({quiz_extensions: USER_IDS.map(uid => ({user_id: uid, extra_time: EXTRA_MIN}))}),
+    });
+    results.push({quiz: q.id, ok: true});
+  } catch (e) { results.push({quiz: q.id, ok: false, error: String(e.message).slice(0, 200)}); }
+}
+return {quizzes: results.length, applied: results.filter(r => r.ok).length,
+        failed: results.filter(r => !r.ok)};    // counts, not per-student rows
+```
+
+### New Quizzes — once per course, if reachable
+
+New Quizzes take a JSON **array**, and the course-level endpoint covers every New Quiz at once —
+5 writes rather than 140. Probe reachability first (`new-quizzes.md` §4); if the service does not
+answer to a browser session, say so and stop rather than falling back to something worse.
+
+```js
+const res = await W(`/api/quiz/v1/courses/${CID}/accommodations`, {
+  method: 'POST',
+  body: JSON.stringify(USER_IDS.map(uid => ({user_id: uid, extra_time: EXTRA_MIN}))),
+});
+return {successful: (res.successful || []).length, failed: res.failed || []};
+```
+
+**A 200 does not mean it worked.** The response carries `successful` and `failed` arrays —
+inspect them. Only one accommodation is stored per student per course, so a second course-level
+POST replaces the first rather than adding to it.
+
+### Verify and record
+
+Re-read the extensions on every quiz and confirm each carries the expected count at the expected
+value. Return `{checked: 28, correct: 28, wrong: []}` — never a per-student table.
+
+The CSV records quiz IDs, the minutes applied, and how many records each item carries. It does
+not record who received them, and nothing anywhere records why.

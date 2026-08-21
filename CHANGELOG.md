@@ -84,3 +84,38 @@ Help and guidance for faculty who are new to skills, plug-ins, and artifacts.
   falling through to the unknown-category branch and sorting last.
 - `.claude-plugin/marketplace.json` now declares the current version. It had read 0.1.0 since the first
   release, so anything reading the marketplace metadata saw a repo eight releases out of date.
+
+## Unreleased
+
+Both Canvas skills updated to `metadata.version` 1.1.0.
+
+- **New Quizzes are now handled explicitly** (`references/new-quizzes.md`, new in both skills).
+  They never appear in the quizzes API, so a course full of them can look empty — the skills now
+  classify every item before counting. Bulk dates, publish state, groups and overrides work through
+  the Assignments API as normal, and duplication works on New Quizzes (it is *Classic* quizzes that
+  return `400 quiz duplication not implemented` — the previous notes had this backwards). Question
+  content and accommodations live on a separate Instructure service at `/api/quiz/v1/`, which is not
+  a Canvas route and whose reachability from a browser session is undocumented; the skills probe for
+  it and say so plainly rather than guessing.
+- **Override-replacement trap documented.** Sending a partial `assignment_overrides` list to the
+  Assignments API deletes the overrides omitted from it — including student accommodations. Both
+  skills now edit overrides surgically.
+- **Write-scope declaration.** Being enrolled as Teacher does not mean a course is yours, and nothing
+  on the Canvas course object distinguishes your section from a colleague's you were added to. The
+  skills now declare one write-target course per session, treat every other course as read-only, and
+  route every write through a guard that throws on a mismatched course ID.
+- **Student-data handling reworked** from a blanket ask-first gate to data minimization: student-scoped
+  bulk work that Canvas handles badly (extra-time accommodations across a series) is now in scope and
+  works in Canvas user IDs rather than names, with identities kept out of exported records and reasons
+  never written down. Bulk grade changes and anything replacing existing accommodation or override
+  records still confirm first. A new recipe (`recipes.md` §7) covers bulk accommodations on both quiz
+  engines, including the minutes-not-multiplier trap.
+- **Token discipline** (`canvas-api-notes.md` §8): return projections rather than whole Canvas objects,
+  audit by reporting anomalies rather than dumping items, batches report tallies, verification returns
+  a diff, and rendered pages are read as text — the previous "read the rendered page" wording was
+  inviting full-page screenshots, which cost up to ~4,784 visual tokens each and were the single
+  largest driver of cost in a reported faculty session.
+- Stale test count in `canvas-semester-rollforward` corrected (21 → 26); the regression test's course
+  reference genericized.
+- Both skills gained `README.md` sections covering New Quizzes, the write-scope guard, the student-data
+  stance, and token cost.
