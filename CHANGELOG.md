@@ -85,7 +85,7 @@ Help and guidance for faculty who are new to skills, plug-ins, and artifacts.
 - `.claude-plugin/marketplace.json` now declares the current version. It had read 0.1.0 since the first
   release, so anything reading the marketplace metadata saw a repo eight releases out of date.
 
-## Unreleased
+## v0.7.0 — 2026-08-20
 
 Both Canvas skills updated to `metadata.version` 1.1.0.
 
