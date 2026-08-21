@@ -36,7 +36,48 @@ REPO_SLUG = os.environ.get("GITHUB_REPOSITORY", "johngraff512/mccombs-ai-skills"
 # sets GITHUB_SERVER_URL on both; locally it falls back to public GitHub.
 REPO_HOST = os.environ.get("GITHUB_SERVER_URL", "https://github.com").rstrip("/")
 REPO_URL = f"{REPO_HOST}/{REPO_SLUG}"
-ZIP_URL = REPO_URL + "/releases/latest/download/{skill}.zip"
+# Skill zips are served from Pages alongside the catalog (docs/downloads/), not from
+# the latest GitHub Release. Releases only exist when a maintainer pushes a version tag,
+# so a release-gated link left every newly merged skill with a 404 download button until
+# the next tag. Staging the zips beside the pages means a merge publishes the catalog
+# entry and its download in the same Pages deploy — they can never disagree.
+DOWNLOAD_DIR = "downloads"
+_EMITTED_ZIPS = set()   # every zip name a page links to, cross-checked against what we staged
+
+
+def zip_href(skill: str, prefix: str = "") -> str:
+    """URL for a skill/bundle zip. `prefix` is the path back to docs/ ('' or '../')."""
+    _EMITTED_ZIPS.add(skill)
+    return f"{prefix}{DOWNLOAD_DIR}/{skill}.zip"
+
+
+def stage_downloads(wanted: set) -> set:
+    """Copy the zips the catalog links to into docs/downloads/ so Pages serves them.
+
+    Only `wanted` is copied. package_skills.py also builds whole-plugin bundles
+    (<plugin>-plugin.zip) that no catalog page links to — they exist for GitHub
+    Releases. Committing them here would add megabytes to git history for files
+    nobody can reach from the site; the biggest, community-skills-plugin.zip,
+    would be rewritten every time any single community skill changed.
+    """
+    dest = ROOT / "docs" / DOWNLOAD_DIR
+    dest.mkdir(parents=True, exist_ok=True)
+    sources = sorted((ROOT / "dist").glob("*.zip"))
+    # Toolkit platform bundles live under toolkits/<name>/dist/<platform>/ and are built
+    # by that toolkit's own build.py --target all, not by package_skills.py.
+    for platform in ("claude", "chatgpt"):
+        sources += sorted(ROOT.glob(f"toolkits/*/dist/{platform}/*.zip"))
+    staged = set()
+    for src in sources:
+        if src.stem not in wanted:
+            continue
+        shutil.copyfile(src, dest / src.name)
+        staged.add(src.stem)
+    # Drop zips for skills that no longer exist, so Pages never serves a stale download.
+    for old_zip in dest.glob("*.zip"):
+        if old_zip.stem not in staged:
+            old_zip.unlink()
+    return staged
 
 # last_updated() bookkeeping.
 _DATE_CACHE = {}     # path -> resolved date; each path is asked for twice (card + detail page)
@@ -366,7 +407,7 @@ def catalog_entries(report, artifacts):
             "updated": last_updated(ROOT / "plugins" / r["plugin"] / "skills" / r["skill"]),
             "version": str(r["version"]) if r.get("version") else "",
             "href": f"skills/{r['skill']}.html",
-            "zip": ZIP_URL.format(skill=r["skill"]),
+            "zip": zip_href(r["skill"]),
             "extra": r["plugin"],
         })
 
@@ -391,8 +432,8 @@ def catalog_entries(report, artifacts):
             "summary": p["description"], "chatgpt": True, "local": False,
             "updated": last_updated(ROOT / "plugins" / p["name"]),
             "version": ver, "href": f"toolkits/{p['name']}.html",
-            "zip": ZIP_URL.format(skill=f"{p['name']}-v{ver}"),
-            "chatgpt_zip": ZIP_URL.format(skill=f"{p['name']}-chatgpt-v{ver}"),
+            "zip": zip_href(f"{p['name']}-v{ver}"),
+            "chatgpt_zip": zip_href(f"{p['name']}-chatgpt-v{ver}"),
             "extra": f"{len(members)} skills",
         })
 
@@ -681,7 +722,7 @@ def render_md(src: str) -> str:
 def install_accordions(r) -> str:
     """Per-platform install steps as expandable accordions (Option A detail layout)."""
     cls = r["classification"]
-    zip_link = ZIP_URL.format(skill=r["skill"])
+    zip_link = zip_href(r["skill"], "../")
     name = html.escape(r["skill"])
     if cls == "claude-code-only":
         claude_tag, claude_body = "Claude Code recommended", (
@@ -756,8 +797,8 @@ def toolkit_detail_page(name, pj, skills):
     readme = ROOT / "toolkits" / name / "README.md"
     src = readme.read_text(encoding="utf-8", errors="replace") if readme.exists() else pj.get("description", "")
     ver = pj.get("version", "?")
-    claude_zip = ZIP_URL.format(skill=f"{name}-v{ver}")
-    chatgpt_zip = ZIP_URL.format(skill=f"{name}-chatgpt-v{ver}")
+    claude_zip = zip_href(f"{name}-v{ver}", "../")
+    chatgpt_zip = zip_href(f"{name}-chatgpt-v{ver}", "../")
     header = DETAIL_HEADER
     body = f"""<main class="wrap detail">
 <a class="back" href="../index.html">← All skills</a>
@@ -1036,6 +1077,22 @@ def main(strict=False):
     index_page(catalog_entries(report, artifacts))
     start_here_page()
     write_redirect_pages()
+
+    staged = stage_downloads(_EMITTED_ZIPS)
+    print(f"Staged {len(staged)} zip(s) into docs/{DOWNLOAD_DIR}/")
+    # Close the loop: a page must never link to a zip we did not publish. This is the
+    # failure the release-gated URL used to produce silently.
+    missing = sorted(_EMITTED_ZIPS - staged)
+    if missing:
+        print(f"WARNING: {len(missing)} download link(s) point at a zip that was not built — "
+              "faculty would get a 404:", file=sys.stderr)
+        for m in missing:
+            print(f"  - {DOWNLOAD_DIR}/{m}.zip", file=sys.stderr)
+        print("Run: python3 scripts/package_skills.py && "
+              "python3 toolkits/mccombs-case-toolkit/scripts/build.py --clean --target all",
+              file=sys.stderr)
+        if strict:
+            return 1
     if markdown is None:
         print("WARNING: python 'markdown' package not installed — detail pages degraded to <pre> rendering.")
     if DATE_UNTRACKED:

@@ -33,9 +33,17 @@ jobs:
       - name: Package skill zips (ChatGPT / manual upload)
         run: python3 scripts/package_skills.py
 
-      - name: Build catalog page
+      # The catalog links to these bundles too, and build_catalog.py --strict fails if a
+      # linked zip is missing. package_skills.py does not produce them — the toolkit's own
+      # build does, and the drift check above only builds the claude target.
+      - name: Build toolkit platform bundles (linked from the catalog)
+        run: python3 toolkits/mccombs-case-toolkit/scripts/build.py --clean --target all
+
+      - name: Build catalog page + stage downloads
         # --strict: fail rather than publish a guessed "updated" date, since the
-        # regenerated catalog is committed back to master below.
+        # regenerated catalog is committed back to master below. It also stages the
+        # zips into docs/downloads/ and fails if any page links to one we didn't build,
+        # so a merged skill can never ship with a 404 download button.
         run: python3 scripts/build_catalog.py --strict
 
       - name: Upload zips as build artifact
