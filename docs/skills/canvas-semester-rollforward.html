@@ -115,7 +115,7 @@ body.introhid .intro{display:none} body.introhid .introbar{display:block}
 <div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge claude'>Claude only<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip12" aria-label="What does this mean?">?</button><span role="tooltip" id="tip12" class="tip">Uses Claude features that ChatGPT doesn&#x27;t have, so it isn&#x27;t available for ChatGPT.</span></span></span>
   <span>Course Administration</span><span>&middot;</span>
   <span>community-skills</span><span>&middot;</span>
-  <span class='mono'>v1.0.0</span><span>&middot;</span><span>updated 2026-08-18</span></div>
+  <span class='mono'>v1.1.0</span><span>&middot;</span><span>updated 2026-08-20</span></div>
   <h2>canvas-semester-rollforward</h2><p class="sum">Re-date a copied Canvas course onto a new term&#x27;s meeting pattern, fixing due dates, availability windows, and session numbers.</p></div>
 <div class="install"><h3>Install<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip13" aria-label="What does this mean?">?</button><span role="tooltip" id="tip13" class="tip">Not sure which platform is which? The Start here guide walks through each one.</span></span></h3><details class='acc' open><summary>🟠 Claude (UT Claude EDU)<span class='tag'>~1 minute</span></summary><div class='body'><ol><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/canvas-semester-rollforward.zip'>Download canvas-semester-rollforward.zip</a></li><li>In Claude: <b>Settings → Capabilities → Skills → Upload skill</b>.</li></ol></div></details><div class='acc unavail'><div class='head'>⚪ ChatGPT<span class='tag'>Not available — uses Claude-only features (see notes)</span></div></div></div>
 <div class="panel"><h3>Try saying…</h3><p class="howto">Once it's installed there's no command to remember — just ask for what you want. These are the kinds of requests that put this skill to work:</p><div class="ex"><span>“The dates are all wrong after I copied last semester&#x27;s course.”</span><button type="button">Copy</button></div><div class="ex"><span>“My Monday/Wednesday assignments need to be Tuesday/Thursday.”</span><button type="button">Copy</button></div><div class="ex"><span>“Roll my fall course forward to the spring calendar.”</span><button type="button">Copy</button></div></div>
@@ -131,6 +131,9 @@ in to Canvas. It drives the Canvas REST API from inside your authenticated brows
 session, which is why there's no API token to create or store — and also why it can't
 run on a platform that has no browser to control. You also need teacher-level access to
 the course.</p>
+<p>The trade-off for having no token is that the skill inherits exactly your Canvas
+permissions and every action is logged as you — which is why the first thing it does is
+make you name the one course it is allowed to change.</p>
 <h2>Problem</h2>
 <p>Instructors build a course once and copy it forward. Canvas copies the content but the
 dates come along from the old term — often the old <em>meeting pattern</em> too. A
@@ -152,6 +155,17 @@ unrecoverable mistake here, and it's easy to make — institutions reuse course 
 across sections, terms, and years. The skill lists your teacher-role courses with ID,
 term, section, and SIS ID and requires an explicit confirmation before any write. If more
 than one course matches what you described, it stops and asks rather than guessing.</p>
+<p><strong>It can only change one course.</strong> Being enrolled as Teacher doesn't mean a course is
+yours — faculty add each other to sections to review a setup or share material, and
+nothing in Canvas distinguishes your section from a colleague's. You name one course as
+the write target at the start; everything else is read-only, and every write is routed
+through a guard that refuses a mismatched course ID.</p>
+<p><strong>It leaves student accommodations alone.</strong> Re-dating a series needs dates, titles, points
+and published state, not a roster, and none is fetched. Where a job genuinely is
+student-scoped it works in Canvas user IDs rather than names and keeps identities out of
+exported records. Sending a partial override list to Canvas silently deletes the overrides
+you left out — including an accommodation someone set last week — so the skill edits
+overrides surgically rather than wholesale.</p>
 <p><strong>It verifies by reading back.</strong> The Canvas API will accept a write it did not actually
 perform, particularly on quizzes with unpublished changes. Every item is re-read and
 compared field by field, which nobody does by hand.</p>
@@ -168,6 +182,14 @@ for holidays and break weeks, and emits either a readable table or JSON.</p>
 </code></pre>
 <p>The script ships with 26 tests (<code>scripts/test_build_schedule.py</code>). Run
 <code>python3 -m pytest test_build_schedule.py</code> if you modify it.</p>
+<h2>New Quizzes</h2>
+<p>Canvas's newer quiz engine behaves differently in one way that matters here: <strong>New Quizzes
+never appear in the quizzes API at all.</strong> A series counted from that endpoint will be short,
+and a course full of them can look empty. The skill classifies every item first — assignment,
+Classic Quiz, or New Quiz — before counting anything.</p>
+<p>Re-dating New Quizzes themselves works normally: they are addressed as assignments, so due
+dates, availability windows, publish state and groups all behave as they do everywhere else.
+<code>references/new-quizzes.md</code> has the details, including the override trap above.</p>
 <h2>How to use it</h2>
 <p>Don't invoke it by name — describe the job. "The dates are all wrong after I copied last
 semester's course," "my Monday/Wednesday assignments need to be Tuesday/Thursday," or
@@ -188,6 +210,10 @@ for every session, bulk publishing, auditing a course — use <code>canvas-bulk-
 <td>The step-by-step protocol the AI follows</td>
 </tr>
 <tr>
+<td><code>references/new-quizzes.md</code></td>
+<td>Canvas's newer quiz engine: how to spot one, what re-dates normally, the override-replacement trap</td>
+</tr>
+<tr>
 <td><code>references/canvas-api-notes.md</code></td>
 <td>Authentication, quizzes vs. assignments, the unpublished-changes trap, dates/locks/DST, pagination, idempotency, endpoint reference</td>
 </tr>
@@ -201,8 +227,8 @@ for every session, bulk publishing, auditing a course — use <code>canvas-bulk-
 </tr>
 </tbody>
 </table></div></div>
-<details class="acc"><summary>Files included<span class="tag">5</span></summary>
-<div class="body"><ul><li><code>README.md</code></li><li><code>SKILL.md</code></li><li><code>references/canvas-api-notes.md</code></li><li><code>scripts/build_schedule.py</code></li><li><code>scripts/test_build_schedule.py</code></li></ul></div></details>
+<details class="acc"><summary>Files included<span class="tag">6</span></summary>
+<div class="body"><ul><li><code>README.md</code></li><li><code>SKILL.md</code></li><li><code>references/canvas-api-notes.md</code></li><li><code>references/new-quizzes.md</code></li><li><code>scripts/build_schedule.py</code></li><li><code>scripts/test_build_schedule.py</code></li></ul></div></details>
 <a class="back" href="../index.html">← All skills</a>
 <footer style="border:none;padding-top:8px">McCombs AI Skills &middot;
 <a href="../start-here.html">Start here guide</a> &middot;

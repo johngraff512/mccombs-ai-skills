@@ -115,7 +115,7 @@ body.introhid .intro{display:none} body.introhid .introbar{display:block}
 <div class="dhead"><div class="meta" style="margin-bottom:6px"><span class='badge claude'>Claude only<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip10" aria-label="What does this mean?">?</button><span role="tooltip" id="tip10" class="tip">Uses Claude features that ChatGPT doesn&#x27;t have, so it isn&#x27;t available for ChatGPT.</span></span></span>
   <span>Course Administration</span><span>&middot;</span>
   <span>community-skills</span><span>&middot;</span>
-  <span class='mono'>v1.0.0</span><span>&middot;</span><span>updated 2026-08-18</span></div>
+  <span class='mono'>v1.1.0</span><span>&middot;</span><span>updated 2026-08-20</span></div>
   <h2>canvas-bulk-ops</h2><p class="sum">Make the same edit across dozens of Canvas assignments or quizzes at once, with an audit and verification pass around it.</p></div>
 <div class="install"><h3>Install<span class="hintwrap"><button type="button" class="hint" aria-describedby="tip11" aria-label="What does this mean?">?</button><span role="tooltip" id="tip11" class="tip">Not sure which platform is which? The Start here guide walks through each one.</span></span></h3><details class='acc' open><summary>🟠 Claude (UT Claude EDU)<span class='tag'>~1 minute</span></summary><div class='body'><ol><li><a href='https://github.com/johngraff512/mccombs-ai-skills/releases/latest/download/canvas-bulk-ops.zip'>Download canvas-bulk-ops.zip</a></li><li>In Claude: <b>Settings → Capabilities → Skills → Upload skill</b>.</li></ol></div></details><div class='acc unavail'><div class='head'>⚪ ChatGPT<span class='tag'>Not available — uses Claude-only features (see notes)</span></div></div></div>
 <div class="panel"><h3>Try saying…</h3><p class="howto">Once it's installed there's no command to remember — just ask for what you want. These are the kinds of requests that put this skill to work:</p><div class="ex"><span>“Copy this participation assignment for all 28 class sessions.”</span><button type="button">Copy</button></div><div class="ex"><span>“Unpublish all the quizzes from last semester.”</span><button type="button">Copy</button></div><div class="ex"><span>“Check whether my Canvas course is set up right before the term starts.”</span><button type="button">Copy</button></div></div>
@@ -131,6 +131,9 @@ in to Canvas. It drives the Canvas REST API from inside your authenticated brows
 session, which is why there's no API token to create or store — and also why it can't
 run on a platform that has no browser to control. You also need teacher-level access to
 the course.</p>
+<p>The trade-off for having no token is that the skill inherits exactly your Canvas
+permissions and every action is logged as you — which is why the first thing it does is
+make you name the one course it is allowed to change.</p>
 <h2>Problem</h2>
 <p>Canvas has no good way to do the same thing thirty times. Instructors end up clicking
 Duplicate → Edit → retype → Save, over and over, and the errors that creep in are quiet
@@ -147,7 +150,7 @@ than a script.</p>
 plan is where you catch the thing the AI couldn't know. The pilot means a wrong
 assumption costs one item instead of thirty. The verification catches what the API
 cheerfully accepted but did not do. The record is what makes the work checkable later.</p>
-<p>Two safeguards are worth calling out:</p>
+<p>Four safeguards are worth calling out:</p>
 <p><strong>It makes you confirm the course.</strong> Writing to the wrong course is the only genuinely
 unrecoverable mistake here, and it's easy to make — institutions reuse course names
 across sections, terms, and years, and most instructors have a dozen shells in their
@@ -156,6 +159,19 @@ requires explicit confirmation before any write.</p>
 <p><strong>It verifies by reading back.</strong> The Canvas API will accept a write it did not actually
 perform, particularly on quizzes with unpublished changes. Items are re-read and compared
 field by field after the change.</p>
+<p><strong>It can only change one course.</strong> Being enrolled as Teacher doesn't mean a course is
+yours — faculty add each other to sections to review a setup or share material, and
+nothing in Canvas distinguishes your section from a colleague's. At the start of a session
+you name one course as the write target; everything else is read-only, and every write is
+routed through a guard that refuses a mismatched course ID. Copying a colleague's material
+into your section works; editing their course does not.</p>
+<p><strong>It minimizes student data rather than avoiding it.</strong> Most of the work is item-level and
+never touches students. Where a job genuinely is student-scoped — extra-time
+accommodations across a quiz series, availability overrides for a group — it works in
+Canvas user IDs rather than names, keeps identities out of exported records, and never
+writes down <em>why</em> anyone has an accommodation. Rosters, gradebooks and submissions are
+never pulled speculatively. Bulk grade changes, and anything that would replace existing
+accommodation or override records, still stop and ask first.</p>
 <h2>What it can do</h2>
 <p><code>references/recipes.md</code> carries worked snippets for the jobs that come up most:</p>
 <ul>
@@ -165,7 +181,15 @@ field by field after the change.</p>
 <li>Retire a superseded series without deleting grade history</li>
 <li>Shift a set of dates by a fixed offset</li>
 <li>Orient yourself in an unfamiliar course</li>
+<li>Apply extra-time accommodations for a group of students across a whole quiz series</li>
 </ul>
+<p><code>references/new-quizzes.md</code> covers Canvas's newer quiz engine, which behaves differently
+enough to matter. New Quizzes never appear in the quizzes API at all — a course full of
+them can look empty — so the skill identifies them first. Bulk dates, publish state, groups
+and overrides work normally; duplication works too (Classic quizzes are the ones that
+can't be duplicated). Their question content and accommodations live on a separate
+Instructure service whose reachability from a browser login isn't documented, so the skill
+tests for it and tells you plainly if that half isn't available rather than guessing.</p>
 <p><code>references/course-audit-checklist.md</code> covers what actually breaks, in ten categories:
 shell and settings, dates, grading structure, quizzes, content integrity, external tools,
 communication, accessibility, content-level checks, and ordering. It's useful on its own
@@ -192,15 +216,19 @@ for that job.</p>
 </tr>
 <tr>
 <td><code>references/recipes.md</code></td>
-<td>Worked snippets for six common bulk jobs</td>
+<td>Worked snippets for seven common bulk jobs</td>
 </tr>
 <tr>
 <td><code>references/course-audit-checklist.md</code></td>
 <td>Ten categories of what actually breaks in a course</td>
 </tr>
 <tr>
+<td><code>references/new-quizzes.md</code></td>
+<td>Canvas's newer quiz engine: how to spot one, what works in bulk, async duplication, the override-replacement trap, accommodations</td>
+</tr>
+<tr>
 <td><code>references/canvas-api-notes.md</code></td>
-<td>Authentication, quizzes vs. assignments, the unpublished-changes trap, dates/locks/DST, pagination, idempotency, endpoint reference</td>
+<td>Authentication, quizzes vs. assignments, the unpublished-changes trap, dates/locks/DST, pagination, idempotency, endpoint reference, keeping responses small</td>
 </tr>
 <tr>
 <td><code>scripts/build_schedule.py</code></td>
@@ -214,9 +242,14 @@ for that job.</p>
 </table>
 <p>The schedule builder resolves timezone offsets per date from the IANA database, so a term
 that crosses a daylight-saving boundary doesn't end up with its last several weeks shifted
-by an hour — the most common silent failure in bulk Canvas date edits.</p></div></div>
-<details class="acc"><summary>Files included<span class="tag">7</span></summary>
-<div class="body"><ul><li><code>README.md</code></li><li><code>SKILL.md</code></li><li><code>references/canvas-api-notes.md</code></li><li><code>references/course-audit-checklist.md</code></li><li><code>references/recipes.md</code></li><li><code>scripts/build_schedule.py</code></li><li><code>scripts/test_build_schedule.py</code></li></ul></div></details>
+by an hour — the most common silent failure in bulk Canvas date edits.</p>
+<p>A note on cost: bulk work gets expensive if it pulls whole Canvas objects and screenshots
+into the conversation, and both add up faster than they look. The skill fetches full
+records into the browser but hands back only the fields a job needs, audits by reporting
+what deviates rather than dumping every item, and reads pages as text instead of taking
+screenshots unless the question is genuinely visual.</p></div></div>
+<details class="acc"><summary>Files included<span class="tag">8</span></summary>
+<div class="body"><ul><li><code>README.md</code></li><li><code>SKILL.md</code></li><li><code>references/canvas-api-notes.md</code></li><li><code>references/course-audit-checklist.md</code></li><li><code>references/new-quizzes.md</code></li><li><code>references/recipes.md</code></li><li><code>scripts/build_schedule.py</code></li><li><code>scripts/test_build_schedule.py</code></li></ul></div></details>
 <a class="back" href="../index.html">← All skills</a>
 <footer style="border:none;padding-top:8px">McCombs AI Skills &middot;
 <a href="../start-here.html">Start here guide</a> &middot;
